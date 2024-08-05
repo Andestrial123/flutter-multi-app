@@ -128,7 +128,9 @@ class _AuthScreenState extends State<AuthScreen> {
                         onPressed: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const CreateAccountScreen()));
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CreateAccountScreen()));
                         },
                         style: TextButton.styleFrom(padding: EdgeInsets.zero),
                         child: const MultiAppTypography(
@@ -142,27 +144,26 @@ class _AuthScreenState extends State<AuthScreen> {
                   Row(
                     children: [
                       SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CheckboxTheme(
-                          data: CheckboxThemeData(
-                            overlayColor: MaterialStateProperty.all(Colors.transparent),
-                          ),
-                          child: Checkbox(
-                            activeColor: Colors.brown,
-                            shape: const RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Colors.brown),
+                          width: 24,
+                          height: 24,
+                          child: CheckboxTheme(
+                            data: CheckboxThemeData(
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.transparent),
                             ),
-                            value: isChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isChecked = value;
-                              });
-                            },
-                          ),
-                        )
-                      ),
+                            child: Checkbox(
+                              activeColor: Colors.brown,
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.brown),
+                              ),
+                              value: isChecked,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  isChecked = value;
+                                });
+                              },
+                            ),
+                          )),
                       const SizedBox(width: 2),
                       const MultiAppTypography(
                           TypographyType.middleText, 'Remember me'),
@@ -171,27 +172,28 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 34),
                   Center(
                     child: SizedBox(
-                      height: 60,
-                      width: 130,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          context.read<AuthBloc>().add(LoginEvent(
-                            emailController.text,
-                            passwordController.text,
-                          ));
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.brown),
-                          elevation: MaterialStateProperty.all(4),
-                          shadowColor: MaterialStateProperty.all<Color>(Colors.black),
-                        ),
-                        child: const MultiAppTypography(
-                          TypographyType.bigText,
-                          'Next',
-                          color: Colors.white,
-                        ),
-                      )
-                    ),
+                        height: 60,
+                        width: 130,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(LoginEvent(
+                                  emailController.text,
+                                  passwordController.text,
+                                ));
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.brown),
+                            elevation: MaterialStateProperty.all(4),
+                            shadowColor:
+                                MaterialStateProperty.all<Color>(Colors.black),
+                          ),
+                          child: const MultiAppTypography(
+                            TypographyType.bigText,
+                            'Next',
+                            color: Colors.white,
+                          ),
+                        )),
                   ),
                   const SizedBox(height: 16),
                   const Row(
@@ -241,7 +243,10 @@ class _AuthScreenState extends State<AuthScreen> {
                             textColor: Colors.black,
                             iconColor: Colors.blue,
                             padding: const EdgeInsets.all(12),
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<AuthBloc>().add(FacebookEvent());
+
+                            },
                           ),
                         ),
                       ),

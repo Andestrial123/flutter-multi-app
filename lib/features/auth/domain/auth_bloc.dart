@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -11,6 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginEvent>(_onLogin);
     on<LogoutEvent>(_onLogout);
     on<GoogleEvent>(_handleGoogleSignIn);
+    on<FacebookEvent>(_logInWithFacebook);
   }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -42,6 +45,42 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadedState());
     } catch (error) {
       print(error);
+    }
+  }
+
+  Future<void> _logInWithFacebook(FacebookEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
+    try {
+      final facebookLoginResult = await FacebookAuth.instance.login();
+      final userData = await FacebookAuth.instance.getUserData();
+
+      final facebookAuthCredential = FacebookAuthProvider.credential(facebookLoginResult.accessToken!.tokenString);
+      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+
+      await FirebaseFirestore.instance.collection('users').add({
+        'email': userData['email'],
+        'imageUrl': userData['picture']['data']['url'],
+        'name': userData['name'],
+      });
+    } on FirebaseAuthException catch (e) {
+      var title = '';
+      switch (e.code) {
+        case 'account-exist-with-different-credential':
+          title = 'This account exist with a different sign in provider';
+          break;
+        case 'invalid-credential':
+          title = 'Unknown error has occurred';
+          break;
+        case 'operation-not-allowed':
+          title = 'This operation is not allowed';
+          break;
+        case 'user-disabled':
+          title = 'The user you tried to log into is disabled';
+          break;
+        case 'user-not-found':
+          title = 'The user you to log into was not found';
+          break;
+      }
     }
   }
 

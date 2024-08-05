@@ -11,4 +11,6 @@ class LoginEvent extends AuthEvent {
 
 class GoogleEvent extends AuthEvent {}
 
+class FacebookEvent extends AuthEvent {}
+
 class LogoutEvent extends AuthEvent {}
