@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/utils/custom_background.dart';
-import 'package:flutter_multi_app/utils/text_scale_size.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GetStartedView extends StatelessWidget {
@@ -19,11 +18,11 @@ class GetStartedView extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              top: screenHeight * -0.05,
-              right: screenWidth * 0.05,
+              top: screenHeight * 0,
+              right: screenWidth * 0,
               child: Image.asset(
                 'assets/images/tarelka-removebg-preview.png',
-                height: screenHeight * 0.4,
+                height: screenHeight * 0.3,
                 width: screenWidth * 0.5,
                 fit: BoxFit.cover,
               ),
@@ -66,7 +65,6 @@ class GetStartedView extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
                         'Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit sed.',
-                        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                         style:  TextStyle(
                             color: Colors.brown,
                             fontSize: ScreenUtil().setSp(16),
@@ -85,7 +83,6 @@ class GetStartedView extends StatelessWidget {
                           color: Colors.brown,
                           fontSize: ScreenUtil().setSp(16),
                         ),
-                        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                       ),
                     ),
                   ),
@@ -104,8 +101,7 @@ class GetStartedView extends StatelessWidget {
                       ),
                       child: Text(
                         'Get Started',
-                        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
-                        style: TextStyle(color: Colors.brown,fontSize:ScreenUtil().setSp(16)),
+                        style: TextStyle(color: Colors.brown,fontWeight: FontWeight.w400,fontSize:ScreenUtil().setSp(16)),
                       ),
                     ),
                   ),
