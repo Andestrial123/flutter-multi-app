@@ -18,18 +18,20 @@ class GetStartedView extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              top: screenHeight * 0,
-              right: screenWidth * 0,
-              child: Image.asset(
-                'assets/images/tarelka-removebg-preview.png',
-                height: screenHeight * 0.3,
-                width: screenWidth * 0.5,
-                fit: BoxFit.cover,
+              top: screenHeight * -0.05,
+              right: screenHeight * 0,
+              child: SizedBox(
+                height: screenHeight * 0.5,
+                width: screenWidth * 0.7,
+                child: Image.asset(
+                  'assets/images/tarelka-removebg-preview.png',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Positioned(
               top: screenHeight * 0.2,
-              left: screenWidth * 0.2,
+              left: screenWidth * 0.18,
               child: Image.asset(
                 'assets/images/mint_leaf-removebg-preview.png',
                 height: screenHeight * 0.08,
@@ -37,8 +39,8 @@ class GetStartedView extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: screenHeight * 0.27,
-              left: screenWidth * 0.42,
+              top: screenHeight * 0.31,
+              left: screenWidth * 0.35,
               child: Image.asset(
                 'assets/images/mint_leaf-removebg-preview.png',
                 height: screenHeight * 0.07,
@@ -46,8 +48,8 @@ class GetStartedView extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: screenHeight * 0.27,
-              left: screenWidth * 0.22,
+              top: screenHeight * 0.31,
+              left: screenWidth * 0.16,
               child: Image.asset(
                 'assets/images/strawberry2-removebg-preview.png',
                 height: screenHeight * 0.07,
