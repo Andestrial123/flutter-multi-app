@@ -53,21 +53,22 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDRQBpQMRmwkm2HaQVCbH0jdUofNQ5il90',
-    appId: '1:1022569736671:android:6f58eb6c1d14819e4d7c6a',
-    messagingSenderId: '1022569736671',
-    projectId: 'fb-login-2212',
-    storageBucket: 'fb-login-2212.appspot.com',
+    apiKey: 'AIzaSyD3t6JImT0bfGmLFveNnMDJJm1aG62PclY',
+    appId: '1:265530755477:android:da4081248f3d5cc393ce9c',
+    messagingSenderId: '265530755477',
+    projectId: 'fluttermultiapp-c2319',
+    storageBucket: 'fluttermultiapp-c2319.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAqBuyKa6980p4OkbpObCpwgcI8VgsVviw',
-    appId: '1:1022569736671:ios:5b673280abf695544d7c6a',
-    messagingSenderId: '1022569736671',
-    projectId: 'fb-login-2212',
-    storageBucket: 'fb-login-2212.appspot.com',
-    iosClientId: '1022569736671-8s0h28a54ip084m52c214hcntil8rq1g.apps.googleusercontent.com',
-    iosBundleId: 'com.example.flutterFirebase',
+    apiKey: 'AIzaSyB8v1Cl-hmBb9U3XXcXvMkSVJ_tlIH-Lpg',
+    appId: '1:265530755477:ios:1101268eebb1cffd93ce9c',
+    messagingSenderId: '265530755477',
+    projectId: 'fluttermultiapp-c2319',
+    storageBucket: 'fluttermultiapp-c2319.appspot.com',
+    androidClientId: '265530755477-lt5qpuj6cb3quijvetsl5db7e8ccofrc.apps.googleusercontent.com',
+    iosClientId: '265530755477-4mcct1gul2op2o5coa2k3904r9lb5u47.apps.googleusercontent.com',
+    iosBundleId: 'com.example.flutterMultiApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

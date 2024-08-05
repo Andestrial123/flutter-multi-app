@@ -10,6 +10,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<LoginEvent>(_onLogin);
     on<LogoutEvent>(_onLogout);
+    on<GoogleEvent>(_handleGoogleSignIn);
   }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -30,6 +31,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> _handleGoogleSignIn(GoogleEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
+    try {
+      GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
+      await auth.signInWithProvider(googleAuthProvider);
+      emit(AuthLoadedState());
+    } catch (error) {
+      print(error);
     }
   }
 

@@ -10,7 +10,6 @@ import 'package:flutter_multi_app/firebase_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    name: 'flutter-multi-app',
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
