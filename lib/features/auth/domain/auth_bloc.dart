@@ -10,6 +10,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
+    on<RegisterEvent>(_onRegister);
     on<LoginEvent>(_onLogin);
     on<LogoutEvent>(_onLogout);
     on<GoogleEvent>(_handleGoogleSignIn);
@@ -18,7 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
+  Future<void> _onRegister(RegisterEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
       final credential = await auth.createUserWithEmailAndPassword(
@@ -26,14 +27,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       );
       print(credential);
+      emit(AuthLoadedState());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+      } else {
+        emit(AuthErrorState('An unexpected error occurred.'));
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
+    try {
+      final credential = await auth.signInWithEmailAndPassword(
+          email: event.email, password: event.password);
+      print(credential);
+      emit(AuthLoadedState());
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        emit(AuthErrorState('No user found for that email.'));
+      } else if (e.code == 'wrong-password') {
+        emit(AuthErrorState('Wrong password provided for that user.'));
+      } else {
+        emit(AuthErrorState('An unexpected error occurred.'));
+      }
     }
   }
 

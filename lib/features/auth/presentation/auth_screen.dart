@@ -2,11 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
-import 'package:flutter_multi_app/features/create_account/presentation/create_account_screen.dart';
 import 'package:flutter_multi_app/features/main/presentation/main_screen.dart';
+import 'package:flutter_multi_app/features/sign_up/presentation/sign_up_screen.dart';
+import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
+import 'package:flutter_multi_app/shared/widgets/text/custom_title.dart';
+import 'package:flutter_multi_app/shared/widgets/text_fields/auth_text_field.dart';
+import 'package:flutter_multi_app/shared/widgets/text_fields/small_text_field.dart';
+import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sign_in_button/sign_in_button.dart';
 
 import '../../../main.dart';
 
@@ -23,8 +27,6 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-
-
   @override
   void dispose() {
     emailController.dispose();
@@ -37,8 +39,9 @@ class _AuthScreenState extends State<AuthScreen> {
     var screenSize = MediaQuery.of(context).size;
     var screenHeight = screenSize.height;
 
-    const brownLight = Color.fromRGBO(181, 117, 117, 1);
-    const brownDark = Color.fromRGBO(106, 52, 47, 1);
+    const divider = Divider(
+      color: CustomColors.brownLight,
+    );
 
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
@@ -75,9 +78,9 @@ class _AuthScreenState extends State<AuthScreen> {
                     flex: 3,
                     child: Container(
                       decoration: const BoxDecoration(
-                          color: Color.fromRGBO(238, 228, 219, 1),
+                          color: CustomColors.whiteColor,
                           borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(44)),
+                          BorderRadius.vertical(top: Radius.circular(44)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
@@ -95,20 +98,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                 const Padding(
                                   padding: EdgeInsets.only(top: 32),
                                   child: Center(
-                                    child: Text(
-                                      'Login',
-                                      style: TextStyle(
-                                        fontFamily: 'CustomFont',
-                                        fontSize: 28,
-                                        color: brownDark,
-                                        shadows: [
-                                          Shadow(
-                                            offset: Offset(0.3, 0.9),
-                                            blurRadius: 3.0,
-                                            color: Color.fromARGB(128, 0, 0, 0),
-                                          ),
-                                        ],
-                                      ),
+                                    child: CustomTitle(
+                                      text: 'Login',
                                     ),
                                   ),
                                 ),
@@ -116,76 +107,18 @@ class _AuthScreenState extends State<AuthScreen> {
                                 const MultiAppTypography(
                                   TypographyType.bigText,
                                   'Email',
-                                  color: brownLight,
+                                  color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 8),
-                                SizedBox(
-                                  height: 35,
-                                  child: Material(
-                                    elevation: 3,
-                                    borderRadius: BorderRadius.circular(32),
-                                    child: TextField(
-                                      cursorHeight: 18,
-                                      controller: emailController,
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            top: 8,
-                                            left: 16,
-                                            right: 16,
-                                            bottom: 8),
-                                        filled: true,
-                                        fillColor:
-                                            Color.fromRGBO(238, 228, 219, 1),
-                                        isDense: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(32),
-                                          ),
-                                          borderSide: BorderSide(
-                                            width: 10,
-                                            color: brownLight,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                SmallTextField(controller: emailController),
                                 const SizedBox(height: 16),
                                 const MultiAppTypography(
                                   TypographyType.bigText,
                                   'Password',
-                                  color: brownLight,
+                                  color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 8),
-                                SizedBox(
-                                  height: 35,
-                                  child: Material(
-                                    elevation: 3,
-                                    borderRadius: BorderRadius.circular(32),
-                                    child: TextField(
-                                      cursorHeight: 18,
-                                      controller: passwordController,
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.only(
-                                            top: 8,
-                                            left: 16,
-                                            right: 16,
-                                            bottom: 16),
-                                        filled: true,
-                                        fillColor:
-                                            Color.fromRGBO(238, 228, 219, 1),
-                                        isDense: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(32),
-                                          ),
-                                          borderSide:
-                                              BorderSide(color: Colors.brown),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                SmallTextField(controller: passwordController),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -198,7 +131,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const CreateAccountScreen()));
+                                                const SignUpScreen()));
                                       },
                                       style: TextButton.styleFrom(
                                           padding: EdgeInsets.zero),
@@ -211,31 +144,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                                 const SizedBox(height: 34),
                                 Center(
-                                  child: SizedBox(
-                                    height: 60,
-                                    width: 130,
-                                    child: ElevatedButton(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 64),
+                                    child: NextButton(
                                       onPressed: () {
                                         context.read<AuthBloc>().add(LoginEvent(
-                                              emailController.text,
-                                              passwordController.text,
-                                            ));
+                                          emailController.text,
+                                          passwordController.text,
+                                        ));
                                       },
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                          brownDark,
-                                        ),
-                                        elevation: MaterialStateProperty.all(4),
-                                      ),
-                                      child: const Text(
-                                        'Next',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w300,
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                        ),
-                                      ),
+                                      text: 'Next',
                                     ),
                                   ),
                                 ),
@@ -243,9 +161,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 const Row(
                                   children: [
                                     Expanded(
-                                      child: Divider(
-                                        color: brownLight,
-                                      ),
+                                      child: divider,
                                     ),
                                     Padding(
                                       padding: EdgeInsets.symmetric(
@@ -254,9 +170,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                           TypographyType.middleText, 'or'),
                                     ),
                                     Expanded(
-                                      child: Divider(
-                                        color: brownLight
-                                      ),
+                                      child: divider,
                                     ),
                                   ],
                                 ),
@@ -264,67 +178,35 @@ class _AuthScreenState extends State<AuthScreen> {
                                 Column(
                                   children: [
                                     Center(
-                                      child: SizedBox(
-                                        height: 60,
-                                        width: double.infinity,
-                                        child: SignInButtonBuilder(
-                                          text: "Login with Google",
-                                          image: SvgPicture.asset(
-                                            'assets/google.svg',
-                                            height: 24.0,
-                                            width: 24.0,
-                                          ),
-                                          onPressed: () {
-                                            context
-                                                .read<AuthBloc>()
-                                                .add(GoogleEvent());
-                                          },
-                                          backgroundColor: const Color.fromRGBO(
-                                              238, 228, 219, 1),
-                                          textColor: Colors.black,
-                                          shape: RoundedRectangleBorder(
-                                            side: const BorderSide(
-                                                color: Colors.brown,
-                                                width: 2.0),
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                          ),
-                                          padding: const EdgeInsets.all(12),
+                                      child: AuthTextField(
+                                        onPressed: () {
+                                          context
+                                              .read<AuthBloc>()
+                                              .add(GoogleEvent());
+                                        },
+                                        text: 'Login with Google',
+                                        image: SvgPicture.asset(
+                                          'assets/google.svg',
+                                          height: 24.0,
+                                          width: 24.0,
                                         ),
                                       ),
                                     ),
                                     const SizedBox(height: 16),
                                     Center(
-                                      child: SizedBox(
-                                        height: 60,
-                                        width: double.infinity,
-                                        child: SignInButtonBuilder(
-                                          image: SvgPicture.asset(
-                                            'assets/facebook.svg',
-                                            height: 24.0,
-                                            width: 24.0,
-                                          ),
-                                          text: "Login with Facebook",
-                                          backgroundColor: const Color.fromRGBO(
-                                              238, 228, 219, 1),
-                                          shape: RoundedRectangleBorder(
-                                            side: const BorderSide(
-                                                color: Colors.brown,
-                                                width: 2.0),
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                          ),
-                                          textColor: Colors.black,
-                                          iconColor: Colors.blue,
-                                          padding: const EdgeInsets.all(12),
+                                        child: AuthTextField(
                                           onPressed: () {
                                             context
                                                 .read<AuthBloc>()
                                                 .add(FacebookEvent());
                                           },
-                                        ),
-                                      ),
-                                    ),
+                                          text: "Login with Facebook",
+                                          image: SvgPicture.asset(
+                                            'assets/facebook.svg',
+                                            height: 24.0,
+                                            width: 24.0,
+                                          ),
+                                        )),
                                   ],
                                 ),
                                 const SizedBox(height: 32),
