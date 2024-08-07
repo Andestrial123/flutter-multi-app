@@ -15,7 +15,7 @@ void main() async {
 
   runApp(const MyApp());
 }
-
+///TODO remove GlobalKey
 final GlobalKey<NavigatorState> kNavigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatefulWidget {
@@ -29,6 +29,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    ///TODO rewrite to bloc logic
     FirebaseService().onListenUser((user) {
       if (user == null) {
         kNavigatorKey.currentState?.pushReplacement(
