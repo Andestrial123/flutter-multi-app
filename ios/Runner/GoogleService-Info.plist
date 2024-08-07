@@ -32,25 +32,5 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:265530755477:ios:1101268eebb1cffd93ce9c</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-    <dict>
-    <key>CFBundleURLSchemes</key>
-    <array>
-    <string>fb344593898718437</string>
-    </array>
-    </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>344593898718437</string>
-    <key>FacebookClientToken</key>
-    <string>80473ac77b396e60d0fda90c8f4fc62b</string>
-    <key>FacebookDisplayName</key>
-    <string>FlutterMultiApp</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>fbapi</string>
-    </array>
-
 </dict>
 </plist>

@@ -22,6 +22,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  ///TODO make all variables private
   bool? isChecked = true;
 
   final TextEditingController emailController = TextEditingController();
@@ -36,9 +37,9 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-    var screenHeight = screenSize.height;
+    var screenHeight = MediaQuery.sizeOf(context).height;
 
+    ///TODO move to separate widget
     const divider = Divider(
       color: CustomColors.brownLight,
     );
@@ -80,7 +81,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       decoration: const BoxDecoration(
                           color: CustomColors.whiteColor,
                           borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(44)),
+                              BorderRadius.vertical(top: Radius.circular(44)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
@@ -88,10 +89,10 @@ class _AuthScreenState extends State<AuthScreen> {
                               blurRadius: 8,
                             )
                           ]),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 64),
-                          child: SingleChildScrollView(
+                      child: SingleChildScrollView(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 64),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -127,11 +128,15 @@ class _AuthScreenState extends State<AuthScreen> {
                                     const SizedBox(width: 2),
                                     TextButton(
                                       onPressed: () {
+                                        ///TODO make SighUp screen part of Auth screen
+                                        ///meaning that u need to create only one screen
+                                        ///for both functional SignIn and Auth
+                                        ///according to design
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                const SignUpScreen()));
+                                                    const SignUpScreen()));
                                       },
                                       style: TextButton.styleFrom(
                                           padding: EdgeInsets.zero),
@@ -145,13 +150,14 @@ class _AuthScreenState extends State<AuthScreen> {
                                 const SizedBox(height: 34),
                                 Center(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 64),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 64),
                                     child: NextButton(
                                       onPressed: () {
                                         context.read<AuthBloc>().add(LoginEvent(
-                                          emailController.text,
-                                          passwordController.text,
-                                        ));
+                                              emailController.text,
+                                              passwordController.text,
+                                            ));
                                       },
                                       text: 'Next',
                                     ),
@@ -195,18 +201,18 @@ class _AuthScreenState extends State<AuthScreen> {
                                     const SizedBox(height: 16),
                                     Center(
                                         child: AuthTextField(
-                                          onPressed: () {
-                                            context
-                                                .read<AuthBloc>()
-                                                .add(FacebookEvent());
-                                          },
-                                          text: "Login with Facebook",
-                                          image: SvgPicture.asset(
-                                            'assets/facebook.svg',
-                                            height: 24.0,
-                                            width: 24.0,
-                                          ),
-                                        )),
+                                      onPressed: () {
+                                        context
+                                            .read<AuthBloc>()
+                                            .add(FacebookEvent());
+                                      },
+                                      text: "Login with Facebook",
+                                      image: SvgPicture.asset(
+                                        'assets/facebook.svg',
+                                        height: 24.0,
+                                        width: 24.0,
+                                      ),
+                                    )),
                                   ],
                                 ),
                                 const SizedBox(height: 32),

@@ -20,7 +20,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool? isChecked = true;
-
+///TODO make all controllers private
   final TextEditingController emailSignUpController = TextEditingController();
   final TextEditingController passwordSignUpController =
       TextEditingController();
@@ -39,6 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ///TODO make only one variable
     var screenSize = MediaQuery.of(context).size;
     var screenHeight = screenSize.height;
 
@@ -46,6 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoadedState) {
+            ///TODO Remove global navigator variable [@kNavigatorKey]
             kNavigatorKey.currentState?.pushReplacement(
               MaterialPageRoute(
                   builder: (_) =>
@@ -58,6 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
         },
         builder: (context, state) {
+          ///TODO Use switch case for manage bloc state
           if (state is AuthLoadingState) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -144,6 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         horizontal: 32),
                                     child: NextButton(
                                       onPressed: () {
+                                        ///TODO add validation
                                         context.read<AuthBloc>().add(
                                               RegisterEvent(
                                                 emailSignUpController.text,
