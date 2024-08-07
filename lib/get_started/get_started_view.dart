@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/utils/assets/assets.dart';
+import 'package:flutter_multi_app/utils/assets/locale_keys.dart';
 import 'package:flutter_multi_app/utils/custom_background.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -83,7 +84,7 @@ class GetStartedView extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: Text(
-                          'lorem_1'.tr(),
+                          LocaleKeys.lorem1.tr(),
                           style: TextStyle(
                               color: Colors.brown,
                               fontSize: ScreenUtil().setSp(16),
@@ -97,7 +98,7 @@ class GetStartedView extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: Text(
-                          'lorem_2'.tr(),
+                          LocaleKeys.lorem2.tr(),
                           style: TextStyle(
                             color: Colors.brown,
                             fontSize: ScreenUtil().setSp(16),
@@ -120,7 +121,7 @@ class GetStartedView extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'get_started'.tr(),
+                          LocaleKeys.getStarted.tr(),
                           style: TextStyle(
                               color: Colors.brown,
                               fontWeight: FontWeight.w400,
