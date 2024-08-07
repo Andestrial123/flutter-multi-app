@@ -37,7 +37,6 @@ dependencies:
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
   google_sign_in: ^6.2.1
-  cloud_firestore: ^5.2.0
   flutter_svg: ^2.0.10+1
   firebase_analytics: ^11.2.1
 
@@ -46,6 +45,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   sign_in_button: ^3.0.0
   flutter_facebook_auth: ^7.0.1
+  cloud_firestore: ^5.2.1
 
 
 

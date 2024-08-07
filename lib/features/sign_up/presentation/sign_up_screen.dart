@@ -94,6 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+
                                 const Center(
                                   child: CustomTitle(
                                     text: 'Sign Up',
