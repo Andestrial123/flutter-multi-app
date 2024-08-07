@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_app/utils/assets/assets.dart';
 import 'package:flutter_multi_app/utils/custom_background.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,9 +21,7 @@ class GetStartedView extends StatelessWidget {
               Positioned(
                 top: -screenUtil.setHeight(50),
                 right: -screenUtil.setWidth(50),
-
-                ///TODO move to const @Lalcovich
-                child: Image.asset('assets/images/tarelka-removebg-preview.png',
+                child: Image.asset(Assets.plate,
                     fit: BoxFit.cover,
                     height: screenUtil.setHeight(300),
                     width: screenUtil.setWidth(300)),
@@ -40,19 +40,16 @@ class GetStartedView extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          ///TODO move to const @Lalcovich
                           Image.asset(
-                            'assets/images/mint_leaf-removebg-preview.png',
+                            Assets.mintLeaf,
                             height: screenUtil.setHeight(50),
                             width: screenUtil.setWidth(50),
                           ),
                           SizedBox(
                             height: screenUtil.setHeight(6),
                           ),
-
-                          ///TODO move to const @Lalcovich
                           Image.asset(
-                            'assets/images/strawberry2-removebg-preview.png',
+                            Assets.strawberry,
                             height: screenUtil.setHeight(50),
                             width: screenUtil.setWidth(50),
                           ),
@@ -63,10 +60,8 @@ class GetStartedView extends StatelessWidget {
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
-
-                        ///TODO move to const @Lalcovich
                         child: Image.asset(
-                          'assets/images/mint_leaf-removebg-preview.png',
+                          Assets.mintLeaf,
                           height: screenUtil.setHeight(50),
                           width: screenUtil.setWidth(50),
                         ),
@@ -87,10 +82,8 @@ class GetStartedView extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
-
-                        ///TODO move to localization file @Lalcovich
                         child: Text(
-                          'Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit sed.',
+                          'lorem_1'.tr(),
                           style: TextStyle(
                               color: Colors.brown,
                               fontSize: ScreenUtil().setSp(16),
@@ -103,10 +96,8 @@ class GetStartedView extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
-
-                        ///TODO move to localization file @Lalcovich
                         child: Text(
-                          'Tempor incididunt ut labore et \ndolore magna aliqua consectetur \nadipiscing elit sed.',
+                          'lorem_2'.tr(),
                           style: TextStyle(
                             color: Colors.brown,
                             fontSize: ScreenUtil().setSp(16),
@@ -128,10 +119,8 @@ class GetStartedView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-
-                        ///TODO move to localization file @Lalcovich
                         child: Text(
-                          'Get Started',
+                          'get_started'.tr(),
                           style: TextStyle(
                               color: Colors.brown,
                               fontWeight: FontWeight.w400,
