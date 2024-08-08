@@ -164,7 +164,7 @@
 				831691EFA38A106503155B60 /* Pods-RunnerTests.release.xcconfig */,
 				814C24EC9145715055D61A96 /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			path = Pods;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

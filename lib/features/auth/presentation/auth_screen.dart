@@ -12,7 +12,7 @@ import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../main.dart';
+import '../../../app.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});

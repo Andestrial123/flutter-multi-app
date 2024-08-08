@@ -9,7 +9,7 @@ import 'package:flutter_multi_app/shared/widgets/text_fields/small_text_field.da
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 
-import '../../../main.dart';
+import '../../../app.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -20,7 +20,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool? isChecked = true;
-///TODO make all controllers private
+
+  ///TODO make all controllers private
   final TextEditingController emailSignUpController = TextEditingController();
   final TextEditingController passwordSignUpController =
       TextEditingController();
@@ -97,7 +98,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
                                 const Center(
                                   child: CustomTitle(
                                     text: 'Sign Up',
