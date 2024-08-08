@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -16,46 +15,73 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LogoutEvent>(_onLogout);
     on<GoogleEvent>(_handleGoogleSignIn);
     on<FacebookEvent>(_logInWithFacebook);
+    on<ShowSignUpScreenEvent>((event, emit) {
+      emit(SignUpScreenState());
+    });
+    on<ShowAuthScreenEvent>((event, emit) {
+      emit(AuthScreenState());
+    });
+
+  }
+
+  Stream<AuthState> mapEventToState(AuthEvent event) async* {
+    if (event is LoginEvent) {
+      yield AuthLoadingState();
+      try {
+        yield AuthLoadedState();
+      } catch (e) {
+        yield AuthErrorState(e.toString());
+      }
+    } else if (event is ShowSignUpScreenEvent) {
+      yield SignUpScreenState();
+    } else if (event is GoogleEvent) {
+    } else if (event is FacebookEvent) {
+    }
   }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onRegister(RegisterEvent event, Emitter<AuthState> emit) async {
-    ///TODO add changing state if something went wrong to prevent infinity loader
     emit(AuthLoadingState());
     try {
-      ///TODO Add user name after user will be created
-      await auth.createUserWithEmailAndPassword(
+      if (event.email.isEmpty || event.password.isEmpty || event.name.isEmpty) {
+        emit(AuthErrorState('Please fill out all fields'));
+        return;
+      }
+
+      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: event.email,
         password: event.password,
       );
-      emit(AuthLoadedState());
+
+      await userCredential.user?.updateProfile(displayName: event.name);
+
+      await userCredential.user?.reload();
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user?.displayName == event.name) {
+        emit(AuthLoadedState());
+      } else {
+        emit(AuthErrorState('Failed to update user profile'));
+      }
     } on FirebaseAuthException catch (e) {
-      ///TODO show this error to user
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        emit(AuthErrorState('The password provided is too weak'));
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        emit(AuthErrorState('The account already exists for that email'));
       } else {
         emit(AuthErrorState('An unexpected error occurred.'));
       }
     } catch (e) {
-      print(e);
+      emit(AuthErrorState(e.toString()));
     }
   }
 
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
-      ///TODO move to ui
-      if (event.email.isEmpty || event.password.isEmpty) {
-        emit(AuthErrorState('An unexpected error occurred.'));
-        return;
-      }
-      final credential = await auth.signInWithEmailAndPassword(
+      await auth.signInWithEmailAndPassword(
           email: event.email, password: event.password);
-      /// TODO Remove print
-      print(credential);
       emit(AuthLoadedState());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -70,46 +96,65 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _handleGoogleSignIn(
       GoogleEvent event, Emitter<AuthState> emit) async {
-    ///TODO prevent infinity loading
     emit(AuthLoadingState());
     try {
       GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
       await auth.signInWithProvider(googleAuthProvider);
+      if (auth.currentUser != null) {
+        emit(AuthLoadedState());
+      } else {
+        (e) => emit(AuthErrorState(e.toString()));
+      }
       emit(AuthLoadedState());
     } catch (error) {
+      emit(AuthErrorState(error.toString()));
       print(error);
     }
   }
 
   Future<void> _logInWithFacebook(
       FacebookEvent event, Emitter<AuthState> emit) async {
-    ///TODO add changing state if something went wrong to prevent infinity loader
-    ///TODO add AuthLoadedState if login success
     emit(AuthLoadingState());
     try {
       final facebookLoginResult = await FacebookAuth.instance.login();
-      final userData = await FacebookAuth.instance.getUserData();
+
+      if (facebookLoginResult.status == LoginStatus.cancelled) {
+        emit(AuthInitial());
+        return;
+      }
+      if (facebookLoginResult.status == LoginStatus.operationInProgress) {
+        emit(AuthLoadingState());
+      }
+      if (facebookLoginResult.status == LoginStatus.success) {
+        emit(AuthLoadedState());
+      }
+      if (facebookLoginResult.status == LoginStatus.failed) {
+        emit(AuthErrorState('Facebook login failed'));
+        return;
+      }
 
       final facebookAuthCredential = FacebookAuthProvider.credential(
           facebookLoginResult.accessToken!.tokenString);
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-      ///TODO remove firestore from project
-      await FirebaseFirestore.instance.collection('users').add({
-        'email': userData['email'],
-        'imageUrl': userData['picture']['data']['url'],
-        'name': userData['name'],
-      });
+      emit(AuthLoadedState());
+
     } on FirebaseAuthException catch (e) {
+      emit(AuthErrorState(e.toString()));
       switch (e.code) {
         case 'account-exist-with-different-credential':
+          emit(AuthErrorState(e.toString()));
           break;
         case 'invalid-credential':
+          emit(AuthErrorState(e.toString()));
           break;
         case 'operation-not-allowed':
+          emit(AuthErrorState(e.toString()));
           break;
         case 'user-disabled':
+          emit(AuthErrorState(e.toString()));
           break;
         case 'user-not-found':
+          emit(AuthErrorState(e.toString()));
           break;
       }
     }
@@ -117,8 +162,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
-    ///TODO add try catch
-    await auth.signOut();
-    emit(AuthInitial());
+    try {
+      await auth.signOut();
+      emit(AuthInitial());
+    } catch (e) {
+      emit(AuthErrorState(e.toString()));
+    }
   }
 }

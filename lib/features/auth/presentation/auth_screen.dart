@@ -5,14 +5,14 @@ import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/main/presentation/main_screen.dart';
 import 'package:flutter_multi_app/features/sign_up/presentation/sign_up_screen.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
+import 'package:flutter_multi_app/shared/widgets/custom_widgets/custom_widgets.dart';
 import 'package:flutter_multi_app/shared/widgets/text/custom_title.dart';
 import 'package:flutter_multi_app/shared/widgets/text_fields/auth_text_field.dart';
 import 'package:flutter_multi_app/shared/widgets/text_fields/small_text_field.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
+import 'package:flutter_multi_app/utils/debouncer.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../app.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -22,16 +22,14 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  ///TODO make all variables private
-  bool? isChecked = true;
-
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final Debouncer _debouncer = Debouncer(milliseconds: 2000);
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -39,194 +37,196 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.sizeOf(context).height;
 
-    ///TODO move to separate widget
-    const divider = Divider(
-      color: CustomColors.brownLight,
-    );
-
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthLoadedState) {
-            kNavigatorKey.currentState?.pushReplacement(
-              MaterialPageRoute(
-                  builder: (_) =>
-                      MainScreen(user: FirebaseAuth.instance.currentUser!)),
-            );
-          } else if (state is AuthErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
+          switch (state.runtimeType) {
+            case const (AuthLoadedState):
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) => MainScreen(user: FirebaseAuth.instance.currentUser!),
+                ),
+              );
+              break;
+            case const (AuthErrorState):
+              final errorState = state as AuthErrorState;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(errorState.error)),
+              );
+              break;
           }
         },
         builder: (context, state) {
-          if (state is AuthLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return Stack(
-            children: [
-              Image.asset(
-                'assets/main_bakery.jpg',
-                width: double.infinity,
-                fit: BoxFit.cover,
-                height: screenHeight / 3,
-              ),
-              Column(
+          switch (state.runtimeType) {
+            case const (AuthLoadingState):
+              return const Center(child: CircularProgressIndicator());
+            case const (SignUpScreenState):
+              return const SignUpScreen();
+            default:
+              return Stack(
                 children: [
-                  const Spacer(flex: 1),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: CustomColors.whiteColor,
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(44)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(0, 4),
-                              blurRadius: 8,
-                            )
-                          ]),
-                      child: SingleChildScrollView(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 64),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 32),
-                                  child: Center(
-                                    child: CustomTitle(
-                                      text: 'Login',
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                const MultiAppTypography(
-                                  TypographyType.bigText,
-                                  'Email',
-                                  color: CustomColors.brownLight,
-                                ),
-                                const SizedBox(height: 8),
-                                SmallTextField(controller: emailController),
-                                const SizedBox(height: 16),
-                                const MultiAppTypography(
-                                  TypographyType.bigText,
-                                  'Password',
-                                  color: CustomColors.brownLight,
-                                ),
-                                const SizedBox(height: 8),
-                                SmallTextField(controller: passwordController),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                  Image.asset(
+                    'assets/main_bakery.jpg',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    height: screenHeight / 3,
+                  ),
+                  Column(
+                    children: [
+                      const Spacer(flex: 1),
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: CustomColors.whiteColor,
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(44)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(0, 4),
+                                blurRadius: 8,
+                              ),
+                            ],
+                          ),
+                          child: SingleChildScrollView(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 64),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const MultiAppTypography(
-                                        TypographyType.middleText, 'New User?'),
-                                    const SizedBox(width: 2),
-                                    TextButton(
-                                      onPressed: () {
-                                        ///TODO make SighUp screen part of Auth screen
-                                        ///meaning that u need to create only one screen
-                                        ///for both functional SignIn and Auth
-                                        ///according to design
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SignUpScreen()));
-                                      },
-                                      style: TextButton.styleFrom(
-                                          padding: EdgeInsets.zero),
-                                      child: const MultiAppTypography(
-                                        TypographyType.middleTextBold,
-                                        'Create Account',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 34),
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 64),
-                                    child: NextButton(
-                                      onPressed: () {
-                                        context.read<AuthBloc>().add(LoginEvent(
-                                              emailController.text,
-                                              passwordController.text,
-                                            ));
-                                      },
-                                      text: 'Next',
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                const Row(
-                                  children: [
-                                    Expanded(
-                                      child: divider,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.0),
-                                      child: MultiAppTypography(
-                                          TypographyType.middleText, 'or'),
-                                    ),
-                                    Expanded(
-                                      child: divider,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 32),
-                                Column(
-                                  children: [
-                                    Center(
-                                      child: AuthTextField(
-                                        onPressed: () {
-                                          context
-                                              .read<AuthBloc>()
-                                              .add(GoogleEvent());
-                                        },
-                                        text: 'Login with Google',
-                                        image: SvgPicture.asset(
-                                          'assets/google.svg',
-                                          height: 24.0,
-                                          width: 24.0,
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 32),
+                                      child: Center(
+                                        child: CustomTitle(
+                                          text: 'Login',
                                         ),
                                       ),
                                     ),
                                     const SizedBox(height: 16),
+                                    const MultiAppTypography(
+                                      TypographyType.bigText,
+                                      'Email',
+                                      color: CustomColors.brownLight,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    SmallTextField(controller: _emailController),
+                                    const SizedBox(height: 16),
+                                    const MultiAppTypography(
+                                      TypographyType.bigText,
+                                      'Password',
+                                      color: CustomColors.brownLight,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    SmallTextField(controller: _passwordController),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const MultiAppTypography(
+                                          TypographyType.middleText,
+                                          'New User?',
+                                        ),
+                                        const SizedBox(width: 2),
+                                        TextButton(
+                                          onPressed: () {
+                                            context.read<AuthBloc>().add(ShowSignUpScreenEvent());
+                                          },
+                                          style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                          child: const MultiAppTypography(
+                                            TypographyType.middleTextBold,
+                                            'Create Account',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 34),
                                     Center(
-                                        child: AuthTextField(
-                                      onPressed: () {
-                                        context
-                                            .read<AuthBloc>()
-                                            .add(FacebookEvent());
-                                      },
-                                      text: "Login with Facebook",
-                                      image: SvgPicture.asset(
-                                        'assets/facebook.svg',
-                                        height: 24.0,
-                                        width: 24.0,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 64),
+                                        child: NextButton(
+                                          onPressed: () {
+                                            _debouncer.run(() {
+                                              if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text('Please fill out all fields'),
+                                                  ),
+                                                );
+                                                return;
+                                              }
+                                              context.read<AuthBloc>().add(LoginEvent(
+                                                _emailController.text,
+                                                _passwordController.text,
+                                              ));
+                                            });
+                                          },
+                                          text: 'Next',
+                                        ),
                                       ),
-                                    )),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    const Row(
+                                      children: [
+                                        Expanded(
+                                          child: CustomWidgets.divider,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                          child: MultiAppTypography(
+                                            TypographyType.middleText,
+                                            'or',
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: CustomWidgets.divider,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 32),
+                                    Column(
+                                      children: [
+                                        Center(
+                                          child: AuthTextField(
+                                            onPressed: () {
+                                              context.read<AuthBloc>().add(GoogleEvent());
+                                            },
+                                            text: 'Login with Google',
+                                            image: SvgPicture.asset(
+                                              'assets/google.svg',
+                                              height: 24.0,
+                                              width: 24.0,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        Center(
+                                          child: AuthTextField(
+                                            onPressed: () {
+                                              context.read<AuthBloc>().add(FacebookEvent());
+                                            },
+                                            text: "Login with Facebook",
+                                            image: SvgPicture.asset(
+                                              'assets/facebook.svg',
+                                              height: 24.0,
+                                              width: 24.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 32),
                                   ],
                                 ),
-                                const SizedBox(height: 32),
-                              ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
-              ),
-            ],
-          );
+              );
+          }
         },
       ),
     );
