@@ -1,35 +1,64 @@
-name: Flutter
+name: Flutter App CI
 
-on:  #events (push and pull_request)
-  push:
-    branches: ["feature/CI-CD-integration"]
-  pull_request:
-    branches: ["developer"]
+on:
+  workflow_dispatch:  # Разрешает ручной запуск
 
-
-jobs:   #here we specify the jobs - We could have multiple jobs
-  build:  #name it something meaningful
-    runs-on: ubuntu-latest   #runner: select a machine to use
-
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'developer'
     steps:
-      - uses: actions/checkout@v2
-      - name: set up JDK 11
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
-      - uses: subosito/flutter-action@v1
+          distribution: temurin
+          java-version: 17
+
+      - uses: subosito/flutter-action@v2
         with:
+          flutter-version: 'latest'
           channel: 'stable'
 
-      - name: Build Gradle
+      - name: Increase version number
+        run: |
+          echo '#!/bin/bash' > bump_version.sh
+          echo 'increment_build_number() {' >> bump_version.sh
+          echo '  local version_line=$(grep '^version:' pubspec.yaml)' >> bump_version.sh
+          echo '  local version=$(echo "$version_line" | awk '\''{print $2}'\'')' >> bump_version.sh
+          echo '  local build_number=$(echo "$version" | cut -d '\''+'\'' -f2)' >> bump_version.sh
+          echo '  local new_build_number=$((build_number + 1))' >> bump_version.sh
+          echo '  local new_version=$(echo "$version" | sed "s/+$build_number\$/+$new_build_number/")' >> bump_version.sh
+          echo '  sed -i.bak "s/^version:.*/version: $new_version/" pubspec.yaml' >> bump_version.sh
+          echo '  echo "Updated pubspec.yaml to version $new_version"' >> bump_version.sh
+          echo '}' >> bump_version.sh
+          echo 'increment_build_number' >> bump_version.sh
+          chmod +x bump_version.sh
+          ./bump_version.sh
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Cache Flutter build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      - name: Build APK
         run: flutter build apk --debug
-      - run: ls build/app/outputs/flutter-apk
-      # - run: ls build/app/outputs/bundle/release
-      - name: Upload artifact to Firebase App Distribution
+
+      - name: List APK outputs
+        run: ls build/app/outputs/flutter-apk
+
+      - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{secrets.APP_ID}}
-          serviceCredentialsFileContent: ${{secrets.CREDENTIAL_FILE_CONTENT}}
+          appId: ${{ secrets.APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: Testers
           file: build/app/outputs/flutter-apk/app-debug.apk
