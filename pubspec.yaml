@@ -19,10 +19,11 @@ dependencies:
   google_sign_in: ^6.2.1
   flutter_svg: ^2.0.10+1
   firebase_analytics: ^11.2.1
+  flutter_screenutil: ^5.9.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  flutter_screenutil: ^5.9.3
+
   easy_localization: ^3.0.7
   cupertino_icons: ^1.0.6
   sign_in_button: ^3.0.0
@@ -48,7 +49,7 @@ flutter:
      - assets/google.svg
      - assets/facebook.svg
      - assets/images/
-      - assets/translations/
+     - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
