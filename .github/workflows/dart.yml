@@ -2,11 +2,9 @@ name: Flutter
 
 on:  #events (push and pull_request)
   push:
-    branches:
-      -feature/CI-CD-integration
+    branches: ["feature/CI-CD-integration"]
   pull_request:
-    branches:
-      -developer
+    branches: ["developer"]
 
 
 jobs:   #here we specify the jobs - We could have multiple jobs
