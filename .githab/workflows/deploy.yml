@@ -2,7 +2,7 @@ name: Flutter
 
 on:  #events (push and pull_request)
   push:
-    branches: [ "developer" ]
+    branches: [ "feature/CI-CD-integration" ]
   pull_request:
     branches: [ "developer" ]
 
