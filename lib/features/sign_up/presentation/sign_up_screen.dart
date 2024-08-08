@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/main/presentation/main_screen.dart';
+import 'package:flutter_multi_app/shared/assets/assets.dart';
+import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
 import 'package:flutter_multi_app/shared/widgets/text/custom_title.dart';
 import 'package:flutter_multi_app/shared/widgets/text_fields/small_text_field.dart';
@@ -21,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordSignUpController = TextEditingController();
   final TextEditingController _nameSignUpController = TextEditingController();
   final TextEditingController _confirmPasswordSignUpController = TextEditingController();
+  bool _isButtonDisabled = false;
 
   @override
   void dispose() {
@@ -32,6 +36,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _validateAndSignUp() {
+    setState(() {
+      _isButtonDisabled = true;
+    });
+
     final email = _emailSignUpController.text;
     final password = _passwordSignUpController.text;
     final confirmPassword = _confirmPasswordSignUpController.text;
@@ -39,21 +47,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty || name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields')),
+        SnackBar(content: Text(LocaleKeys.fillInAllFields.tr())),
       );
+      _reactivateButton();
       return;
     }
 
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match')),
+        SnackBar(content: Text(LocaleKeys.passwordNotMatch.tr())),
       );
+      _reactivateButton();
       return;
     }
 
     context.read<AuthBloc>().add(
       RegisterEvent(email, password, name),
     );
+  }
+
+  void _reactivateButton() {
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _isButtonDisabled = false;
+      });
+    });
   }
 
   @override
@@ -63,139 +81,146 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          switch (state.runtimeType) {
-            case const (AuthLoadedState):
-              final user = FirebaseAuth.instance.currentUser!;
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (_) => MainScreen(
-                    user: user,
-                    name: user.displayName,
-                  ),
+          if (state is AuthLoadedState) {
+            final user = FirebaseAuth.instance.currentUser!;
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => MainScreen(
+                  user: user,
+                  name: user.displayName,
                 ),
-              );
-              break;
-            case const (AuthErrorState):
-              final errorState = state as AuthErrorState;
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(errorState.error)),
-              );
-              break;
+              ),
+            );
+          } else if (state is AuthErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error)),
+            );
+            _reactivateButton();
           }
         },
         builder: (context, state) {
-          switch (state.runtimeType) {
-            case const (AuthLoadingState):
-              return const Center(child: CircularProgressIndicator());
-            default:
-              return Stack(
+          final isLoading = state is AuthLoadingState;
+          final isButtonDisabled = _isButtonDisabled || isLoading;
+
+          if (state is AuthLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Stack(
+            children: [
+              Image.asset(
+                Assets.mainBakery,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                height: screenHeight / 3,
+              ),
+              Column(
                 children: [
-                  Image.asset(
-                    'assets/main_bakery.jpg',
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    height: screenHeight / 3,
-                  ),
-                  Column(
-                    children: [
-                      const Spacer(flex: 1),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: CustomColors.whiteColor,
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(44)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 4),
-                                  blurRadius: 8,
-                                )
-                              ]),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 64),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                  const Spacer(flex: 1),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: CustomColors.whiteColor,
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(44)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0, 4),
+                            blurRadius: 8,
+                          )
+                        ],
+                      ),
+                      child: SingleChildScrollView(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 64),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 32),
+                                  child: Center(
+                                    child: CustomTitle(
+                                      text: LocaleKeys.signUp.tr(),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 32),
+                                MultiAppTypography(
+                                  TypographyType.bigText,
+                                  LocaleKeys.email.tr(),
+                                  color: CustomColors.brownLight,
+                                ),
+                                const SizedBox(height: 4),
+                                SmallTextField(controller: _emailSignUpController),
+                                const SizedBox(height: 16),
+                                MultiAppTypography(
+                                  TypographyType.bigText,
+                                  LocaleKeys.name.tr(),
+                                  color: CustomColors.brownLight,
+                                ),
+                                const SizedBox(height: 4),
+                                SmallTextField(controller: _nameSignUpController),
+                                const SizedBox(height: 16),
+                                MultiAppTypography(
+                                  TypographyType.bigText,
+                                  LocaleKeys.password.tr(),
+                                  color: CustomColors.brownLight,
+                                ),
+                                const SizedBox(height: 4),
+                                SmallTextField(controller: _passwordSignUpController),
+                                const SizedBox(height: 16),
+                                MultiAppTypography(
+                                  TypographyType.bigText,
+                                  LocaleKeys.confirmPassword.tr(),
+                                  color: CustomColors.brownLight,
+                                ),
+                                const SizedBox(height: 4),
+                                SmallTextField(controller: _confirmPasswordSignUpController),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Center(
-                                      child: CustomTitle(
-                                        text: 'Sign Up',
+                                    MultiAppTypography(
+                                      TypographyType.middleText,
+                                      LocaleKeys.haveAccount.tr(),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        context.read<AuthBloc>().add(ShowAuthScreenEvent());
+                                      },
+                                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                      child: MultiAppTypography(
+                                        TypographyType.middleTextBold,
+                                        LocaleKeys.signIn.tr(),
                                       ),
                                     ),
-                                    const SizedBox(height: 32),
-                                    const MultiAppTypography(
-                                      TypographyType.bigText,
-                                      'Email',
-                                      color: CustomColors.brownLight,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    SmallTextField(controller: _emailSignUpController),
-                                    const SizedBox(height: 16),
-                                    const MultiAppTypography(
-                                      TypographyType.bigText,
-                                      'Name',
-                                      color: CustomColors.brownLight,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    SmallTextField(controller: _nameSignUpController),
-                                    const SizedBox(height: 16),
-                                    const MultiAppTypography(
-                                      TypographyType.bigText,
-                                      'Password',
-                                      color: CustomColors.brownLight,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    SmallTextField(controller: _passwordSignUpController),
-                                    const SizedBox(height: 16),
-                                    const MultiAppTypography(
-                                      TypographyType.bigText,
-                                      'Confirm Password',
-                                      color: CustomColors.brownLight,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    SmallTextField(controller: _confirmPasswordSignUpController),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        const MultiAppTypography(
-                                            TypographyType.middleText, 'You have an account?'),
-                                        TextButton(
-                                          onPressed: () {
-                                            context.read<AuthBloc>().add(ShowAuthScreenEvent());
-                                          },
-                                          style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                                          child: const MultiAppTypography(
-                                            TypographyType.middleTextBold,
-                                            'Sign In',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 34),
-                                    Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                                        child: NextButton(
-                                          onPressed: _validateAndSignUp,
-                                          text: 'Create Account',
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 32),
                                   ],
                                 ),
-                              ),
+                                const SizedBox(height: 34),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                                    child: NextButton(
+                                      onPressed: isButtonDisabled ? null : _validateAndSignUp,
+                                      text: isLoading
+                                          ? ''
+                                          : LocaleKeys.createAccount.tr(),
+                                      isLoading: isLoading,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 32),
+                              ],
                             ),
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ],
-              );
-          }
+              ),
+            ],
+          );
         },
       ),
     );

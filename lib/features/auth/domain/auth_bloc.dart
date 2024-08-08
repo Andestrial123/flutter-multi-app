@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 
 part 'auth_event.dart';
 
@@ -24,28 +26,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   }
 
-  Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    if (event is LoginEvent) {
-      yield AuthLoadingState();
-      try {
-        yield AuthLoadedState();
-      } catch (e) {
-        yield AuthErrorState(e.toString());
-      }
-    } else if (event is ShowSignUpScreenEvent) {
-      yield SignUpScreenState();
-    } else if (event is GoogleEvent) {
-    } else if (event is FacebookEvent) {
-    }
-  }
-
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onRegister(RegisterEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
       if (event.email.isEmpty || event.password.isEmpty || event.name.isEmpty) {
-        emit(AuthErrorState('Please fill out all fields'));
+        emit(AuthErrorState(LocaleKeys.fillOutAllFields.tr()));
         return;
       }
 
@@ -54,7 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       );
 
-      await userCredential.user?.updateProfile(displayName: event.name);
+      await userCredential.user?.updateDisplayName(event.name);
 
       await userCredential.user?.reload();
       final user = FirebaseAuth.instance.currentUser;
@@ -62,15 +49,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (user?.displayName == event.name) {
         emit(AuthLoadedState());
       } else {
-        emit(AuthErrorState('Failed to update user profile'));
+        emit(AuthErrorState(LocaleKeys.failedUpdateProfile.tr()));
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        emit(AuthErrorState('The password provided is too weak'));
+        emit(AuthErrorState(LocaleKeys.passwordProvideWeek.tr()));
       } else if (e.code == 'email-already-in-use') {
-        emit(AuthErrorState('The account already exists for that email'));
+        emit(AuthErrorState(LocaleKeys.accountExistEmail.tr()));
       } else {
-        emit(AuthErrorState('An unexpected error occurred.'));
+        emit(AuthErrorState(LocaleKeys.unexpectedOccurred.tr()));
       }
     } catch (e) {
       emit(AuthErrorState(e.toString()));
@@ -85,11 +72,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadedState());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        emit(AuthErrorState('No user found for that email.'));
+        emit(AuthErrorState(LocaleKeys.noUserFoundEmail.tr()));
       } else if (e.code == 'wrong-password') {
-        emit(AuthErrorState('Wrong password provided for that user.'));
+        emit(AuthErrorState(LocaleKeys.wrongPasswordProvided.tr()));
       } else {
-        emit(AuthErrorState('An unexpected error occurred.'));
+        emit(AuthErrorState(LocaleKeys.unexpectedOccurred.tr()));
       }
     }
   }
@@ -129,7 +116,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthLoadedState());
       }
       if (facebookLoginResult.status == LoginStatus.failed) {
-        emit(AuthErrorState('Facebook login failed'));
+        emit(AuthErrorState(LocaleKeys.facebookLoginFailed.tr()));
         return;
       }
 

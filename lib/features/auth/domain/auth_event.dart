@@ -26,5 +26,3 @@ class LogoutEvent extends AuthEvent {}
 class ShowSignUpScreenEvent extends AuthEvent {}
 
 class ShowAuthScreenEvent extends AuthEvent {}
-
-class ListenToAuthStateChanges extends AuthEvent {}

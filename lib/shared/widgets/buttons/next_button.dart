@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../utils/colors.dart';
 
 class NextButton extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function()? onPressed;
   final String text;
-  final Color? color;
-  final Color? textColor;
+  final Color color;
+  final Color textColor;
+  final bool isLoading;
 
   const NextButton({
     super.key,
@@ -14,6 +15,7 @@ class NextButton extends StatelessWidget {
     required this.text,
     this.color = CustomColors.brownDark,
     this.textColor = Colors.white,
+    this.isLoading = false,
   });
 
   @override
@@ -22,9 +24,9 @@ class NextButton extends StatelessWidget {
       height: 60,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(color!),
+          backgroundColor: MaterialStateProperty.all<Color>(color),
           elevation: MaterialStateProperty.all(4),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
@@ -32,14 +34,23 @@ class NextButton extends StatelessWidget {
             ),
           ),
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            color: textColor,
-            fontSize: 18,
-          ),
-        ),
+        child: isLoading
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(
+                text,
+                style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  color: textColor,
+                  fontSize: 18,
+                ),
+              ),
       ),
     );
   }
