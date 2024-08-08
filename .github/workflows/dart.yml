@@ -1,35 +1,57 @@
 name: Flutter
 
-on:  #events (push and pull_request)
+on:
   push:
     branches: ["feature/CI-CD-integration"]
   pull_request:
     branches: ["developer"]
 
-
-jobs:   #here we specify the jobs - We could have multiple jobs
-  build:  #name it something meaningful
-    runs-on: ubuntu-latest   #runner: select a machine to use
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: set up JDK 11
+      - uses: actions/checkout@v3
+
+      # Set up Java
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
-          java-version: '17'
-      - uses: subosito/flutter-action@v1
+          distribution: temurin
+          java-version: 17
+
+      # Set up Flutter
+      - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.19.5'
           channel: 'stable'
 
+      # Restore pub packages
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Optional: Cache dependencies to speed up build times
+      - name: Cache Flutter build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      # Build APK
       - name: Build APK
         run: flutter build apk --debug
+
+      # Show output files
       - run: ls build/app/outputs/flutter-apk
-      # - run: ls build/app/outputs/bundle/release
+
+      # Upload artifact to Firebase App Distribution
       - name: Upload artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{secrets.APP_ID}}
-          serviceCredentialsFileContent: ${{secrets.CREDENTIAL_FILE_CONTENT}}
+          appId: ${{ secrets.APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: Testers
           file: build/app/outputs/flutter-apk/app-debug.apk
