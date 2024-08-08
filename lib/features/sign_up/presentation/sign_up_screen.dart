@@ -9,8 +9,6 @@ import 'package:flutter_multi_app/shared/widgets/text_fields/small_text_field.da
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 
-import '../../../main.dart';
-
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -19,39 +17,61 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  bool? isChecked = true;
-///TODO make all controllers private
-  final TextEditingController emailSignUpController = TextEditingController();
-  final TextEditingController passwordSignUpController =
-      TextEditingController();
-  final TextEditingController nameSignUpController = TextEditingController();
-  final TextEditingController confirmPasswordSignUpController =
-      TextEditingController();
+  final TextEditingController _emailSignUpController = TextEditingController();
+  final TextEditingController _passwordSignUpController = TextEditingController();
+  final TextEditingController _nameSignUpController = TextEditingController();
+  final TextEditingController _confirmPasswordSignUpController = TextEditingController();
 
   @override
   void dispose() {
-    emailSignUpController.dispose();
-    passwordSignUpController.dispose();
-    nameSignUpController.dispose();
-    confirmPasswordSignUpController.dispose();
+    _emailSignUpController.dispose();
+    _passwordSignUpController.dispose();
+    _nameSignUpController.dispose();
+    _confirmPasswordSignUpController.dispose();
     super.dispose();
+  }
+
+  void _validateAndSignUp() {
+    final email = _emailSignUpController.text;
+    final password = _passwordSignUpController.text;
+    final confirmPassword = _confirmPasswordSignUpController.text;
+    final name = _nameSignUpController.text;
+
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty || name.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Passwords do not match')),
+      );
+      return;
+    }
+
+    context.read<AuthBloc>().add(
+      RegisterEvent(email, password, name),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    ///TODO make only one variable
-    var screenSize = MediaQuery.of(context).size;
-    var screenHeight = screenSize.height;
+    var screenHeight = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoadedState) {
-            ///TODO Remove global navigator variable [@kNavigatorKey]
-            kNavigatorKey.currentState?.pushReplacement(
+            final user = FirebaseAuth.instance.currentUser!;
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                  builder: (_) =>
-                      MainScreen(user: FirebaseAuth.instance.currentUser!)),
+                builder: (_) => MainScreen(
+                  user: user,
+                  name: user.displayName,
+                ),
+              ),
             );
           } else if (state is AuthErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -60,7 +80,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
         },
         builder: (context, state) {
-          ///TODO Use switch case for manage bloc state
           if (state is AuthLoadingState) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -81,8 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Container(
                       decoration: const BoxDecoration(
                           color: CustomColors.whiteColor,
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(44)),
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(44)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
@@ -97,7 +115,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
                                 const Center(
                                   child: CustomTitle(
                                     text: 'Sign Up',
@@ -110,8 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 4),
-                                SmallTextField(
-                                    controller: emailSignUpController),
+                                SmallTextField(controller: _emailSignUpController),
                                 const SizedBox(height: 16),
                                 const MultiAppTypography(
                                   TypographyType.bigText,
@@ -119,8 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 4),
-                                SmallTextField(
-                                    controller: nameSignUpController),
+                                SmallTextField(controller: _nameSignUpController),
                                 const SizedBox(height: 16),
                                 const MultiAppTypography(
                                   TypographyType.bigText,
@@ -128,8 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 4),
-                                SmallTextField(
-                                    controller: passwordSignUpController),
+                                SmallTextField(controller: _passwordSignUpController),
                                 const SizedBox(height: 16),
                                 const MultiAppTypography(
                                   TypographyType.bigText,
@@ -137,24 +151,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 4),
-                                SmallTextField(
-                                    controller:
-                                        confirmPasswordSignUpController),
+                                SmallTextField(controller: _confirmPasswordSignUpController),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const MultiAppTypography(
+                                        TypographyType.middleText, 'You have an account?'),
+                                    TextButton(
+                                      onPressed: () {
+                                        context.read<AuthBloc>().add(ShowAuthScreenEvent());
+                                      },
+                                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                      child: const MultiAppTypography(
+                                        TypographyType.middleTextBold,
+                                        'Sign In',
+                                      ),
+                                    ),
+                                  ],
+                                ),
                                 const SizedBox(height: 34),
                                 Center(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 32),
+                                    padding: const EdgeInsets.symmetric(horizontal: 32),
                                     child: NextButton(
-                                      onPressed: () {
-                                        ///TODO add validation
-                                        context.read<AuthBloc>().add(
-                                              RegisterEvent(
-                                                emailSignUpController.text,
-                                                passwordSignUpController.text,
-                                              ),
-                                            );
-                                      },
+                                      onPressed: _validateAndSignUp,
                                       text: 'Create Account',
                                     ),
                                   ),

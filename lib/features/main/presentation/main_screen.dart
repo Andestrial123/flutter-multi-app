@@ -8,9 +8,11 @@ class MainScreen extends StatelessWidget {
   const MainScreen({
     super.key,
     required this.user,
+    this.name,
   });
 
   final User user;
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class MainScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('User name: ${user.displayName ?? 'No name'}'),
+            Text('User name: ${name ?? 'No name'}'),
             Text('User email: ${user.email ?? 'No email'}'),
             StreamBuilder<User?>(
               stream: FirebaseService().auth.authStateChanges(),

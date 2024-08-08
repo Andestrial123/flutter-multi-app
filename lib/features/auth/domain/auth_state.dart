@@ -8,6 +8,10 @@ class AuthLoadingState extends AuthState {}
 
 class AuthLoadedState extends AuthState {}
 
+class AuthScreenState extends AuthState {}
+
+class SignUpScreenState extends AuthState {}
+
 class AuthErrorState extends AuthState {
   final String error;
 
