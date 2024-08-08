@@ -27,17 +27,6 @@ jobs:
 
       - name: Increase version number
         run: |
-          echo '#!/bin/bash' > bump_version.sh
-          echo 'increment_build_number() {' >> bump_version.sh
-          echo '  local version_line=$(grep "^version:" pubspec.yaml)' >> bump_version.sh
-          echo '  local version=$(echo "$version_line" | awk '\''{print $2}'\'')' >> bump_version.sh
-          echo '  local build_number=$(echo "$version" | cut -d '\''+'\'' -f2)' >> bump_version.sh
-          echo '  local new_build_number=$((build_number + 1))' >> bump_version.sh
-          echo '  local new_version=$(echo "$version" | sed "s/+$build_number\$/+$new_build_number/")' >> bump_version.sh
-          echo '  sed -i.bak "s/^version:.*/version: $new_version/" pubspec.yaml' >> bump_version.sh
-          echo '  echo "Updated pubspec.yaml to version $new_version"' >> bump_version.sh
-          echo '}' >> bump_version.sh
-          echo 'increment_build_number' >> bump_version.sh
           chmod +x bump_version.sh
           ./bump_version.sh
 

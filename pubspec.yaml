@@ -27,8 +27,6 @@ dependencies:
   sign_in_button: ^3.0.0
   flutter_facebook_auth: ^7.0.1
 
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
