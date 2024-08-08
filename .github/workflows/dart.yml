@@ -1,12 +1,16 @@
 name: Flutter App CI
 
 on:
-  workflow_dispatch:  # Разрешает ручной запуск
+  workflow_dispatch: 
+  pull_request:      
+    branches:
+      - developer
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.base.ref == 'developer'
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.base_ref == 'developer')
+
     steps:
       - uses: actions/checkout@v4
 
@@ -25,7 +29,7 @@ jobs:
         run: |
           echo '#!/bin/bash' > bump_version.sh
           echo 'increment_build_number() {' >> bump_version.sh
-          echo '  local version_line=$(grep '^version:' pubspec.yaml)' >> bump_version.sh
+          echo '  local version_line=$(grep "^version:" pubspec.yaml)' >> bump_version.sh
           echo '  local version=$(echo "$version_line" | awk '\''{print $2}'\'')' >> bump_version.sh
           echo '  local build_number=$(echo "$version" | cut -d '\''+'\'' -f2)' >> bump_version.sh
           echo '  local new_build_number=$((build_number + 1))' >> bump_version.sh
