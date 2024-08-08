@@ -3,8 +3,7 @@ name: Flutter App CI
 on:
   workflow_dispatch:
   pull_request:
-    branches:
-      - developer
+    branches: [ "developer" ]
 
 jobs:
   build-android:
