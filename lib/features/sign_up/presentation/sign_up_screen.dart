@@ -63,134 +63,139 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthLoadedState) {
-            final user = FirebaseAuth.instance.currentUser!;
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (_) => MainScreen(
-                  user: user,
-                  name: user.displayName,
+          switch (state.runtimeType) {
+            case const (AuthLoadedState):
+              final user = FirebaseAuth.instance.currentUser!;
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) => MainScreen(
+                    user: user,
+                    name: user.displayName,
+                  ),
                 ),
-              ),
-            );
-          } else if (state is AuthErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
+              );
+              break;
+            case const (AuthErrorState):
+              final errorState = state as AuthErrorState;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(errorState.error)),
+              );
+              break;
           }
         },
         builder: (context, state) {
-          if (state is AuthLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return Stack(
-            children: [
-              Image.asset(
-                'assets/main_bakery.jpg',
-                width: double.infinity,
-                fit: BoxFit.cover,
-                height: screenHeight / 3,
-              ),
-              Column(
+          switch (state.runtimeType) {
+            case const (AuthLoadingState):
+              return const Center(child: CircularProgressIndicator());
+            default:
+              return Stack(
                 children: [
-                  const Spacer(flex: 1),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: CustomColors.whiteColor,
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(44)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(0, 4),
-                              blurRadius: 8,
-                            )
-                          ]),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 64),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Center(
-                                  child: CustomTitle(
-                                    text: 'Sign Up',
-                                  ),
-                                ),
-                                const SizedBox(height: 32),
-                                const MultiAppTypography(
-                                  TypographyType.bigText,
-                                  'Email',
-                                  color: CustomColors.brownLight,
-                                ),
-                                const SizedBox(height: 4),
-                                SmallTextField(controller: _emailSignUpController),
-                                const SizedBox(height: 16),
-                                const MultiAppTypography(
-                                  TypographyType.bigText,
-                                  'Name',
-                                  color: CustomColors.brownLight,
-                                ),
-                                const SizedBox(height: 4),
-                                SmallTextField(controller: _nameSignUpController),
-                                const SizedBox(height: 16),
-                                const MultiAppTypography(
-                                  TypographyType.bigText,
-                                  'Password',
-                                  color: CustomColors.brownLight,
-                                ),
-                                const SizedBox(height: 4),
-                                SmallTextField(controller: _passwordSignUpController),
-                                const SizedBox(height: 16),
-                                const MultiAppTypography(
-                                  TypographyType.bigText,
-                                  'Confirm Password',
-                                  color: CustomColors.brownLight,
-                                ),
-                                const SizedBox(height: 4),
-                                SmallTextField(controller: _confirmPasswordSignUpController),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                  Image.asset(
+                    'assets/main_bakery.jpg',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    height: screenHeight / 3,
+                  ),
+                  Column(
+                    children: [
+                      const Spacer(flex: 1),
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: CustomColors.whiteColor,
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(44)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0, 4),
+                                  blurRadius: 8,
+                                )
+                              ]),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 64),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const MultiAppTypography(
-                                        TypographyType.middleText, 'You have an account?'),
-                                    TextButton(
-                                      onPressed: () {
-                                        context.read<AuthBloc>().add(ShowAuthScreenEvent());
-                                      },
-                                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                                      child: const MultiAppTypography(
-                                        TypographyType.middleTextBold,
-                                        'Sign In',
+                                    const Center(
+                                      child: CustomTitle(
+                                        text: 'Sign Up',
                                       ),
                                     ),
+                                    const SizedBox(height: 32),
+                                    const MultiAppTypography(
+                                      TypographyType.bigText,
+                                      'Email',
+                                      color: CustomColors.brownLight,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    SmallTextField(controller: _emailSignUpController),
+                                    const SizedBox(height: 16),
+                                    const MultiAppTypography(
+                                      TypographyType.bigText,
+                                      'Name',
+                                      color: CustomColors.brownLight,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    SmallTextField(controller: _nameSignUpController),
+                                    const SizedBox(height: 16),
+                                    const MultiAppTypography(
+                                      TypographyType.bigText,
+                                      'Password',
+                                      color: CustomColors.brownLight,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    SmallTextField(controller: _passwordSignUpController),
+                                    const SizedBox(height: 16),
+                                    const MultiAppTypography(
+                                      TypographyType.bigText,
+                                      'Confirm Password',
+                                      color: CustomColors.brownLight,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    SmallTextField(controller: _confirmPasswordSignUpController),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const MultiAppTypography(
+                                            TypographyType.middleText, 'You have an account?'),
+                                        TextButton(
+                                          onPressed: () {
+                                            context.read<AuthBloc>().add(ShowAuthScreenEvent());
+                                          },
+                                          style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                          child: const MultiAppTypography(
+                                            TypographyType.middleTextBold,
+                                            'Sign In',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 34),
+                                    Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                                        child: NextButton(
+                                          onPressed: _validateAndSignUp,
+                                          text: 'Create Account',
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 32),
                                   ],
                                 ),
-                                const SizedBox(height: 34),
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                                    child: NextButton(
-                                      onPressed: _validateAndSignUp,
-                                      text: 'Create Account',
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 32),
-                              ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
-              ),
-            ],
-          );
+              );
+          }
         },
       ),
     );
