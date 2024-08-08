@@ -1,14 +1,12 @@
 name: Flutter App CI
 
 on:
-  workflow_dispatch:
-  pull_request:
-    branches: [ "developer" ]
+  workflow_dispatch:  # Разрешает ручной запуск
 
 jobs:
-  build-android:
+  build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.base_ref == 'developer')
+    if: github.event.pull_request.base.ref == 'developer'
     steps:
       - uses: actions/checkout@v4
 
@@ -20,13 +18,24 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.5'
+          flutter-version: 'latest'
           channel: 'stable'
 
-      - name: Increment version code for Android
+      - name: Increase version number
         run: |
-          cd android
-          sed -i 's/versionCode \([0-9]\+\)/versionCode $((\1 + 1))/g' app/build.gradle
+          echo '#!/bin/bash' > bump_version.sh
+          echo 'increment_build_number() {' >> bump_version.sh
+          echo '  local version_line=$(grep '^version:' pubspec.yaml)' >> bump_version.sh
+          echo '  local version=$(echo "$version_line" | awk '\''{print $2}'\'')' >> bump_version.sh
+          echo '  local build_number=$(echo "$version" | cut -d '\''+'\'' -f2)' >> bump_version.sh
+          echo '  local new_build_number=$((build_number + 1))' >> bump_version.sh
+          echo '  local new_version=$(echo "$version" | sed "s/+$build_number\$/+$new_build_number/")' >> bump_version.sh
+          echo '  sed -i.bak "s/^version:.*/version: $new_version/" pubspec.yaml' >> bump_version.sh
+          echo '  echo "Updated pubspec.yaml to version $new_version"' >> bump_version.sh
+          echo '}' >> bump_version.sh
+          echo 'increment_build_number' >> bump_version.sh
+          chmod +x bump_version.sh
+          ./bump_version.sh
 
       - name: Install dependencies
         run: flutter pub get
