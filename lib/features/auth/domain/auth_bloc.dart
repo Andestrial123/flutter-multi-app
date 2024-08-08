@@ -24,21 +24,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   }
 
-  Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    if (event is LoginEvent) {
-      yield AuthLoadingState();
-      try {
-        yield AuthLoadedState();
-      } catch (e) {
-        yield AuthErrorState(e.toString());
-      }
-    } else if (event is ShowSignUpScreenEvent) {
-      yield SignUpScreenState();
-    } else if (event is GoogleEvent) {
-    } else if (event is FacebookEvent) {
-    }
-  }
-
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> _onRegister(RegisterEvent event, Emitter<AuthState> emit) async {
