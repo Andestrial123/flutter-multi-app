@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/utils/custom_background.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GetStartedView extends StatelessWidget {
   const GetStartedView({super.key});

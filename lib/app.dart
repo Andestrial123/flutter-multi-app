@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'features/get_started/get_started_view.dart';
 
+///TODO remove GlobalKey
+final GlobalKey<NavigatorState> kNavigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
