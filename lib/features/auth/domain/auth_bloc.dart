@@ -27,14 +27,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ListenUserEvent>(_listenUserChanges);
   }
 
-  Future<void> _listenUserChanges(ListenUserEvent event, Emitter<AuthState> emit) async {
-    auth.userChanges().listen((User? user) {
-      if (user == null) {
-        emit(AuthScreenState());
-      } else {
-        emit(AuthLoadedState());
+  Future<void> _listenUserChanges(
+      ListenUserEvent event, Emitter<AuthState> emit) async {
+
+    emit(AuthLoadingState());
+
+    try {
+      await for (var user in auth.userChanges()) {
+        if (user != null) {
+          return emit(AuthLoadedState());
+        } else {
+          return emit(AuthScreenState());
+        }
       }
-    });
+    } catch (e) {
+      return emit(AuthErrorState(e.toString()));
+    }
   }
 
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
@@ -60,12 +68,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
       await auth.signInWithProvider(googleAuthProvider);
+
       if (auth.currentUser != null) {
         emit(AuthLoadedState());
       } else {
-        (e) => emit(AuthErrorState(e.toString()));
+        emit(AuthErrorState("User is null after Google Sign-In"));
       }
-      emit(AuthLoadedState());
     } catch (error) {
       emit(AuthErrorState(error.toString()));
       print(error);
@@ -78,45 +86,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final facebookLoginResult = await FacebookAuth.instance.login();
 
-      if (facebookLoginResult.status == LoginStatus.cancelled) {
-        emit(AuthInitial());
-        return;
-      }
-      if (facebookLoginResult.status == LoginStatus.operationInProgress) {
-        emit(FacebookLoadingState());
-      }
       if (facebookLoginResult.status == LoginStatus.success) {
-        emit(AuthLoadedState());
-      }
-      if (facebookLoginResult.status == LoginStatus.failed) {
-        emit(AuthErrorState(LocaleKeys.facebookLoginFailed.tr()));
-        return;
-      }
+        final facebookAuthCredential = FacebookAuthProvider.credential(
+            facebookLoginResult.accessToken!.tokenString);
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
 
-      final facebookAuthCredential = FacebookAuthProvider.credential(
-          facebookLoginResult.accessToken!.tokenString);
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-      emit(AuthLoadedState());
-
+        if (userCredential.user != null) {
+          emit(AuthLoadedState());
+        } else {
+          emit(AuthErrorState('No user currently signed in.'));
+        }
+      } else if (facebookLoginResult.status == LoginStatus.cancelled) {
+        emit(AuthInitial());
+      } else if (facebookLoginResult.status == LoginStatus.failed) {
+        emit(AuthErrorState('Facebook login failed: ${facebookLoginResult.message}'));
+      }
     } on FirebaseAuthException catch (e) {
       emit(AuthErrorState(e.toString()));
-      switch (e.code) {
-        case 'account-exist-with-different-credential':
-          emit(AuthErrorState(e.toString()));
-          break;
-        case 'invalid-credential':
-          emit(AuthErrorState(e.toString()));
-          break;
-        case 'operation-not-allowed':
-          emit(AuthErrorState(e.toString()));
-          break;
-        case 'user-disabled':
-          emit(AuthErrorState(e.toString()));
-          break;
-        case 'user-not-found':
-          emit(AuthErrorState(e.toString()));
-          break;
-      }
+    } catch (e) {
+      emit(AuthErrorState('An unknown error occurred: ${e.toString()}'));
     }
   }
 
