@@ -16,6 +16,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   easy_localization: ^3.0.7
   auto_route: ^9.2.0
+  flutter_svg: ^2.0.10+1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -42,6 +43,7 @@ flutter:
   assets:
     - assets/images/
     - assets/translations/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

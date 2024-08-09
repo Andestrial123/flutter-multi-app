@@ -1,18 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_app/utils/app_route.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'features/get_started/get_started_view.dart';
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       minTextAdapt: true,
       splitScreenMode: true,
-      child: MaterialApp(
+      child: MaterialApp.router(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const GetStartedView()),
+          routerConfig: _appRouter.config(),),
     );
   }
 }
