@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/main/presentation/main_screen.dart';
+import 'package:flutter_multi_app/features/sign_up/domain/sign_up_bloc.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
@@ -61,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
-    context.read<AuthBloc>().add(
+    context.read<SignUpBloc>().add(
       RegisterEvent(email, password, name),
     );
   }
@@ -79,9 +80,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     var screenHeight = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
-      body: BlocConsumer<AuthBloc, AuthState>(
+      body: BlocConsumer<SignUpBloc, SignUpState>(
         listener: (context, state) {
-          if (state is AuthLoadedState) {
+          if (state is SignUpLoadedState) {
             final user = FirebaseAuth.instance.currentUser!;
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
@@ -91,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             );
-          } else if (state is AuthErrorState) {
+          } else if (state is SignUpErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),
             );
@@ -99,12 +100,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
         },
         builder: (context, state) {
-          final isLoading = state is AuthLoadingState;
+          final isLoading = state is SignUpLoadingState;
           final isButtonDisabled = _isButtonDisabled || isLoading;
 
-          if (state is AuthLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          }
           return Stack(
             children: [
               Image.asset(

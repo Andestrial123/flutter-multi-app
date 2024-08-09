@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_app/shared/widgets/widgets.dart';
 
 import '../../../utils/colors.dart';
 
@@ -35,14 +36,7 @@ class NextButton extends StatelessWidget {
           ),
         ),
         child: isLoading
-            ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  strokeWidth: 2,
-                ),
-              )
+            ? progressIndicatorLight
             : Text(
                 text,
                 style: TextStyle(

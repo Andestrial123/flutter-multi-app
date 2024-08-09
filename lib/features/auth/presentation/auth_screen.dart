@@ -58,6 +58,8 @@ class _AuthScreenState extends State<AuthScreen> {
         },
         builder: (context, state) {
           final isLoading = state is AuthLoadingState;
+          final isLoadingGoogle = state is GoogleLoadingState;
+          final isLoadingFacebook = state is FacebookLoadingState;
 
           if (state is SignUpScreenState) {
             return const SignUpScreen();
@@ -147,7 +149,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                             ? null
                                             : () {
                                           _debouncer.call(() {
-                                            if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+                                            if (_emailController.text.isEmpty ||
+                                                _passwordController.text.isEmpty) {
                                               ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                   content: Text(LocaleKeys.fillOutAllFields.tr()),
@@ -161,9 +164,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                             ));
                                           });
                                         },
-                                        text: isLoading
-                                            ? ''
-                                            : LocaleKeys.next.tr(),
+                                        text: isLoading ? '' : LocaleKeys.next.tr(),
                                         isLoading: isLoading,
                                       ),
                                     ),
@@ -196,6 +197,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                             height: 24.0,
                                             width: 24.0,
                                           ),
+                                          isLoading: isLoadingGoogle,
                                         ),
                                       ),
                                       const SizedBox(height: 16),
@@ -210,6 +212,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                             height: 24.0,
                                             width: 24.0,
                                           ),
+                                          isLoading: isLoadingFacebook,
                                         ),
                                       ),
                                     ],

@@ -11,8 +11,9 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   AuthBloc() : super(AuthInitial()) {
-    on<RegisterEvent>(_onRegister);
     on<LoginEvent>(_onLogin);
     on<LogoutEvent>(_onLogout);
     on<GoogleEvent>(_handleGoogleSignIn);
@@ -23,45 +24,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ShowAuthScreenEvent>((event, emit) {
       emit(AuthScreenState());
     });
-
+    on<ListenUserEvent>(_listenUserChanges);
   }
 
-  final FirebaseAuth auth = FirebaseAuth.instance;
-
-  Future<void> _onRegister(RegisterEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoadingState());
-    try {
-      if (event.email.isEmpty || event.password.isEmpty || event.name.isEmpty) {
-        emit(AuthErrorState(LocaleKeys.fillOutAllFields.tr()));
-        return;
-      }
-
-      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
-      );
-
-      await userCredential.user?.updateDisplayName(event.name);
-
-      await userCredential.user?.reload();
-      final user = FirebaseAuth.instance.currentUser;
-
-      if (user?.displayName == event.name) {
+  Future<void> _listenUserChanges(ListenUserEvent event, Emitter<AuthState> emit) async {
+    auth.userChanges().listen((User? user) {
+      if (user == null) {
+        emit(AuthScreenState());
+      } else {
         emit(AuthLoadedState());
-      } else {
-        emit(AuthErrorState(LocaleKeys.failedUpdateProfile.tr()));
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        emit(AuthErrorState(LocaleKeys.passwordProvideWeek.tr()));
-      } else if (e.code == 'email-already-in-use') {
-        emit(AuthErrorState(LocaleKeys.accountExistEmail.tr()));
-      } else {
-        emit(AuthErrorState(LocaleKeys.unexpectedOccurred.tr()));
-      }
-    } catch (e) {
-      emit(AuthErrorState(e.toString()));
-    }
+    });
   }
 
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
@@ -83,7 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _handleGoogleSignIn(
       GoogleEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoadingState());
+    emit(GoogleLoadingState());
     try {
       GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
       await auth.signInWithProvider(googleAuthProvider);
@@ -101,7 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _logInWithFacebook(
       FacebookEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoadingState());
+    emit(FacebookLoadingState());
     try {
       final facebookLoginResult = await FacebookAuth.instance.login();
 
@@ -110,7 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
       if (facebookLoginResult.status == LoginStatus.operationInProgress) {
-        emit(AuthLoadingState());
+        emit(FacebookLoadingState());
       }
       if (facebookLoginResult.status == LoginStatus.success) {
         emit(AuthLoadedState());
@@ -151,7 +124,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoadingState());
     try {
       await auth.signOut();
-      emit(AuthInitial());
+      emit(AuthLogoutState());
     } catch (e) {
       emit(AuthErrorState(e.toString()));
     }
