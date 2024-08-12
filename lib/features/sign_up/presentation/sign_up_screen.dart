@@ -83,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         listener: (context, state) {
           if (state is SignUpLoadedState) {
             context.router.replaceNamed(
-              '/bottom_nav'
+              Routes.bottomNav
             );
           } else if (state is SignUpErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
