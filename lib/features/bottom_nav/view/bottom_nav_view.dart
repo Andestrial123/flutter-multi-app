@@ -14,7 +14,7 @@ class BottomNavView extends StatelessWidget {
 
     return AutoTabsScaffold(
       backgroundColor: const Color(0xFFf2e9e0),
-      routes: const [HomeView(), LocationView(), OrderView(), ProfileView()],
+      routes: const [HomeView(), LocationView(), OrderView(), MainRoute()],
       bottomNavigationBuilder: (context, tabsRouter) {
         return ClipRRect(
             borderRadius: const BorderRadius.only(

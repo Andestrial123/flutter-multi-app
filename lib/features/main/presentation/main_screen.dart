@@ -1,19 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
-import 'package:flutter_multi_app/features/auth/presentation/auth_screen.dart';
 import 'package:flutter_multi_app/firebase_service.dart';
 
+@RoutePage()
 class MainScreen extends StatelessWidget {
   const MainScreen({
     super.key,
-    required this.user,
-    this.name,
   });
-
-  final User user;
-  final String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +17,13 @@ class MainScreen extends StatelessWidget {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLogoutState) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (_) => const AuthScreen(),
-              ),
-            );
+            context.router.replaceNamed('/auth');
           }
         },
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('User name: ${user.displayName ?? 'No name'}'),
-              Text('User email: ${user.email ?? 'No email'}'),
               StreamBuilder<User?>(
                 stream: FirebaseService().auth.authStateChanges(),
                 builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {

@@ -7,9 +7,7 @@ import 'package:flutter_multi_app/features/sign_up/domain/sign_up_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyApp extends StatefulWidget {
-    MyApp({super.key});
-
-  final _appRouter = AppRouter();
+    const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -17,8 +15,7 @@ class MyApp extends StatefulWidget {
 
 
 class _MyAppState extends State<MyApp> {
-
-
+  final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -44,6 +41,6 @@ class _MyAppState extends State<MyApp> {
     useMaterial3: true,
     ),
     routerConfig: _appRouter.config(),),
-    );
+    ));
   }
 }

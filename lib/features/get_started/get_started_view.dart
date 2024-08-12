@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/utils/custom_background.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 @RoutePage()
@@ -113,7 +114,7 @@ class GetStartedView extends StatelessWidget {
                       alignment: Alignment.center,
                       child: ElevatedButton(
                         onPressed: () {
-                          context.router.pushNamed('/bottom_nav');
+                          context.router.pushNamed('/auth');
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(

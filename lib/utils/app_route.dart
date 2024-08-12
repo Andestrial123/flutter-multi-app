@@ -10,8 +10,8 @@ class AppRouter extends RootStackRouter {
      AutoRoute(page: HomeView.page,path: 'home'),
      AutoRoute(page: LocationView.page,path: 'location'),
      AutoRoute(page: OrderView.page,path: 'order'),
-     AutoRoute(page: ProfileView.page,path: 'profile'),
+     AutoRoute(page: MainRoute.page,path: 'profile'),
    ]),
-
+    AutoRoute(page: AuthRoute.page,path: '/auth')
   ];
 }
