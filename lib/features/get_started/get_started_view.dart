@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_app/application/api_service.dart';
 import 'package:flutter_multi_app/features/auth/presentation/auth_screen.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/utils/custom_background.dart';
@@ -111,7 +112,10 @@ class GetStartedView extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async{
+                          //Add for make sure that it works
+                         final res = await ApiService.health();
+                         print('Health: $res');
                           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AuthScreen()));
                         },
                         style: ElevatedButton.styleFrom(
