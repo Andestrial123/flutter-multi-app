@@ -36,7 +36,7 @@ class NextButton extends StatelessWidget {
           ),
         ),
         child: isLoading
-            ? progressIndicatorLight
+            ? const CustomCircularProgressIndicator(color: AlwaysStoppedAnimation<Color>(Colors.white))
             : Text(
                 text,
                 style: TextStyle(

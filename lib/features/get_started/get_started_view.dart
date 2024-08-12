@@ -112,7 +112,7 @@ class GetStartedView extends StatelessWidget {
                       alignment: Alignment.center,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AuthScreen()));
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AuthScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(

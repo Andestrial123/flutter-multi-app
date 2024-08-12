@@ -40,7 +40,7 @@ class AuthTextField extends StatelessWidget {
             padding: const EdgeInsets.all(12),
           ),
           if (isLoading)
-            progressIndicatorDark
+            const CustomCircularProgressIndicator(color: AlwaysStoppedAnimation<Color>(Colors.brown))
         ],
       ),
     );
