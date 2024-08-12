@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/firebase_service.dart';
+import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 
 @RoutePage()
 class MainScreen extends StatelessWidget {
@@ -17,7 +18,7 @@ class MainScreen extends StatelessWidget {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLogoutState) {
-            context.router.replaceNamed('/auth');
+            context.router.replaceNamed(Routes.auth);
           }
         },
         child: Center(

@@ -114,7 +114,7 @@ class GetStartedView extends StatelessWidget {
                       alignment: Alignment.center,
                       child: ElevatedButton(
                         onPressed: () {
-                          context.router.pushNamed('/auth');
+                          context.router.pushNamed(Routes.auth);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
