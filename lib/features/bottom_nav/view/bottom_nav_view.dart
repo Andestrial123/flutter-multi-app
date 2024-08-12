@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_app/features/bottom_nav/widgets/custom_bottom_nav_widget.dart';
 import 'package:flutter_multi_app/utils/app_route.gr.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 @RoutePage()
 class BottomNavView extends StatelessWidget {
@@ -8,6 +10,8 @@ class BottomNavView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenUtil = ScreenUtil();
+
     return AutoTabsScaffold(
       backgroundColor: const Color(0xFFf2e9e0),
       routes: const [HomeView(), LocationView(), OrderView(), ProfileView()],
@@ -26,9 +30,9 @@ class BottomNavView extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  elevation: 15,
+                child: CustomBottomNavigationBar(
+                  itemSpacing: screenUtil.setWidth(30),
+                  paddingHorizontal: screenUtil.setWidth(24),
                   currentIndex: tabsRouter.activeIndex,
                   onTap: tabsRouter.setActiveIndex,
                   items: const [
@@ -50,7 +54,6 @@ class BottomNavView extends StatelessWidget {
                     ),
                   ],
                   iconSize: 32,
-                  showUnselectedLabels: true,
                   selectedItemColor: Colors.black,
                   unselectedItemColor: Colors.grey,
                 )));
