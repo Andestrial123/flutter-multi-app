@@ -26,4 +26,5 @@ class LocaleKeys{
   static const noUserFoundEmail = 'no_user_found_email';
   static const wrongPasswordProvided = 'wrong_password_provided';
   static const facebookLoginFailed = 'facebook_login_failed';
+  static const selectBakeryLocation = 'select_bakery_location';
 }

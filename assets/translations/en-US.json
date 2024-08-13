@@ -25,5 +25,6 @@
   "unexpected_occurred": "An unexpected error occurred",
   "no_user_found_email": "No user found for that email",
   "wrong_password_provided": "Wrong password provided for that user",
-  "facebook_login_failed": "Facebook login failed"
+  "facebook_login_failed": "Facebook login failed",
+  "select_bakery_location": "Select Bakery Location"
 }

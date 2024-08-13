@@ -15,6 +15,7 @@ import 'package:flutter_multi_app/shared/widgets/widgets.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/debouncer.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -101,6 +102,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     child: Center(
                                       child: CustomTitle(
                                         text: LocaleKeys.login.tr(),
+                                        fontSize: ScreenUtil().setSp(28),
                                       ),
                                     ),
                                   ),

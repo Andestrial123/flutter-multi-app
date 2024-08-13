@@ -5,7 +5,7 @@ import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/sign_up/domain/sign_up_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'features/get_started/get_started_view.dart';
+import 'features/google_maps/presentation/google_maps_screen.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: const GetStartedView()),
+            home: const GoogleMapsScreen()),
       ),
     );
   }
