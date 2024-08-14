@@ -1,19 +1,23 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_multi_app/shared/app_keys.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
 
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-
-  AuthBloc() : super(AuthInitial()) {
+  AuthBloc(FirebaseAuth firebaseAuth, SharedPreferences sharedPreferences)
+      : _firebaseAuth = firebaseAuth,
+        _sharedPreferences = sharedPreferences,
+        super(AuthInitial()) {
     on<LoginEvent>(_onLogin);
     on<LogoutEvent>(_onLogout);
     on<GoogleEvent>(_handleGoogleSignIn);
@@ -24,31 +28,42 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ShowAuthScreenEvent>((event, emit) {
       emit(AuthScreenState());
     });
-    on<ListenUserEvent>(_listenUserChanges);
+    on<AuthInitialEvent>(_init);
   }
 
-  Future<void> _listenUserChanges(
-      ListenUserEvent event, Emitter<AuthState> emit) async {
+  final FirebaseAuth _firebaseAuth;
+  final SharedPreferences _sharedPreferences;
 
-    emit(AuthLoadingState());
+  Future<void> _init(AuthInitialEvent event, Emitter<AuthState> emit) async {
+    if (_firebaseAuth.currentUser != null) {
+      emit(AuthLoadedState());
+    } else {
+      emit(AuthInitial());
+    }
 
+    await _tokenListener();
+  }
+
+  Future<void> _tokenListener() async {
+    final storage = await SharedPreferences.getInstance();
     try {
-      await for (var user in auth.userChanges()) {
+      _firebaseAuth.idTokenChanges().listen((user) async {
         if (user != null) {
-          return emit(AuthLoadedState());
+          final userToken = await user.getIdToken();
+          storage.setString(kToken, userToken!);
         } else {
-          return emit(AuthScreenState());
+          storage.remove(kToken);
         }
-      }
+      });
     } catch (e) {
-      return emit(AuthErrorState(e.toString()));
+      log('[AuthBloc][_tokenListener] $e');
     }
   }
 
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
-      await auth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
           email: event.email, password: event.password);
       emit(AuthLoadedState());
     } on FirebaseAuthException catch (e) {
@@ -67,9 +82,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(GoogleLoadingState());
     try {
       GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
-      await auth.signInWithProvider(googleAuthProvider);
+      await _firebaseAuth.signInWithProvider(googleAuthProvider);
 
-      if (auth.currentUser != null) {
+      if (_firebaseAuth.currentUser != null) {
         emit(AuthLoadedState());
       } else {
         emit(AuthErrorState("User is null after Google Sign-In"));
@@ -89,7 +104,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (facebookLoginResult.status == LoginStatus.success) {
         final facebookAuthCredential = FacebookAuthProvider.credential(
             facebookLoginResult.accessToken!.tokenString);
-        final userCredential = await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+        final userCredential = await FirebaseAuth.instance
+            .signInWithCredential(facebookAuthCredential);
 
         if (userCredential.user != null) {
           emit(AuthLoadedState());
@@ -99,7 +115,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (facebookLoginResult.status == LoginStatus.cancelled) {
         emit(AuthInitial());
       } else if (facebookLoginResult.status == LoginStatus.failed) {
-        emit(AuthErrorState('Facebook login failed: ${facebookLoginResult.message}'));
+        emit(AuthErrorState(
+            'Facebook login failed: ${facebookLoginResult.message}'));
       }
     } on FirebaseAuthException catch (e) {
       emit(AuthErrorState(e.toString()));
@@ -111,7 +128,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
-      await auth.signOut();
+      await _firebaseAuth.signOut();
+      _sharedPreferences.clear();
       emit(AuthLogoutState());
     } catch (e) {
       emit(AuthErrorState(e.toString()));

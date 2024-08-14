@@ -9,7 +9,7 @@ class LoginEvent extends AuthEvent {
   LoginEvent(this.email, this.password);
 }
 
-class ListenUserEvent extends AuthEvent {}
+class AuthInitialEvent extends AuthEvent {}
 
 class GoogleEvent extends AuthEvent {}
 
