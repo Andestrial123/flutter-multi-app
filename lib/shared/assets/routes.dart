@@ -1,7 +1,7 @@
-class Routes{
+class Routes {
   static const route = '/';
-  static const main = 'main';
-  static const getStarted = 'get_started';
+  static const bottomNav = 'bottomNav';
+  static const getStarted = 'getStarted';
   static const home = 'home';
   static const location = 'location';
   static const order = 'order';

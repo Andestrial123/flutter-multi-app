@@ -84,9 +84,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: BlocConsumer<SignUpBloc, SignUpState>(
         listener: (context, state) {
           if (state is SignUpLoadedState) {
-            context.router.replaceNamed(
-              Routes.main
-            );
+            // context.router.replaceNamed(
+            //   Routes.main
+            // );
           } else if (state is SignUpErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),

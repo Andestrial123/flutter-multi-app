@@ -7,17 +7,26 @@ import 'package:flutter_multi_app/utils/app_route.gr.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 @RoutePage()
-class BottomNavView extends StatelessWidget {
+class BottomNavView extends StatefulWidget {
   const BottomNavView({super.key});
 
   @override
+  State<BottomNavView> createState() => _BottomNavViewState();
+}
+
+class _BottomNavViewState extends State<BottomNavView> {
+  @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil();
-
     return AutoTabsScaffold(
       backgroundColor: const Color(0xFFf2e9e0),
-      routes: const [HomeRoute(), LocationRoute(), OrderRoute(), MainRoute()],
-      bottomNavigationBuilder: (context, tabsRouter) {
+      routes: const [
+        HomeRoute(),
+        LocationRoute(),
+        OrderRoute(),
+        ProfileRoute()
+      ],
+      bottomNavigationBuilder: (_, tabsRouter) {
         return ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
@@ -37,7 +46,7 @@ class BottomNavView extends StatelessWidget {
                   paddingHorizontal: screenUtil.setWidth(24),
                   currentIndex: tabsRouter.activeIndex,
                   onTap: tabsRouter.setActiveIndex,
-                  items:  [
+                  items: [
                     BottomNavigationBarItem(
                       icon: const Icon(Icons.home),
                       label: LocaleKeys.home.tr(),

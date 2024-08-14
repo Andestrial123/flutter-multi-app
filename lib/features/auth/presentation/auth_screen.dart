@@ -47,7 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoadedState) {
-            context.router.pushNamed(Routes.main);
+            context.router.pushNamed(Routes.bottomNav);
           } else if (state is AuthErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),
