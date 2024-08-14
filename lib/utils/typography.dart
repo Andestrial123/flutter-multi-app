@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 enum TypographyType {
   headline1,
+  headline2,
   headline3,
   middleText,
   middleTextBold,
   smallText,
   smallTextBold,
   bigText,
+  bigTextThin,
   bigTextBold,
 }
 
@@ -27,6 +29,8 @@ class _TypographyProps {
 const typographyStyles = <TypographyType, _TypographyProps>{
   TypographyType.headline1: _TypographyProps(
       fontSize: 24, fontWeight: FontWeight.w800, height: 30.0 / 24),
+  TypographyType.headline2: _TypographyProps(
+      fontSize: 20, fontWeight: FontWeight.w800, height: 30.0 / 18),
   TypographyType.headline3: _TypographyProps(
       fontSize: 18, fontWeight: FontWeight.w600, height: 23.0 / 18),
   TypographyType.middleText: _TypographyProps(
@@ -42,6 +46,8 @@ const typographyStyles = <TypographyType, _TypographyProps>{
       fontSize: 12, fontWeight: FontWeight.w800, height: 16.0 / 12),
   TypographyType.bigText: _TypographyProps(
       fontSize: 16, fontWeight: FontWeight.w600, height: 16 / 12),
+  TypographyType.bigTextThin: _TypographyProps(
+      fontSize: 16, fontWeight: FontWeight.w400, height: 16 / 12),
   TypographyType.bigTextBold: _TypographyProps(
       fontSize: 16, fontWeight: FontWeight.w800, height: 21 / 16)
 };

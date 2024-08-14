@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_app/features/google_maps/presentation/modal_google_maps.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/text/custom_title.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
@@ -38,7 +39,7 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
                   children: [
                     const ClipRRect(
                       borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(12)),
+                      BorderRadius.vertical(top: Radius.circular(12)),
                       child: GoogleMap(
                         initialCameraPosition: CameraPosition(
                           target: _pGooglePlex,
@@ -70,6 +71,7 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
               ),
             ],
           ),
+          const ModalGoogleMaps(),
         ],
       ),
     );
