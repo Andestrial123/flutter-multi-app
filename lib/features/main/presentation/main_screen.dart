@@ -46,7 +46,7 @@ class MainScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  context.read<AuthBloc>().add(LogoutEvent());
+                   context.read<AuthBloc>().add(LogoutEvent());
                 },
                 child: const Text('Logout'),
               ),

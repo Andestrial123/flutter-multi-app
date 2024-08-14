@@ -23,12 +23,20 @@ dependencies:
   auto_route: ^9.2.0
   flutter_svg: ^2.0.10+1
 
+  dio: ^5.5.0+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+
+  easy_localization: ^3.0.7
   cupertino_icons: ^1.0.6
   sign_in_button: ^3.0.0
   flutter_facebook_auth: ^7.0.1
+  retrofit: '>=4.0.0 <5.0.0'
+  logger: ^2.4.0
+  json_annotation: ^4.8.1
+  get_it: ^7.7.0
+  shared_preferences: ^2.2.3
 
 
 
@@ -38,17 +46,18 @@ dev_dependencies:
 
   build_runner: ^2.4.10
   auto_route_generator: ^9.0.0
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  retrofit_generator: '>=7.0.0 <8.0.0'
+  build_runner: '>=2.3.0 <4.0.0'
+  json_serializable: ^6.6.2
 
 flutter:
 
   uses-material-design: true
 
+
+
+  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
     - assets/translations/
