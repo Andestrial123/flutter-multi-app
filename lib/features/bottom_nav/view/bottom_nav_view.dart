@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/features/bottom_nav/widgets/custom_bottom_nav_widget.dart';
+import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/utils/app_route.gr.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,7 +16,7 @@ class BottomNavView extends StatelessWidget {
 
     return AutoTabsScaffold(
       backgroundColor: const Color(0xFFf2e9e0),
-      routes: const [HomeView(), LocationView(), OrderView(), MainRoute()],
+      routes: const [HomeRoute(), LocationRoute(), OrderRoute(), MainRoute()],
       bottomNavigationBuilder: (context, tabsRouter) {
         return ClipRRect(
             borderRadius: const BorderRadius.only(
@@ -35,22 +37,22 @@ class BottomNavView extends StatelessWidget {
                   paddingHorizontal: screenUtil.setWidth(24),
                   currentIndex: tabsRouter.activeIndex,
                   onTap: tabsRouter.setActiveIndex,
-                  items: const [
+                  items:  [
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      label: "Home",
+                      icon: const Icon(Icons.home),
+                      label: LocaleKeys.home.tr(),
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.location_pin),
-                      label: "Location",
+                      icon: const Icon(Icons.location_pin),
+                      label: LocaleKeys.location.tr(),
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.fact_check_outlined),
-                      label: "Order",
+                      icon: const Icon(Icons.fact_check_outlined),
+                      label: LocaleKeys.order.tr(),
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.account_circle_outlined),
-                      label: "Profile",
+                      icon: const Icon(Icons.account_circle_outlined),
+                      label: LocaleKeys.profile.tr(),
                     ),
                   ],
                   iconSize: 32,

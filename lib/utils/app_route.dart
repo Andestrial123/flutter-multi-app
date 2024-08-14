@@ -1,18 +1,26 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
-import 'package:flutter_multi_app/utils/app_route.gr.dart';
 
-@AutoRouterConfig()
+import '../shared/assets/routes.dart';
+import 'app_route.gr.dart';
+
+@AutoRouterConfig(replaceInRouteName: 'Screen|View,Route')
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-   AutoRoute(page: GetStartedView.page,initial: true),
-   AutoRoute(page: BottomNavView.page,path: Routes.bottomNav,children: [
-     AutoRoute(page: HomeView.page,path: Routes.home),
-     AutoRoute(page: LocationView.page,path: Routes.location),
-     AutoRoute(page: OrderView.page,path: Routes.order),
-     AutoRoute(page: MainRoute.page,path: Routes.profile),
-   ]),
-    AutoRoute(page: AuthRoute.page,path: Routes.auth)
-  ];
+        AutoRoute(
+          page: RouteStartRoute.page,
+          initial: true,
+          path: Routes.route,
+          children: [
+            AutoRoute(page: GetStartedRoute.page,path: Routes.getStarted),
+            AutoRoute(page: AuthRoute.page, path: Routes.auth),
+            AutoRoute(page: BottomNavRoute.page, path: Routes.main, children: [
+              AutoRoute(page: HomeRoute.page, path: Routes.home),
+              AutoRoute(page: LocationRoute.page, path: Routes.location),
+              AutoRoute(page: OrderRoute.page, path: Routes.order),
+              AutoRoute(page: MainRoute.page, path: Routes.profile),
+            ]),
+          ]
+        ),
+      ];
 }

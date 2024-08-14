@@ -31,13 +31,9 @@ class LocaleKeys{
   static const noUserFoundEmail = 'no_user_found_email';
   static const wrongPasswordProvided = 'wrong_password_provided';
   static const facebookLoginFailed = 'facebook_login_failed';
-}
-
-class Routes{
-  static const bottomNav = '/bottom_nav';
+  static const firstLaunchKey = 'firstLaunch';
   static const home = 'home';
   static const location = 'location';
   static const order = 'order';
   static const profile = 'profile';
-  static const auth = '/auth';
 }

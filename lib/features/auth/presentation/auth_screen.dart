@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +15,8 @@ import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/debouncer.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../shared/assets/routes.dart';
 
 @RoutePage()
 class AuthScreen extends StatefulWidget {
@@ -46,7 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoadedState) {
-            context.router.replaceNamed(Routes.bottomNav);
+            context.router.pushNamed(Routes.main);
           } else if (state is AuthErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),

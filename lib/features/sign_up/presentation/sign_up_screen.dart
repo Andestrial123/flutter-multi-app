@@ -12,6 +12,8 @@ import 'package:flutter_multi_app/shared/widgets/text_fields/small_text_field.da
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 
+import '../../../shared/assets/routes.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -83,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         listener: (context, state) {
           if (state is SignUpLoadedState) {
             context.router.replaceNamed(
-              Routes.bottomNav
+              Routes.main
             );
           } else if (state is SignUpErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(

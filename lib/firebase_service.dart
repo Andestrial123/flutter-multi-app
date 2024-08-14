@@ -13,4 +13,8 @@ class FirebaseService {
   onListenUser(void Function(User?)? doListen) {
     auth.authStateChanges().listen(doListen);
   }
+
+   bool isUserLoggedIn() {
+    return auth.currentUser != null;
+  }
 }
