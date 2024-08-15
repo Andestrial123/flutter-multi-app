@@ -3,28 +3,37 @@ import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 
-class ModalGoogleMaps extends StatelessWidget {
-  const ModalGoogleMaps({super.key});
+class ModalGoogleMaps extends StatefulWidget {
+  const ModalGoogleMaps({super.key, required this.controller});
+
+  final DraggableScrollableController controller;
+
+  @override
+  State<ModalGoogleMaps> createState() => _ModalGoogleMapsState();
+}
+
+class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
+  String formatText(String text, int chunkSize) {
+    List<String> chunks = [];
+    for (int i = 0; i < text.length; i += chunkSize) {
+      chunks.add(text.substring(
+          i, i + chunkSize > text.length ? text.length : i + chunkSize));
+    }
+    return chunks.join('\n');
+  }
 
   @override
   Widget build(BuildContext context) {
-    String formatText(String text, int chunkSize) {
-      List<String> chunks = [];
-      for (int i = 0; i < text.length; i += chunkSize) {
-        chunks.add(text.substring(
-            i, i + chunkSize > text.length ? text.length : i + chunkSize));
-      }
-      return chunks.join('\n');
-    }
-
     return DraggableScrollableSheet(
-      initialChildSize: 0.35,
-      minChildSize: 0.1,
+      controller: widget.controller,
+      initialChildSize: 0,
+      minChildSize: 0,
       maxChildSize: 0.35,
       builder: (context, scrollController) {
         final screenSize = MediaQuery.of(context).size;
         final imageHeight = screenSize.height * 0.1;
         final imageWidth = imageHeight * 120 / 85;
+
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Container(
@@ -132,10 +141,7 @@ class ModalGoogleMaps extends StatelessWidget {
                   ),
                   Positioned(
                     right: 15,
-                    top: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.2 / 2.2,
+                    top: MediaQuery.of(context).size.height * 0.2 / 2.2,
                     child: SizedBox(
                       height: imageHeight,
                       width: imageWidth,

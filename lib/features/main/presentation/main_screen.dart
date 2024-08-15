@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/auth/presentation/auth_screen.dart';
+import 'package:flutter_multi_app/features/google_maps/presentation/google_maps_screen.dart';
 import 'package:flutter_multi_app/firebase_service.dart';
 
 class MainScreen extends StatelessWidget {
@@ -59,6 +60,9 @@ class MainScreen extends StatelessWidget {
                 },
                 child: const Text('Logout'),
               ),
+              ElevatedButton(onPressed: (){
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const GoogleMapsScreen()));
+              }, child: const Text('Go to GoogleMaps'))
             ],
           ),
         ),
