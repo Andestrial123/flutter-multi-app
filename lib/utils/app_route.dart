@@ -22,7 +22,7 @@ class AppRouter extends $AppRouter {
               ),
               AutoRoute(
                 page: BottomNavRoute.page,
-                path: Routes.bottomNav,
+                path: Routes.main,
               ),
               AutoRoute(page: HomeRoute.page, path: Routes.home),
               AutoRoute(page: LocationRoute.page, path: Routes.location),

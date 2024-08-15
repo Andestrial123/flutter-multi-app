@@ -1,6 +1,6 @@
 class Routes {
   static const route = '/';
-  static const bottomNav = 'bottomNav';
+  static const main = 'main';
   static const getStarted = 'getStarted';
   static const home = 'home';
   static const location = 'location';
