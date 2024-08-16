@@ -1,120 +1,80 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:timezone/timezone.dart' as tz;
+
+part 'marks_model.g.dart';
+
+@JsonSerializable()
 class MarksModel {
   MarksModel({
-      String? id, 
-      String? address,
-      double? latitude,
-      double? longitude,
-      BakeryHours? bakeryHours, 
-      DeliveryHours? deliveryHours,}){
-    _id = id;
-    _address = address;
-    _latitude = latitude;
-    _longitude = longitude;
-    _bakeryHours = bakeryHours;
-    _deliveryHours = deliveryHours;
+    this.id,
+    this.address,
+    this.latitude,
+    this.longitude,
+    this.bakeryHours,
+    this.deliveryHours,
+  });
+
+  final String? id;
+  final String? address;
+  final double? latitude;
+  final double? longitude;
+  final BakeryHours? bakeryHours;
+  final DeliveryHours? deliveryHours;
+
+  factory MarksModel.fromJson(Map<String, dynamic> json) => _$MarksModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MarksModelToJson(this);
 }
 
-  MarksModel.fromJson(dynamic json) {
-    _id = json['id'];
-    _address = json['address'];
-    _latitude = json['latitude'];
-    _longitude = json['longitude'];
-    _bakeryHours = json['bakery_hours'] != null ? BakeryHours.fromJson(json['bakery_hours']) : null;
-    _deliveryHours = json['delivery_hours'] != null ? DeliveryHours.fromJson(json['delivery_hours']) : null;
-  }
-  String? _id;
-  String? _address;
-  double? _latitude;
-  double? _longitude;
-  BakeryHours? _bakeryHours;
-  DeliveryHours? _deliveryHours;
-
-  String? get id => _id;
-  String? get address => _address;
-  double? get latitude => _latitude;
-  double? get longitude => _longitude;
-  BakeryHours? get bakeryHours => _bakeryHours;
-  DeliveryHours? get deliveryHours => _deliveryHours;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = _id;
-    map['address'] = _address;
-    map['latitude'] = _latitude;
-    map['longitude'] = _longitude;
-    if (_bakeryHours != null) {
-      map['bakery_hours'] = _bakeryHours?.toJson();
-    }
-    if (_deliveryHours != null) {
-      map['delivery_hours'] = _deliveryHours?.toJson();
-    }
-    return map;
-  }
-
-}
-
+@JsonSerializable()
 class DeliveryHours {
   DeliveryHours({
-      String? openAt, 
-      String? closeAt, 
-      bool? isOpen,}){
-    _openAt = openAt;
-    _closeAt = closeAt;
-    _isOpen = isOpen;
+    this.openAt,
+    this.closeAt,
+    this.isOpen,
+  });
+
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  final tz.TZDateTime? openAt;
+
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  final tz.TZDateTime? closeAt;
+
+  final bool? isOpen;
+
+  factory DeliveryHours.fromJson(Map<String, dynamic> json) => _$DeliveryHoursFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DeliveryHoursToJson(this);
 }
 
-  DeliveryHours.fromJson(dynamic json) {
-    _openAt = json['open_at'];
-    _closeAt = json['close_at'];
-    _isOpen = json['is_open'];
-  }
-  String? _openAt;
-  String? _closeAt;
-  bool? _isOpen;
-
-  String? get openAt => _openAt;
-  String? get closeAt => _closeAt;
-  bool? get isOpen => _isOpen;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['open_at'] = _openAt;
-    map['close_at'] = _closeAt;
-    map['is_open'] = _isOpen;
-    return map;
-  }
-
-}
-
+@JsonSerializable()
 class BakeryHours {
   BakeryHours({
-      String? openAt, 
-      String? closeAt, 
-      bool? isOpen,}){
-    _openAt = openAt;
-    _closeAt = closeAt;
-    _isOpen = isOpen;
+    this.openAt,
+    this.closeAt,
+    this.isOpen,
+  });
+
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  final tz.TZDateTime? openAt;
+
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  final tz.TZDateTime? closeAt;
+
+  final bool? isOpen;
+
+  factory BakeryHours.fromJson(Map<String, dynamic> json) => _$BakeryHoursFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BakeryHoursToJson(this);
 }
 
-  BakeryHours.fromJson(dynamic json) {
-    _openAt = json['open_at'];
-    _closeAt = json['close_at'];
-    _isOpen = json['is_open'];
-  }
-  String? _openAt;
-  String? _closeAt;
-  bool? _isOpen;
 
-  String? get openAt => _openAt;
-  String? get closeAt => _closeAt;
-  bool? get isOpen => _isOpen;
+tz.TZDateTime? _fromJson(String? date) {
+  if (date == null) return null;
+  final location = tz.getLocation('Europe/Kyiv');
+  return tz.TZDateTime.parse(location, date);
+}
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['open_at'] = _openAt;
-    map['close_at'] = _closeAt;
-    map['is_open'] = _isOpen;
-    return map;
-  }
-
+String? _toJson(tz.TZDateTime? date) {
+  return date?.toIso8601String();
 }

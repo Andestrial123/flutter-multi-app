@@ -23,8 +23,8 @@ abstract class ApiClient {
   Future<List<MarksModel>> getMarks(@Query('timezone') String timezone);
 
   @GET('/multi/v1/mark/{mark_id}')
-  Future<List<MarksModel>> getMarkId(@Path('mark_id') markId);
-
-  @GET('http://worldtimeapi.org/api/timezone/{timezone}')
-  Future<Map<String, dynamic>> getTimeZoneTime(@Path('timezone') String timeZone);
+  Future<List<MarksModel>> getMarkId(
+      @Path('mark_id') String markId,
+      @Query('timezone') String timezone,
+      );
 }

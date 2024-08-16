@@ -10,9 +10,9 @@ part of 'api.dart';
 
 class _ApiClient implements ApiClient {
   _ApiClient(
-      this._dio, {
-        this.baseUrl,
-      }) {
+    this._dio, {
+    this.baseUrl,
+  }) {
     baseUrl ??= 'https://flutter-multi-app-server-c914b012a757.herokuapp.com';
   }
 
@@ -32,17 +32,17 @@ class _ApiClient implements ApiClient {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      '/multi/v1/categories',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(
-        baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        ))));
+            .compose(
+              _dio.options,
+              '/multi/v1/categories',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     var value = _result.data!
         .map((dynamic i) => CategoryModel.fromJson(i as Map<String, dynamic>))
         .toList();
@@ -61,17 +61,17 @@ class _ApiClient implements ApiClient {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      '/multi/v1/categories/${categoryId}',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(
-        baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        ))));
+            .compose(
+              _dio.options,
+              '/multi/v1/categories/${categoryId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = CategoryModel.fromJson(_result.data!);
     return value;
   }
@@ -88,17 +88,17 @@ class _ApiClient implements ApiClient {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      '/multi/v1/marks',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(
-        baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        ))));
+            .compose(
+              _dio.options,
+              '/multi/v1/marks',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     var value = _result.data!
         .map((dynamic i) => MarksModel.fromJson(i as Map<String, dynamic>))
         .toList();
@@ -106,9 +106,12 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<List<MarksModel>> getMarkId(dynamic markId) async {
+  Future<List<MarksModel>> getMarkId(
+    String markId,
+    String timezone,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'timezone': timezone};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
@@ -117,47 +120,20 @@ class _ApiClient implements ApiClient {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      '/multi/v1/mark/${markId}',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(
-        baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        ))));
-    var value = _result.data!
-        .map((dynamic i) => MarksModel.fromJson(i as Map<String, dynamic>))
-        .toList();
-    return value;
-  }
-
-  @override
-  Future<Map<String, dynamic>> getTimeZoneTime(String timeZone) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Map<String, dynamic>>(Options(
-          method: 'GET',
-          headers: _headers,
-          extra: _extra,
-        )
             .compose(
-          _dio.options,
-          'http://worldtimeapi.org/api/timezone/${timeZone}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+              _dio.options,
+              '/multi/v1/mark/${markId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(
-            baseUrl: _combineBaseUrls(
+                baseUrl: _combineBaseUrls(
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var value = _result.data!;
+    var value = _result.data!
+        .map((dynamic i) => MarksModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 
@@ -175,9 +151,9 @@ class _ApiClient implements ApiClient {
   }
 
   String _combineBaseUrls(
-      String dioBaseUrl,
-      String? baseUrl,
-      ) {
+    String dioBaseUrl,
+    String? baseUrl,
+  ) {
     if (baseUrl == null || baseUrl.trim().isEmpty) {
       return dioBaseUrl;
     }

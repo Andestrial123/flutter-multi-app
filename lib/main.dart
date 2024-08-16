@@ -5,8 +5,9 @@ import 'package:flutter_multi_app/app.dart';
 import 'package:flutter_multi_app/di.dart';
 import 'package:flutter_multi_app/firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
-///In this file will be all configuration setup that we need before starting app
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -14,12 +15,16 @@ void main() async {
   );
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
+  tz.initializeTimeZones();
 
   await setup();
 
   runApp(EasyLocalization(
-      supportedLocales: const [Locale('en', 'US')],
-      fallbackLocale: const Locale('en', 'US'),
-      path: 'assets/translations',
-      child: const MyApp()));
+    supportedLocales: const [Locale('en', 'US')],
+    fallbackLocale: const Locale('en', 'US'),
+    path: 'assets/translations',
+    child: const MyApp(),
+  ));
 }
+
+

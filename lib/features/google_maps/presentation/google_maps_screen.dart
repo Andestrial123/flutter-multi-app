@@ -63,8 +63,8 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
               final markers = state.marks.map((mark) {
                 return Marker(
                   markerId: MarkerId(mark.id ?? ''),
-                  position: LatLng(mark.latitude?.toDouble() ?? 0.0,
-                      mark.longitude?.toDouble() ?? 0.0),
+                  position: LatLng(mark.latitude ?? 0.0,
+                      mark.longitude ?? 0.0),
                   icon: _activeMarkerId == mark.id
                       ? BitmapDescriptor.defaultMarkerWithHue(
                           BitmapDescriptor.hueRose)
