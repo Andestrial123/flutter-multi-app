@@ -1,11 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_app/features/auth/presentation/auth_screen.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/utils/custom_background.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../shared/assets/routes.dart';
+
+
+@RoutePage()
 class GetStartedView extends StatelessWidget {
   const GetStartedView({super.key});
 
@@ -88,7 +92,7 @@ class GetStartedView extends StatelessWidget {
                           LocaleKeys.lorem1.tr(),
                           style: TextStyle(
                               color: Colors.brown,
-                              fontSize: ScreenUtil().setSp(16),
+                              fontSize: screenUtil.setSp(16),
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -102,7 +106,7 @@ class GetStartedView extends StatelessWidget {
                           LocaleKeys.lorem2.tr(),
                           style: TextStyle(
                             color: Colors.brown,
-                            fontSize: ScreenUtil().setSp(16),
+                            fontSize: screenUtil.setSp(16),
                           ),
                         ),
                       ),
@@ -111,8 +115,8 @@ class GetStartedView extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
-                        onPressed: () async{
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AuthScreen()));
+                        onPressed: () {
+                          context.router.replaceNamed(Routes.auth);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
