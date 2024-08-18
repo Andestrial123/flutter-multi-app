@@ -30,11 +30,10 @@
   "unexpected_occurred": "An unexpected error occurred",
   "no_user_found_email": "No user found for that email",
   "wrong_password_provided": "Wrong password provided for that user",
-  "facebook_login_failed": "Facebook login failed",
   "home": "Home",
   "location": "Location",
   "order": "Order",
-  "profile": "Profile"
+  "profile": "Profile",
   "facebook_login_failed": "Facebook login failed",
   "select_bakery_location": "Select Bakery Location",
   "bakery": "Bakery",

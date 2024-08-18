@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
+import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 
@@ -141,8 +143,22 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 16),
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            minWidth: 150,
+                            maxWidth: 200,
+                          ),
+                          child: NextButton(
+                            onPressed: () {},
+                            text: 'View Menu',
+                          ),
+                        ),
+                      )
                     ],
                   ),
+                  const SizedBox(height: 16),
                   Positioned(
                     right: 15,
                     top: MediaQuery.of(context).size.height * 0.2 / 2.2,
