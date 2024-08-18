@@ -7,7 +7,7 @@ import 'package:flutter_multi_app/firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-
+///In this file will be all configuration setup that we need before starting app
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -26,5 +26,3 @@ void main() async {
     child: const MyApp(),
   ));
 }
-
-

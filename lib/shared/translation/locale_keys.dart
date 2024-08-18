@@ -2,6 +2,11 @@ class LocaleKeys{
   static const lorem1 = 'lorem_1';
   static const lorem2 = 'lorem_2';
   static const getStarted = 'get_started';
+  static const orderPlaced = 'order_placed';
+  static const onTheWay = 'on_the_way';
+  static const orderReady = 'order_ready';
+  static const loremPlaceholder = 'lorem_placeholder';
+  static const orderTracking = 'order_tracking';
   static const logInFacebook = 'log_in_facebook';
   static const logInGoogle = 'log_in_google';
   static const or = 'or';
@@ -32,4 +37,9 @@ class LocaleKeys{
   static const openNow = 'open_now';
   static const deliveryHours = "delivery_hours";
   static const closesAt = "closes_at";
+  static const firstLaunchKey = 'firstLaunch';
+  static const home = 'home';
+  static const location = 'location';
+  static const order = 'order';
+  static const profile = 'profile';
 }
