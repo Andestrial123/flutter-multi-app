@@ -1,13 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
+import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 
 class ModalGoogleMaps extends StatefulWidget {
-  const ModalGoogleMaps({super.key, required this.controller});
+  const ModalGoogleMaps({super.key, required this.controller, required this.address});
 
   final DraggableScrollableController controller;
-
+  final String address;
 
   @override
   State<ModalGoogleMaps> createState() => _ModalGoogleMapsState();
@@ -27,6 +29,7 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       controller: widget.controller,
+      snap: true,
       initialChildSize: 0,
       minChildSize: 0,
       maxChildSize: 0.35,
@@ -57,14 +60,14 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             MultiAppTypography(
                               TypographyType.headline2,
-                              'Bakery',
+                              LocaleKeys.bakery.tr(),
                               color: Colors.black,
                             ),
                           ],
@@ -79,28 +82,28 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
                             MultiAppTypography(
                               TypographyType.bigTextThin,
                               formatText(
-                                  '4840 Bates Brothers Road, San Francisco, USA',
+                                  widget.address,
                                   26),
                               color: Colors.black,
                             ),
                             const SizedBox(height: 16),
-                            const MultiAppTypography(
+                            MultiAppTypography(
                               TypographyType.bigTextThin,
-                              'Bakery Hours',
+                              LocaleKeys.bakeryHours.tr(),
                               color: Colors.black,
                             ),
                             RichText(
-                              text: const TextSpan(
+                              text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: 'Open Now - ',
-                                    style: TextStyle(
+                                    text: LocaleKeys.openNow.tr(),
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w900,
                                         color: Colors.black),
                                   ),
                                   TextSpan(
-                                    text: 'Closes at 7:30 PM',
-                                    style: TextStyle(
+                                    text: '${LocaleKeys.closesAt.tr()} 7:30 PM',
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.black,
                                       fontSize: 16,
@@ -110,23 +113,23 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
                               ),
                             ),
                             const SizedBox(height: 16),
-                            const MultiAppTypography(
+                            MultiAppTypography(
                               TypographyType.bigTextThin,
-                              'Delivery Hours',
+                              LocaleKeys.deliveryHours.tr(),
                               color: Colors.black,
                             ),
                             RichText(
-                              text: const TextSpan(
+                              text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: 'Open Now - ',
-                                    style: TextStyle(
+                                    text: LocaleKeys.openNow.tr(),
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w900,
                                         color: Colors.black),
                                   ),
                                   TextSpan(
-                                    text: 'Closes at 6:00 PM',
-                                    style: TextStyle(
+                                    text: '${LocaleKeys.closesAt.tr()} 6:30 PM',
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.black,
                                       fontSize: 16,

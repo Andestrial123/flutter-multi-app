@@ -27,4 +27,9 @@ class LocaleKeys{
   static const wrongPasswordProvided = 'wrong_password_provided';
   static const facebookLoginFailed = 'facebook_login_failed';
   static const selectBakeryLocation = 'select_bakery_location';
+  static const bakery = 'bakery';
+  static const bakeryHours = 'bakery_hours';
+  static const openNow = 'open_now';
+  static const deliveryHours = "delivery_hours";
+  static const closesAt = "closes_at";
 }

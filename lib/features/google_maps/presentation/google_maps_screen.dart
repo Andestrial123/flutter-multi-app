@@ -67,11 +67,15 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
                       mark.longitude ?? 0.0),
                   icon: _activeMarkerId == mark.id
                       ? BitmapDescriptor.defaultMarkerWithHue(
-                          BitmapDescriptor.hueRose)
+                      BitmapDescriptor.hueRose)
                       : BitmapDescriptor.defaultMarker,
                   onTap: () => _onMarkerTapped(mark.id ?? ''),
                 );
               }).toSet();
+
+              final selectedMark = state.marks.firstWhere(
+                      (mark) => mark.id == _activeMarkerId,
+                  orElse: () => state.marks.first);
 
               return Stack(
                 children: [
@@ -89,19 +93,23 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
                                   target: LatLng(
                                       state.marks.isNotEmpty
                                           ? state.marks.first.latitude
-                                                  ?.toDouble() ??
-                                              0.0
-                                          : 37.7749, // fallback coordinates
+                                          ?.toDouble() ??
+                                          0.0
+                                          : 37.7749,
                                       state.marks.isNotEmpty
                                           ? state.marks.first.longitude
-                                                  ?.toDouble() ??
-                                              0.0
-                                          : -122.4194 // fallback coordinates
-                                      ),
+                                          ?.toDouble() ??
+                                          0.0
+                                          : -122.4194
+                                  ),
                                   zoom: 14,
                                 ),
                                 markers: markers,
                                 onTap: _onMapTapped,
+                                mapType: MapType.normal,
+                                myLocationButtonEnabled: false,
+                                rotateGesturesEnabled: true,
+
                               ),
                             ),
                             Positioned(
@@ -128,7 +136,20 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
                       ),
                     ],
                   ),
-                  ModalGoogleMaps(controller: _controller),
+                  NotificationListener<DraggableScrollableNotification>(
+                    onNotification: (notification) {
+                      if (notification.extent == notification.minExtent) {
+                        setState(() {
+                          _activeMarkerId = null;
+                        });
+                      }
+                      return true;
+                    },
+                    child: ModalGoogleMaps(
+                      controller: _controller,
+                      address: selectedMark.address ?? '',
+                    ),
+                  ),
                 ],
               );
             case GoogleMapsLoading():
@@ -145,3 +166,4 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
     );
   }
 }
+
