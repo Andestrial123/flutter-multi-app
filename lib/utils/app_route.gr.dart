@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:flutter_multi_app/features/auth/presentation/auth_screen.dart'
     as _i1;
 import 'package:flutter_multi_app/features/bottom_nav/view/bottom_nav_view.dart'
@@ -47,9 +48,14 @@ abstract class $AppRouter extends _i9.RootStackRouter {
       );
     },
     GoogleMapsRoute.name: (routeData) {
+      final args = routeData.argsAs<GoogleMapsRouteArgs>(
+          orElse: () => const GoogleMapsRouteArgs());
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.GoogleMapsScreen(),
+        child: _i4.GoogleMapsScreen(
+          key: args.key,
+          onToggleBottomNav: args.onToggleBottomNav,
+        ),
       );
     },
     HomeRoute.name: (routeData) {
@@ -123,16 +129,40 @@ class GetStartedRoute extends _i9.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.GoogleMapsScreen]
-class GoogleMapsRoute extends _i9.PageRouteInfo<void> {
-  const GoogleMapsRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class GoogleMapsRoute extends _i9.PageRouteInfo<GoogleMapsRouteArgs> {
+  GoogleMapsRoute({
+    _i10.Key? key,
+    void Function(bool)? onToggleBottomNav,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           GoogleMapsRoute.name,
+          args: GoogleMapsRouteArgs(
+            key: key,
+            onToggleBottomNav: onToggleBottomNav,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'GoogleMapsRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i9.PageInfo<GoogleMapsRouteArgs> page =
+      _i9.PageInfo<GoogleMapsRouteArgs>(name);
+}
+
+class GoogleMapsRouteArgs {
+  const GoogleMapsRouteArgs({
+    this.key,
+    this.onToggleBottomNav,
+  });
+
+  final _i10.Key? key;
+
+  final void Function(bool)? onToggleBottomNav;
+
+  @override
+  String toString() {
+    return 'GoogleMapsRouteArgs{key: $key, onToggleBottomNav: $onToggleBottomNav}';
+  }
 }
 
 /// generated route for

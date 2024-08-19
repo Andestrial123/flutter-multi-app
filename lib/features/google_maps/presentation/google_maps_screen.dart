@@ -2,7 +2,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_multi_app/features/bottom_nav/view/bottom_nav_view.dart';
 import 'package:flutter_multi_app/features/google_maps/domain/google_maps_bloc.dart';
 import 'package:flutter_multi_app/features/google_maps/presentation/modal_google_maps.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
@@ -13,7 +12,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 @RoutePage()
 class GoogleMapsScreen extends StatefulWidget {
-  const GoogleMapsScreen({super.key});
+  final void Function(bool isVisible)? onToggleBottomNav;
+
+  const GoogleMapsScreen({super.key, this.onToggleBottomNav});
 
   @override
   State<GoogleMapsScreen> createState() => _GoogleMapsScreenState();
@@ -62,6 +63,8 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> with SingleTickerPr
         duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
 
     _animationController.forward();
+
+    widget.onToggleBottomNav?.call(true);
   }
 
   void _onMapTapped(LatLng position) {
@@ -73,10 +76,21 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> with SingleTickerPr
         duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
 
     _animationController.reverse();
+
+    widget.onToggleBottomNav?.call(false);
+  }
+
+
+  void _hideModal() {
+    _controller.animateTo(0.0,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    _animationController.reverse();
+    widget.onToggleBottomNav?.call(false);
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     _animationController.dispose();
     super.dispose();
   }
@@ -125,7 +139,7 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> with SingleTickerPr
                   markerId: MarkerId(mark.id ?? ''),
                   position: LatLng(mark.latitude ?? 0.0, mark.longitude ?? 0.0),
                   icon: _activeMarkerId == mark.id
-                      ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose)
+                      ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)
                       : BitmapDescriptor.defaultMarker,
                   onTap: () => _onMarkerTapped(mark.id ?? ''),
                 );
@@ -158,8 +172,6 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> with SingleTickerPr
                                 markers: markers,
                                 onTap: _onMapTapped,
                                 mapType: MapType.normal,
-                                myLocationButtonEnabled: false,
-                                rotateGesturesEnabled: true,
                                 zoomControlsEnabled: false,
                               ),
                             ),
@@ -189,9 +201,7 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> with SingleTickerPr
                   NotificationListener<DraggableScrollableNotification>(
                     onNotification: (notification) {
                       if (notification.extent == notification.minExtent) {
-                        setState(() {
-                          _activeMarkerId = null;
-                        });
+                        _hideModal();
                       }
                       return true;
                     },
@@ -214,3 +224,4 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> with SingleTickerPr
     );
   }
 }
+

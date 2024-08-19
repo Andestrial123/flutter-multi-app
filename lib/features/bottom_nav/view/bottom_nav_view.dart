@@ -14,26 +14,70 @@ class BottomNavView extends StatefulWidget {
   State<BottomNavView> createState() => _BottomNavViewState();
 }
 
-class _BottomNavViewState extends State<BottomNavView> {
+class _BottomNavViewState extends State<BottomNavView> with SingleTickerProviderStateMixin {
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  late AnimationController _animationController;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    _opacityAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  void toggleBottomNavVisibility(bool isVisible) {
+    if (isVisible) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil();
     return AutoTabsScaffold(
+      key: _navigatorKey,
       extendBody: true,
       backgroundColor: const Color(0xFFf2e9e0),
-      routes: const [
-        HomeRoute(),
-        GoogleMapsRoute(),
-        OrderRoute(),
-        ProfileRoute()
+      routes: [
+        const HomeRoute(),
+        GoogleMapsRoute(onToggleBottomNav: toggleBottomNavVisibility),
+        const OrderRoute(),
+        const ProfileRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
-        return ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
+        return SlideTransition(
+          position: Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, 1)).animate(
+            CurvedAnimation(
+              parent: _animationController,
+              curve: Curves.easeInOut,
             ),
-            child: Container(
+          ),
+          child: FadeTransition(
+            opacity: _opacityAnimation,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+              child: Container(
                 decoration: const BoxDecoration(
                   boxShadow: <BoxShadow>[
                     BoxShadow(
@@ -68,7 +112,11 @@ class _BottomNavViewState extends State<BottomNavView> {
                   iconSize: 32,
                   selectedItemColor: Colors.black,
                   unselectedItemColor: Colors.grey,
-                )));
+                ),
+              ),
+            ),
+          ),
+        );
       },
     );
   }
