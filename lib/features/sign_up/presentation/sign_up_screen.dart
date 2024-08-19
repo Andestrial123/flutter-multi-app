@@ -1,9 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
-import 'package:flutter_multi_app/features/main/presentation/main_screen.dart';
 import 'package:flutter_multi_app/features/sign_up/domain/sign_up_bloc.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
@@ -12,6 +11,8 @@ import 'package:flutter_multi_app/shared/widgets/text/custom_title.dart';
 import 'package:flutter_multi_app/shared/widgets/text_fields/small_text_field.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
+
+import '../../../shared/assets/routes.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -83,15 +84,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: BlocConsumer<SignUpBloc, SignUpState>(
         listener: (context, state) {
           if (state is SignUpLoadedState) {
-            final user = FirebaseAuth.instance.currentUser!;
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (_) => MainScreen(
-                  user: user,
-                  name: user.displayName,
-                ),
-              ),
-            );
+            // context.router.replaceNamed(
+            //   Routes.main
+            // );
           } else if (state is SignUpErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),

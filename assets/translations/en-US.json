@@ -2,6 +2,11 @@
   "lorem_1": "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit sed.",
   "lorem_2": "Tempor incididunt ut labore et \ndolore magna aliqua consectetur \nadipiscing elit sed.",
   "get_started": "Get Started",
+  "order_tracking": "Order Tracking",
+  "order_placed": "Order placed",
+  "on_the_way": "On the way",
+  "order_ready": "Order ready",
+  "lorem_placeholder":"Lorem ipsum dolor sit \namet, consectetur \nadipiscing elit sed.",
   "log_in_facebook": "Login with Facebook",
   "log_in_google": "Login with Google",
   "or": "or",
@@ -25,5 +30,9 @@
   "unexpected_occurred": "An unexpected error occurred",
   "no_user_found_email": "No user found for that email",
   "wrong_password_provided": "Wrong password provided for that user",
-  "facebook_login_failed": "Facebook login failed"
+  "facebook_login_failed": "Facebook login failed",
+  "home": "Home",
+  "location": "Location",
+  "order": "Order",
+  "profile": "Profile"
 }
