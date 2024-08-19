@@ -1,19 +1,23 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
-import 'package:flutter_multi_app/utils/app_route.gr.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ModalGoogleMaps extends StatefulWidget {
-  const ModalGoogleMaps({super.key, required this.controller, required this.address});
+  const ModalGoogleMaps({
+    super.key,
+    required this.controller,
+    required this.address,
+    required this.onPressed,
+  });
 
   final DraggableScrollableController controller;
   final String address;
+  final void Function() onPressed;
 
   @override
   State<ModalGoogleMaps> createState() => _ModalGoogleMapsState();
@@ -85,9 +89,7 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
                           children: [
                             MultiAppTypography(
                               TypographyType.bigTextThin,
-                              formatText(
-                                  widget.address,
-                                  26),
+                              formatText(widget.address, 26),
                               color: Colors.black,
                             ),
                             const SizedBox(height: 16),
@@ -107,10 +109,10 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
                                   ),
                                   TextSpan(
                                     text: '${LocaleKeys.closesAt.tr()} 7:30 PM',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.black,
-                                      fontSize: 16,
+                                      fontSize: ScreenUtil().setSp(12),
                                     ),
                                   ),
                                 ],
@@ -133,10 +135,10 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
                                   ),
                                   TextSpan(
                                     text: '${LocaleKeys.closesAt.tr()} 6:30 PM',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.black,
-                                      fontSize: 16,
+                                      fontSize: ScreenUtil().setSp(12),
                                     ),
                                   ),
                                 ],
@@ -152,11 +154,12 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
                             minWidth: ScreenUtil().setSp(100),
                             maxWidth: ScreenUtil().setSp(150),
                           ),
-                          child: NextButton(
-                            onPressed: () {
-                              AutoRouter.of(context).replaceAll([const HomeRoute()]);
-                            },
-                            text: LocaleKeys.viewMenu.tr(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: NextButton(
+                              onPressed: widget.onPressed,
+                              text: LocaleKeys.viewMenu.tr(),
+                            ),
                           ),
                         ),
                       )
