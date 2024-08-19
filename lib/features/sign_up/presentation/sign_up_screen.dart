@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../shared/assets/routes.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

@@ -19,10 +19,11 @@ class _BottomNavViewState extends State<BottomNavView> {
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil();
     return AutoTabsScaffold(
+      extendBody: true,
       backgroundColor: const Color(0xFFf2e9e0),
       routes: const [
         HomeRoute(),
-        LocationRoute(),
+        GoogleMapsRoute(),
         OrderRoute(),
         ProfileRoute()
       ],

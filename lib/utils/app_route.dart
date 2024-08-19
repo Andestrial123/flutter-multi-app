@@ -25,7 +25,7 @@ class AppRouter extends $AppRouter {
                 path: Routes.main,
               ),
               AutoRoute(page: HomeRoute.page, path: Routes.home),
-              AutoRoute(page: LocationRoute.page, path: Routes.location),
+              AutoRoute(page: GoogleMapsRoute.page, path: Routes.location),
               AutoRoute(page: OrderRoute.page, path: Routes.order),
               AutoRoute(page: ProfileRoute.page, path: Routes.profile),
             ]),

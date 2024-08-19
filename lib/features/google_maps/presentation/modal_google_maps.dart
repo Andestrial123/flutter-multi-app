@@ -1,11 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
+import 'package:flutter_multi_app/utils/app_route.gr.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ModalGoogleMaps extends StatefulWidget {
   const ModalGoogleMaps({super.key, required this.controller, required this.address});
@@ -34,7 +36,7 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
       snap: true,
       initialChildSize: 0,
       minChildSize: 0,
-      maxChildSize: 0.35,
+      maxChildSize: 0.4,
       builder: (context, scrollController) {
         final screenSize = MediaQuery.of(context).size;
         final imageHeight = screenSize.height * 0.1;
@@ -146,13 +148,15 @@ class _ModalGoogleMapsState extends State<ModalGoogleMaps> {
                       const SizedBox(height: 16),
                       Center(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            minWidth: 150,
-                            maxWidth: 200,
+                          constraints: BoxConstraints(
+                            minWidth: ScreenUtil().setSp(100),
+                            maxWidth: ScreenUtil().setSp(150),
                           ),
                           child: NextButton(
-                            onPressed: () {},
-                            text: 'View Menu',
+                            onPressed: () {
+                              AutoRouter.of(context).replaceAll([const HomeRoute()]);
+                            },
+                            text: LocaleKeys.viewMenu.tr(),
                           ),
                         ),
                       )

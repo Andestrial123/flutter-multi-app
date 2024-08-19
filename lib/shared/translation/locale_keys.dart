@@ -42,4 +42,5 @@ class LocaleKeys{
   static const location = 'location';
   static const order = 'order';
   static const profile = 'profile';
+  static const viewMenu = 'view_menu';
 }

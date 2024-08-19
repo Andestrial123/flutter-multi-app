@@ -15,8 +15,9 @@ import 'package:flutter_multi_app/features/bottom_nav/view/bottom_nav_view.dart'
     as _i2;
 import 'package:flutter_multi_app/features/get_started/get_started_view.dart'
     as _i3;
-import 'package:flutter_multi_app/features/home/home_view.dart' as _i4;
-import 'package:flutter_multi_app/features/google_maps/presentation/google_maps_screen.dart' as _i5;
+import 'package:flutter_multi_app/features/google_maps/presentation/google_maps_screen.dart'
+    as _i4;
+import 'package:flutter_multi_app/features/home/home_view.dart' as _i5;
 import 'package:flutter_multi_app/features/order/order_view.dart' as _i6;
 import 'package:flutter_multi_app/features/profile/profile_view.dart' as _i7;
 import 'package:flutter_multi_app/features/route_start/presentation/route_start_view.dart'
@@ -45,16 +46,16 @@ abstract class $AppRouter extends _i9.RootStackRouter {
         child: const _i3.GetStartedView(),
       );
     },
+    GoogleMapsRoute.name: (routeData) {
+      return _i9.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i4.GoogleMapsScreen(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.HomeView(),
-      );
-    },
-    LocationRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i5.GoogleMapsScreen(),
+        child: const _i5.HomeView(),
       );
     },
     OrderRoute.name: (routeData) {
@@ -121,7 +122,21 @@ class GetStartedRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.HomeView]
+/// [_i4.GoogleMapsScreen]
+class GoogleMapsRoute extends _i9.PageRouteInfo<void> {
+  const GoogleMapsRoute({List<_i9.PageRouteInfo>? children})
+      : super(
+          GoogleMapsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GoogleMapsRoute';
+
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i5.HomeView]
 class HomeRoute extends _i9.PageRouteInfo<void> {
   const HomeRoute({List<_i9.PageRouteInfo>? children})
       : super(
@@ -130,20 +145,6 @@ class HomeRoute extends _i9.PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
-
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i5.GoogleMapsScreen]
-class LocationRoute extends _i9.PageRouteInfo<void> {
-  const LocationRoute({List<_i9.PageRouteInfo>? children})
-      : super(
-          LocationRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'LocationRoute';
 
   static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
