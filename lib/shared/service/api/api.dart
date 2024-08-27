@@ -21,10 +21,4 @@ abstract class ApiClient {
 
   @GET('/multi/v1/marks')
   Future<List<MarksModel>> getMarks(@Query('timezone') String timezone);
-
-  @GET('/multi/v1/mark/{mark_id}')
-  Future<List<MarksModel>> getMarkId(
-      @Path('mark_id') String markId,
-      @Query('timezone') String timezone,
-      );
 }

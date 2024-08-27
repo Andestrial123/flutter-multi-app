@@ -18,8 +18,9 @@ class GoogleMapsBloc extends Bloc<GoogleMapsEvent, GoogleMapsState> {
   Future<void> _onFetchMarks(FetchMarks event, Emitter<GoogleMapsState> emit) async {
     emit(GoogleMapsLoading());
     try {
-      final marks = await apiClient.getMarks('Europe/Kyiv');
-      final location = tz.getLocation('Europe/Kyiv');
+      const String timeZoneLocation = 'Europe/Kyiv';
+      final marks = await apiClient.getMarks(timeZoneLocation);
+      final location = tz.getLocation(timeZoneLocation);
       final timeZoneTime = tz.TZDateTime.now(location);
       emit(GoogleMapsLoaded(marks, timeZoneTime));
     } catch (e) {

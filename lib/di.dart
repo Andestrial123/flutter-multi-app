@@ -15,13 +15,10 @@ Future<void> setup() async {
     ..registerSingleton<SharedPreferences>(await _getStorage())
     ..registerSingleton<ApiClient>(ApiClient(_getDio()))..registerSingleton(AppRouter());
   _setupBloC();
-  _setupGoogleMapsBloc();
 }
 
 _setupBloC() {
   g.registerSingleton<AuthBloc>(AuthBloc(FirebaseAuth.instance, g.get()));
-}
-_setupGoogleMapsBloc() {
   g.registerSingleton<GoogleMapsBloc>(GoogleMapsBloc(g.get<ApiClient>()));
 }
 

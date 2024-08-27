@@ -177,12 +177,12 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen>
                                           ? state.marks.first.latitude
                                                   ?.toDouble() ??
                                               0.0
-                                          : 37.7749,
+                                          : 0.0,
                                       state.marks.isNotEmpty
                                           ? state.marks.first.longitude
                                                   ?.toDouble() ??
                                               0.0
-                                          : -122.4194),
+                                          : 0.0),
                                   zoom: 14,
                                 ),
                                 markers: markers,

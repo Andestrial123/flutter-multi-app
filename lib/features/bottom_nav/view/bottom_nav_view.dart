@@ -15,7 +15,6 @@ class BottomNavView extends StatefulWidget {
 }
 
 class _BottomNavViewState extends State<BottomNavView> with SingleTickerProviderStateMixin {
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
 
@@ -53,7 +52,6 @@ class _BottomNavViewState extends State<BottomNavView> with SingleTickerProvider
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil();
     return AutoTabsScaffold(
-      key: _navigatorKey,
       extendBody: true,
       backgroundColor: const Color(0xFFf2e9e0),
       routes: [
