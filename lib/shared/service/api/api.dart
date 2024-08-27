@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_multi_app/features/google_maps/data/marks_model.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -17,4 +18,7 @@ abstract class ApiClient {
   Future<CategoryModel> getCategoriesById(
     @Path('category_id') categoryId,
   );
+
+  @GET('/multi/v1/marks')
+  Future<List<MarksModel>> getMarks(@Query('timezone') String timezone);
 }
