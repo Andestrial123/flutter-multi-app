@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_multi_app/di.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,9 +10,9 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onRequest(
-      RequestOptions options,
-      RequestInterceptorHandler handler,
-      ) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final headers = {
       HttpHeaders.authorizationHeader: 'Bearer ${await token}',
       HttpHeaders.acceptLanguageHeader: Platform.localeName
@@ -26,10 +25,6 @@ class AuthInterceptor extends Interceptor {
 
   Future<String?> get token async {
     final oldToken = storage.getString(kToken);
-    if (oldToken != null) {
-      await Clipboard.setData(ClipboardData(text: oldToken));
-      print('Token: $oldToken');
-    }
     return oldToken;
   }
 }

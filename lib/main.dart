@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,11 +16,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  NotificationService.initNotification();
-  await ScreenUtil.ensureScreenSize();
-  await EasyLocalization.ensureInitialized();
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  await NotificationService.initNotification();
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+  log("FCMToken $fcmToken");
   await FirebaseMessaging.instance.getInitialMessage();
   await FirebaseMessaging.instance.requestPermission();
+  await ScreenUtil.ensureScreenSize();
+  await EasyLocalization.ensureInitialized();
+
 
   await setup();
 
