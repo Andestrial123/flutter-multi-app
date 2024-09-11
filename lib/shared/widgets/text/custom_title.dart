@@ -5,11 +5,12 @@ import '../../../utils/colors.dart';
 class CustomTitle extends StatelessWidget {
   final String text;
   final Color? color;
+  final double? fontSize;
 
   const CustomTitle({
     super.key,
     required this.text,
-    this.color = CustomColors.brownDark,
+    this.color = CustomColors.brownDark, this.fontSize,
   });
 
   @override
@@ -18,7 +19,7 @@ class CustomTitle extends StatelessWidget {
       text,
       style: TextStyle(
         fontFamily: 'CustomFont',
-        fontSize: 28,
+        fontSize: fontSize,
         color: color,
         shadows: const [
           Shadow(

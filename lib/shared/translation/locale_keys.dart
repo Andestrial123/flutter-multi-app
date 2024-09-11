@@ -36,4 +36,16 @@ class LocaleKeys{
   static const location = 'location';
   static const order = 'order';
   static const profile = 'profile';
+  static const cupcakeBakeryShop = 'cupcake_bakery_shop';
+  static const userName = 'user_name';
+  static const language = 'language';
+  static const personalInformation = 'personal_information';
+  static const phone = 'phone';
+  static const gender = 'gender';
+  static const dateOfBirth = 'date_of_birth';
+  static const security = 'security';
+  static const changePassword = 'change_password';
+  static const deleteAccount = 'delete_account';
+  static const editProfile = 'edit_profile';
+  static const logout = 'logout';
 }

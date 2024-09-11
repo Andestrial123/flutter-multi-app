@@ -99,6 +99,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     child: Center(
                                       child: CustomTitle(
                                         text: LocaleKeys.login.tr(),
+                                        fontSize: 28,
                                       ),
                                     ),
                                   ),

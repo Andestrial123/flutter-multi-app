@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,8 +10,6 @@ import 'package:flutter_multi_app/shared/widgets/text/custom_title.dart';
 import 'package:flutter_multi_app/shared/widgets/text_fields/small_text_field.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
-
-import '../../../shared/assets/routes.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -135,6 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   child: Center(
                                     child: CustomTitle(
                                       text: LocaleKeys.signUp.tr(),
+                                      fontSize: 28,
                                     ),
                                   ),
                                 ),
