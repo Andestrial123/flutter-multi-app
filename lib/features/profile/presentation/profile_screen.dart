@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_app/features/profile/presentation/widgets/choose_language.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button_outlined.dart';
@@ -109,7 +110,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      _showLanguageDialog(context);
+                    },
                     borderRadius: const BorderRadius.all(Radius.circular(16)),
                     child: Row(
                       children: [
@@ -241,6 +244,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+  void _showLanguageDialog(BuildContext context) async {
+   await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const ChooseLanguage();
+      },
     );
   }
 }
