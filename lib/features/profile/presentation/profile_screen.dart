@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/profile/presentation/widgets/choose_language.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
@@ -234,7 +236,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: NextButton(onPressed: () {}, text: LocaleKeys.logout.tr()),
+                        child: NextButton(onPressed: () {
+                          context.read<AuthBloc>().add(LogoutEvent());
+                        }, text: LocaleKeys.logout.tr()),
                       )),
                     ],
                   ),
