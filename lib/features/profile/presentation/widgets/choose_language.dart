@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 
@@ -13,6 +14,8 @@ class ChooseLanguageState extends State<ChooseLanguage> {
 
   @override
   Widget build(BuildContext context) {
+    selectedLanguage = context.locale.languageCode == 'en' ? 'English' : 'Ukrainian';
+
     return Dialog(
       alignment: Alignment.centerRight,
       surfaceTintColor: Colors.black87,
@@ -39,6 +42,11 @@ class ChooseLanguageState extends State<ChooseLanguage> {
       onTap: () {
         setState(() {
           selectedLanguage = language;
+          if (context.locale == const Locale('en', 'US')) {
+            context.setLocale(const Locale('uk', 'UA'));
+          } else {
+            context.setLocale(const Locale('en', 'US'));
+          }
         });
         Navigator.of(context).pop(language);
       },

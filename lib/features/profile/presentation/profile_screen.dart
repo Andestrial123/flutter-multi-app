@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Text(
                           //language will be dynamic
-                          '${LocaleKeys.language.tr()}: English',
+                          '${LocaleKeys.language.tr()}: ${context.locale.languageCode == 'en' ? 'English' : 'Українська'}',
                           style: TextStyle(
                               fontSize: ScreenUtil().setHeight(14),
                               fontWeight: FontWeight.w900),
