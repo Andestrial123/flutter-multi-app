@@ -6,7 +6,6 @@ import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/profile/presentation/widgets/choose_language.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
-import 'package:flutter_multi_app/shared/widgets/buttons/next_button_outlined.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -167,80 +166,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     '${LocaleKeys.dateOfBirth.tr()}:  12.12.1912',
                     style: infoStyle,
                   ),
-                  const SizedBox(height: 32),
-                  Text(
-                    LocaleKeys.security.tr(),
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setHeight(14),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 250,
-                    child: Divider(
-                      thickness: 3,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    child: Row(
-                      children: [
-                        Text(
-                          LocaleKeys.changePassword.tr(),
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setHeight(14),
-                          ),
-                        ),
-                        const Spacer(),
-                        const Icon(
-                          Icons.chevron_right_outlined,
-                          color: CustomColors.brownDark,
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    child: Row(
-                      children: [
-                        Text(
-                          LocaleKeys.deleteAccount.tr(),
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setHeight(14),
-                          ),
-                        ),
-                        const Spacer(),
-                        const Icon(
-                          Icons.chevron_right_outlined,
-                          color: CustomColors.brownDark,
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: NextButtonOutlined(
-                          onPressed: () {},
-                          text: LocaleKeys.editProfile.tr(),
-                          textColor: CustomColors.brownDark,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )),
-                      const SizedBox(width: 16),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: NextButton(onPressed: () {
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24),
+                    child: NextButton(
+                        onPressed: () {
                           context.read<AuthBloc>().add(LogoutEvent());
-                        }, text: LocaleKeys.logout.tr()),
-                      )),
-                    ],
+                        },
+                        text: LocaleKeys.logout.tr()),
                   ),
                 ],
               ),
@@ -250,8 +182,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
   void _showLanguageDialog(BuildContext context) async {
-   await showDialog(
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return const ChooseLanguage();
