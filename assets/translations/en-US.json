@@ -34,5 +34,17 @@
   "home": "Home",
   "location": "Location",
   "order": "Order",
-  "profile": "Profile"
+  "profile": "Profile",
+  "cupcake_bakery_shop": "Cupcake Bakery Shop",
+  "user_name": "User Name",
+  "language": "Language",
+  "personal_information": "Personal information",
+  "phone": "Phone",
+  "gender": "Gender",
+  "date_of_birth": "Date of birth",
+  "security": "Security",
+  "change_password": "Change password",
+  "delete_account": "Delete account",
+  "edit_profile": "Edit Profile",
+  "logout": "Log Out"
 }

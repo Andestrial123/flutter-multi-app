@@ -3,21 +3,22 @@ import 'package:flutter_multi_app/shared/widgets/widgets.dart';
 
 import '../../../utils/colors.dart';
 
-class NextButton extends StatelessWidget {
+class NextButtonOutlined extends StatelessWidget {
   final void Function()? onPressed;
   final String text;
   final Color color;
   final Color textColor;
   final bool isLoading;
   final double? height;
+  final FontWeight? fontWeight;
 
-  const NextButton({
+  const NextButtonOutlined({
     super.key,
     required this.onPressed,
     required this.text,
     this.color = CustomColors.brownDark,
     this.textColor = Colors.white,
-    this.isLoading = false, this.height = 60,
+    this.isLoading = false, this.height = 60, this.fontWeight = FontWeight.w300,
   });
 
   @override
@@ -25,10 +26,15 @@ class NextButton extends StatelessWidget {
     return SizedBox(
       height: height,
       width: double.infinity,
-      child: ElevatedButton(
+      child: OutlinedButton(
         onPressed: isLoading ? null : onPressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(color),
+          side: MaterialStateProperty.all(
+            const BorderSide(
+              color: CustomColors.brownDark,
+              width: 3,
+            ),
+          ),
           elevation: MaterialStateProperty.all(4),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
@@ -37,15 +43,17 @@ class NextButton extends StatelessWidget {
           ),
         ),
         child: isLoading
-            ? const CustomCircularProgressIndicator(color: AlwaysStoppedAnimation<Color>(Colors.white))
+            ? const CustomCircularProgressIndicator(
+          color: AlwaysStoppedAnimation<Color>(Colors.white),
+        )
             : Text(
-                text,
-                style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  color: textColor,
-                  fontSize: 18,
-                ),
-              ),
+          text,
+          style: TextStyle(
+            fontWeight: fontWeight,
+            color: textColor,
+            fontSize: 18,
+          ),
+        ),
       ),
     );
   }
