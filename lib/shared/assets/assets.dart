@@ -6,4 +6,5 @@ class Assets{
   static const mainBakery = 'assets/main_bakery.jpg';
   static const google = 'assets/google.svg';
   static const facebook = 'assets/facebook.svg';
+  static const bakery = 'assets/images/bakery.jpeg';
 }

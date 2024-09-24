@@ -15,7 +15,7 @@ import 'package:flutter_multi_app/features/bottom_nav/view/bottom_nav_view.dart'
     as _i2;
 import 'package:flutter_multi_app/features/get_started/get_started_view.dart'
     as _i3;
-import 'package:flutter_multi_app/features/home/home_view.dart' as _i4;
+import 'package:flutter_multi_app/features/home/home_bakery_view.dart' as _i4;
 import 'package:flutter_multi_app/features/location/location_view.dart' as _i5;
 import 'package:flutter_multi_app/features/order/order_view.dart' as _i6;
 import 'package:flutter_multi_app/features/profile/profile_view.dart' as _i7;
@@ -45,10 +45,10 @@ abstract class $AppRouter extends _i9.RootStackRouter {
         child: const _i3.GetStartedView(),
       );
     },
-    HomeRoute.name: (routeData) {
+    HomeBakeryRoute.name: (routeData) {
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.HomeView(),
+        child: const _i4.HomeBakeryView(),
       );
     },
     LocationRoute.name: (routeData) {
@@ -121,15 +121,15 @@ class GetStartedRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.HomeView]
-class HomeRoute extends _i9.PageRouteInfo<void> {
-  const HomeRoute({List<_i9.PageRouteInfo>? children})
+/// [_i4.HomeBakeryView]
+class HomeBakeryRoute extends _i9.PageRouteInfo<void> {
+  const HomeBakeryRoute({List<_i9.PageRouteInfo>? children})
       : super(
-          HomeRoute.name,
+          HomeBakeryRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'HomeRoute';
+  static const String name = 'HomeBakeryRoute';
 
   static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }

@@ -24,7 +24,7 @@ class AppRouter extends $AppRouter {
                 page: BottomNavRoute.page,
                 path: Routes.main,
               ),
-              AutoRoute(page: HomeRoute.page, path: Routes.home),
+              AutoRoute(page: HomeBakeryRoute.page, path: Routes.home),
               AutoRoute(page: LocationRoute.page, path: Routes.location),
               AutoRoute(page: OrderRoute.page, path: Routes.order),
               AutoRoute(page: ProfileRoute.page, path: Routes.profile),

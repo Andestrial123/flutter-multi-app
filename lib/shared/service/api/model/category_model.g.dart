@@ -10,12 +10,12 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
     CategoryModel(
       name: json['name'] as String?,
       id: json['id'] as String?,
-      byDefault: json['byDefault'] as bool?,
+      initial: json['initial'] as bool?,
     );
 
 Map<String, dynamic> _$CategoryModelToJson(CategoryModel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'id': instance.id,
-      'byDefault': instance.byDefault,
+      'initial': instance.initial,
     };

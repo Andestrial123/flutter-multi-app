@@ -7,12 +7,12 @@ class CategoryModel {
   CategoryModel({
     this.name,
     this.id,
-    this.byDefault,
+    this.initial,
   });
 
   final String? name;
   final String? id;
-  final bool? byDefault;
+  final bool? initial;
 
   factory CategoryModel.fromJson(dynamic json) => _$CategoryModelFromJson(json);
 
