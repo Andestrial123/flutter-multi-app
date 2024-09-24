@@ -1,20 +1,61 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_app/shared/assets/routes.dart';
 import 'package:flutter_multi_app/utils/app_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/di.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/sign_up/domain/sign_up_bloc.dart';
+import 'package:flutter_multi_app/utils/app_route.gr.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    _initDynamicLinks();
+  }
+
+  void _initDynamicLinks() async {
+    FirebaseDynamicLinksPlatform.instance.onLink.listen((dynamicLinkData) {
+      final Uri deepLink = dynamicLinkData.link;
+      _handleDeepLink(deepLink);
+    }).onError((error) {
+      print('Error get dynamic link: $error');
+    });
+
+    final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinksPlatform.instance.getInitialLink();
+    if (initialLink != null) {
+      final Uri deepLink = initialLink.link;
+      _handleDeepLink(deepLink);
+    }
+  }
+
+  void _handleDeepLink(Uri deepLink) {
+    print('Received deep link: $deepLink');
+    try {
+      final String? textParam = deepLink.queryParameters['text'];
+      if (deepLink.path == '/${Routes.home}' && textParam != null) {
+        _appRouter.push(HomeRoute(text: textParam));
+      } else {
+        throw Exception('Invalid path or missing text parameter');
+      }
+    } catch (error) {
+      print('Error occurred: ${error.toString()}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${error.toString()}')),
+      );
+    }
+  }
+
   final _appRouter = AppRouter();
 
   @override
