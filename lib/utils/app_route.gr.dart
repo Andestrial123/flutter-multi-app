@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:flutter_multi_app/features/auth/presentation/auth_screen.dart'
     as _i1;
 import 'package:flutter_multi_app/features/bottom_nav/view/bottom_nav_view.dart'
@@ -46,9 +47,13 @@ abstract class $AppRouter extends _i9.RootStackRouter {
       );
     },
     HomeRoute.name: (routeData) {
+      final args = routeData.argsAs<HomeRouteArgs>();
       return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.HomeView(),
+        child: _i4.HomeView(
+          key: args.key,
+          text: args.text,
+        ),
       );
     },
     LocationRoute.name: (routeData) {
@@ -122,16 +127,40 @@ class GetStartedRoute extends _i9.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.HomeView]
-class HomeRoute extends _i9.PageRouteInfo<void> {
-  const HomeRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class HomeRoute extends _i9.PageRouteInfo<HomeRouteArgs> {
+  HomeRoute({
+    _i10.Key? key,
+    required String text,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           HomeRoute.name,
+          args: HomeRouteArgs(
+            key: key,
+            text: text,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'HomeRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i9.PageInfo<HomeRouteArgs> page =
+      _i9.PageInfo<HomeRouteArgs>(name);
+}
+
+class HomeRouteArgs {
+  const HomeRouteArgs({
+    this.key,
+    required this.text,
+  });
+
+  final _i10.Key? key;
+
+  final String text;
+
+  @override
+  String toString() {
+    return 'HomeRouteArgs{key: $key, text: $text}';
+  }
 }
 
 /// generated route for

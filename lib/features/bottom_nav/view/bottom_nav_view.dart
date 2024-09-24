@@ -20,11 +20,11 @@ class _BottomNavViewState extends State<BottomNavView> {
     final screenUtil = ScreenUtil();
     return AutoTabsScaffold(
       backgroundColor: const Color(0xFFf2e9e0),
-      routes: const [
-        HomeRoute(),
-        LocationRoute(),
-        OrderRoute(),
-        ProfileRoute()
+      routes: [
+        HomeRoute(text: ''),
+        const LocationRoute(),
+        const OrderRoute(),
+        const ProfileRoute()
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
         return ClipRRect(

@@ -46,3 +46,4 @@ fastlane/
 Gemfile
 Gemfile.lock
 
+/ios/Podfile.lock
