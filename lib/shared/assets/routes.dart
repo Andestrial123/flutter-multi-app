@@ -7,4 +7,5 @@ class Routes {
   static const order = 'order';
   static const profile = 'profile';
   static const auth = 'auth';
+  static const finishScreen = 'finishScreen';
 }

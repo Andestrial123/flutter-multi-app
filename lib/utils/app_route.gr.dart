@@ -10,17 +10,20 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
 import 'package:flutter_multi_app/features/auth/presentation/auth_screen.dart'
-    as _i1;
+as _i1;
 import 'package:flutter_multi_app/features/bottom_nav/view/bottom_nav_view.dart'
-    as _i2;
+as _i2;
+import 'package:flutter_multi_app/features/finish_screen/finish_screen.dart' as _i10;
 import 'package:flutter_multi_app/features/get_started/get_started_view.dart'
-    as _i3;
+as _i3;
 import 'package:flutter_multi_app/features/home/home_view.dart' as _i4;
-import 'package:flutter_multi_app/features/location/location_view.dart' as _i5;
+import 'package:flutter_multi_app/features/location/location_view.dart'
+as _i5;
 import 'package:flutter_multi_app/features/order/order_view.dart' as _i6;
-import 'package:flutter_multi_app/features/profile/profile_view.dart' as _i7;
+import 'package:flutter_multi_app/features/profile/profile_view.dart'
+as _i7;
 import 'package:flutter_multi_app/features/route_start/presentation/route_start_view.dart'
-    as _i8;
+as _i8;
 
 abstract class $AppRouter extends _i9.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -75,6 +78,12 @@ abstract class $AppRouter extends _i9.RootStackRouter {
         child: const _i8.RouteStartView(),
       );
     },
+    FinishScreenRoute.name: (routeData) {
+      return _i9.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i10.FinishScreen(),
+      );
+    },
   };
 }
 
@@ -83,9 +92,9 @@ abstract class $AppRouter extends _i9.RootStackRouter {
 class AuthRoute extends _i9.PageRouteInfo<void> {
   const AuthRoute({List<_i9.PageRouteInfo>? children})
       : super(
-          AuthRoute.name,
-          initialChildren: children,
-        );
+    AuthRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'AuthRoute';
 
@@ -97,9 +106,9 @@ class AuthRoute extends _i9.PageRouteInfo<void> {
 class BottomNavRoute extends _i9.PageRouteInfo<void> {
   const BottomNavRoute({List<_i9.PageRouteInfo>? children})
       : super(
-          BottomNavRoute.name,
-          initialChildren: children,
-        );
+    BottomNavRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'BottomNavRoute';
 
@@ -111,9 +120,9 @@ class BottomNavRoute extends _i9.PageRouteInfo<void> {
 class GetStartedRoute extends _i9.PageRouteInfo<void> {
   const GetStartedRoute({List<_i9.PageRouteInfo>? children})
       : super(
-          GetStartedRoute.name,
-          initialChildren: children,
-        );
+    GetStartedRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'GetStartedRoute';
 
@@ -125,9 +134,9 @@ class GetStartedRoute extends _i9.PageRouteInfo<void> {
 class HomeRoute extends _i9.PageRouteInfo<void> {
   const HomeRoute({List<_i9.PageRouteInfo>? children})
       : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
+    HomeRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'HomeRoute';
 
@@ -139,9 +148,9 @@ class HomeRoute extends _i9.PageRouteInfo<void> {
 class LocationRoute extends _i9.PageRouteInfo<void> {
   const LocationRoute({List<_i9.PageRouteInfo>? children})
       : super(
-          LocationRoute.name,
-          initialChildren: children,
-        );
+    LocationRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'LocationRoute';
 
@@ -153,9 +162,9 @@ class LocationRoute extends _i9.PageRouteInfo<void> {
 class OrderRoute extends _i9.PageRouteInfo<void> {
   const OrderRoute({List<_i9.PageRouteInfo>? children})
       : super(
-          OrderRoute.name,
-          initialChildren: children,
-        );
+    OrderRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'OrderRoute';
 
@@ -167,9 +176,9 @@ class OrderRoute extends _i9.PageRouteInfo<void> {
 class ProfileRoute extends _i9.PageRouteInfo<void> {
   const ProfileRoute({List<_i9.PageRouteInfo>? children})
       : super(
-          ProfileRoute.name,
-          initialChildren: children,
-        );
+    ProfileRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'ProfileRoute';
 
@@ -181,11 +190,25 @@ class ProfileRoute extends _i9.PageRouteInfo<void> {
 class RouteStartRoute extends _i9.PageRouteInfo<void> {
   const RouteStartRoute({List<_i9.PageRouteInfo>? children})
       : super(
-          RouteStartRoute.name,
-          initialChildren: children,
-        );
+    RouteStartRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'RouteStartRoute';
+
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i10.FinishScreen]
+class FinishScreenRoute extends _i9.PageRouteInfo<void> {
+  const FinishScreenRoute({List<_i9.PageRouteInfo>? children})
+      : super(
+    FinishScreenRoute.name,
+    initialChildren: children,
+  );
+
+  static const String name = 'FinishScreenRoute';
 
   static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
