@@ -36,4 +36,9 @@ class LocaleKeys{
   static const location = 'location';
   static const order = 'order';
   static const profile = 'profile';
+  static const thankYou = 'thank_you';
+  static const forYourPurchase = 'for_your_purchase';
+  static const contactUs = 'contact_us';
+  static const numberEmail = 'number_email';
+  static const homePage = 'home_page';
 }
