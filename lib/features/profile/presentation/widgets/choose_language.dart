@@ -10,12 +10,16 @@ class ChooseLanguage extends StatefulWidget {
 }
 
 class ChooseLanguageState extends State<ChooseLanguage> {
-  String selectedLanguage = 'English';
+  String selectedLanguage = '';
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    selectedLanguage = context.locale.languageCode == 'en' ? 'English' : 'Ukrainian';
+  }
 
   @override
   Widget build(BuildContext context) {
-    selectedLanguage = context.locale.languageCode == 'en' ? 'English' : 'Ukrainian';
-
     return Dialog(
       alignment: Alignment.centerRight,
       surfaceTintColor: Colors.black87,
@@ -41,12 +45,12 @@ class ChooseLanguageState extends State<ChooseLanguage> {
     return InkWell(
       onTap: () {
         setState(() {
-          selectedLanguage = language;
-          if (context.locale == const Locale('en', 'US')) {
-            context.setLocale(const Locale('uk', 'UA'));
-          } else {
+          if (language == 'English') {
             context.setLocale(const Locale('en', 'US'));
+          } else if (language == 'Ukrainian') {
+            context.setLocale(const Locale('uk', 'UA'));
           }
+          selectedLanguage = language;
         });
         Navigator.of(context).pop(language);
       },
@@ -58,7 +62,6 @@ class ChooseLanguageState extends State<ChooseLanguage> {
               : Colors.transparent,
           border: Border.all(
             color: Colors.black,
-            width: selectedLanguage == language ? 2 : 1,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
