@@ -89,20 +89,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              LocaleKeys.userName.tr(),
-              style: TextStyle(
-                fontSize: ScreenUtil().setHeight(16),
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Text(
-              //will be dynamic
-              'username@gmail.com',
-              style: TextStyle(
-                fontSize: ScreenUtil().setHeight(14),
-                fontWeight: FontWeight.w400,
-              ),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                final name = context.read<AuthBloc>().getUserName();
+                final email = context.read<AuthBloc>().getUserEmail();
+                return Column(
+                  children: [
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setHeight(16),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      email,
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setHeight(14),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 48),
             Padding(
@@ -147,9 +156,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    '${LocaleKeys.email.tr()}:  username@gmail.com',
-                    style: infoStyle,
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      final email = context.read<AuthBloc>().getUserEmail();
+                      return Text(
+                        '${LocaleKeys.email.tr()}:  $email',
+                        style: infoStyle,
+                      );
+                    },
                   ),
                   const SizedBox(height: 4),
                   Text(
