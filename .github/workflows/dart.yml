@@ -1,7 +1,6 @@
 name: Flutter App CI
 
 on:
-  workflow_dispatch:
   pull_request:
     branches:
       - developer
@@ -57,4 +56,5 @@ jobs:
 
   call-build:
     needs: [ formatting, analyzer ]
+    if: github.event.action == 'approved'
     uses: ./.github/workflows/build.yml
