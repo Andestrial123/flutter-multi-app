@@ -57,7 +57,4 @@ jobs:
 
   build:
     needs: [ formatting, analyzer ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/workflows/build.yaml
+    uses: ./.github/workflows/build.yaml
