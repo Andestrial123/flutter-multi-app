@@ -60,4 +60,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./workflows/build.yaml
+      - uses: ./.github/workflows/build.yaml
