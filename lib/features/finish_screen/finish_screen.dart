@@ -34,13 +34,14 @@ class FinishScreen extends StatelessWidget {
                     fontSize: 34,
                   ),
                   const SizedBox(height: 4),
-                  MultiAppTypography(
-                      TypographyType.bigTextBold, LocaleKeys.forYourPurchase.tr()),
+                  MultiAppTypography(TypographyType.bigTextBold,
+                      LocaleKeys.forYourPurchase.tr()),
                   const SizedBox(height: 64),
-                  MultiAppTypography(TypographyType.bigTextBold, LocaleKeys.contactUs.tr()),
+                  MultiAppTypography(
+                      TypographyType.bigTextBold, LocaleKeys.contactUs.tr()),
                   const SizedBox(height: 4),
-                  MultiAppTypography(TypographyType.bigText,
-                      LocaleKeys.numberEmail.tr()),
+                  MultiAppTypography(
+                      TypographyType.bigText, LocaleKeys.numberEmail.tr()),
                 ],
               ),
             ),

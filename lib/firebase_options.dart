@@ -29,12 +29,12 @@ class DefaultFirebaseOptions {
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -66,8 +66,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '265530755477',
     projectId: 'fluttermultiapp-c2319',
     storageBucket: 'fluttermultiapp-c2319.appspot.com',
-    androidClientId: '265530755477-lt5qpuj6cb3quijvetsl5db7e8ccofrc.apps.googleusercontent.com',
-    iosClientId: '265530755477-4mcct1gul2op2o5coa2k3904r9lb5u47.apps.googleusercontent.com',
+    androidClientId:
+        '265530755477-lt5qpuj6cb3quijvetsl5db7e8ccofrc.apps.googleusercontent.com',
+    iosClientId:
+        '265530755477-4mcct1gul2op2o5coa2k3904r9lb5u47.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterMultiApp',
   );
 
@@ -77,7 +79,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1022569736671',
     projectId: 'fb-login-2212',
     storageBucket: 'fb-login-2212.appspot.com',
-    iosClientId: '1022569736671-8s0h28a54ip084m52c214hcntil8rq1g.apps.googleusercontent.com',
+    iosClientId:
+        '1022569736671-8s0h28a54ip084m52c214hcntil8rq1g.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterFirebase',
   );
 }

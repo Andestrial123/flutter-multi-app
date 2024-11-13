@@ -28,7 +28,7 @@ class AppRouter extends $AppRouter {
               AutoRoute(page: LocationRoute.page, path: Routes.location),
               AutoRoute(page: OrderRoute.page, path: Routes.order),
               AutoRoute(page: ProfileRoute.page, path: Routes.profile),
-              AutoRoute(page: FinishScreenRoute.page, path: Routes.finishScreen),
+              AutoRoute(page: FinishRoute.page, path: Routes.finishScreen),
             ]),
       ];
 }

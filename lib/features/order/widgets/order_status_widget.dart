@@ -3,7 +3,9 @@ import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OrderStatusWidget extends StatefulWidget {
-  const OrderStatusWidget({super.key, required this.length, required this.completedSteps});
+  const OrderStatusWidget(
+      {super.key, required this.length, required this.completedSteps});
+
   final int length;
   final int completedSteps;
 
@@ -30,9 +32,13 @@ class _OrderStatusWidgetState extends State<OrderStatusWidget> {
                 ),
                 child: isCompleted
                     ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(Assets.check,theme: const SvgTheme(currentColor: Color(0xFF6f6859)),),
-                    )
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          Assets.check,
+                          theme:
+                              const SvgTheme(currentColor: Color(0xFF6f6859)),
+                        ),
+                      )
                     : null,
               ),
               if (index != widget.length - 1)
