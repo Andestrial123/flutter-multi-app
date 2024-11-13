@@ -57,4 +57,4 @@ jobs:
 
   build:
     needs: [ formatting, analyzer ]
-    uses: ./.github/workflows/build.yaml
+    uses: ./.github/workflows/build.yml
