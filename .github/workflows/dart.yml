@@ -55,6 +55,6 @@ jobs:
       - name: Analyze project source
         run: dart analyze --fatal-infos
 
-  build:
+  call-build:
     needs: [ formatting, analyzer ]
     uses: ./.github/workflows/build.yml
