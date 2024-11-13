@@ -7,7 +7,7 @@ on:
       - developer
 
 jobs:
-  linter:
+  formatting:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.base_ref == 'developer')
 
@@ -31,10 +31,32 @@ jobs:
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
+  analyzer:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.base_ref == 'developer')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: dart pub get
+
       - name: Analyze project source
         run: dart analyze --fatal-infos
+        
   build:
-    needs: linter
+    needs: [formatting, analyzer]
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
 
