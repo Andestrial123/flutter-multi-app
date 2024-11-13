@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.action == 'approved' && github.event.workflow_run.head_ref == 'developer' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.action == 'approved' && github.event.workflow_run.base.ref == 'developer' }}
     runs-on: ubuntu-latest
 
     steps:
