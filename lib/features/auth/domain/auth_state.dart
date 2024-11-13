@@ -6,6 +6,10 @@ class AuthInitial extends AuthState {}
 
 class AuthLoadingState extends AuthState {}
 
+class GoogleLoadingState extends AuthState{}
+
+class FacebookLoadingState extends AuthState {}
+
 class AuthLoadedState extends AuthState {}
 
 class AuthScreenState extends AuthState {}
@@ -17,3 +21,7 @@ class AuthErrorState extends AuthState {
 
   AuthErrorState(this.error);
 }
+
+class AuthLogoutState extends AuthState {}
+
+

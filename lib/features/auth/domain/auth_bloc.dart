@@ -1,16 +1,23 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_multi_app/shared/app_keys.dart';
+import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
 
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc() : super(AuthInitial()) {
-    on<RegisterEvent>(_onRegister);
+  AuthBloc(FirebaseAuth firebaseAuth, SharedPreferences sharedPreferences)
+      : _firebaseAuth = firebaseAuth,
+        _sharedPreferences = sharedPreferences,
+        super(AuthInitial()) {
     on<LoginEvent>(_onLogin);
     on<LogoutEvent>(_onLogout);
     on<GoogleEvent>(_handleGoogleSignIn);
@@ -21,76 +28,67 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ShowAuthScreenEvent>((event, emit) {
       emit(AuthScreenState());
     });
-
+    on<AuthInitialEvent>(_init);
   }
 
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth;
+  final SharedPreferences _sharedPreferences;
 
-  Future<void> _onRegister(RegisterEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoadingState());
+  Future<void> _init(AuthInitialEvent event, Emitter<AuthState> emit) async {
+    if (_firebaseAuth.currentUser != null) {
+      emit(AuthLoadedState());
+    } else {
+      emit(AuthInitial());
+    }
+
+    await _tokenListener();
+  }
+
+  Future<void> _tokenListener() async {
+    final storage = await SharedPreferences.getInstance();
     try {
-      if (event.email.isEmpty || event.password.isEmpty || event.name.isEmpty) {
-        emit(AuthErrorState('Please fill out all fields'));
-        return;
-      }
-
-      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
-      );
-
-      await userCredential.user?.updateProfile(displayName: event.name);
-
-      await userCredential.user?.reload();
-      final user = FirebaseAuth.instance.currentUser;
-
-      if (user?.displayName == event.name) {
-        emit(AuthLoadedState());
-      } else {
-        emit(AuthErrorState('Failed to update user profile'));
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        emit(AuthErrorState('The password provided is too weak'));
-      } else if (e.code == 'email-already-in-use') {
-        emit(AuthErrorState('The account already exists for that email'));
-      } else {
-        emit(AuthErrorState('An unexpected error occurred.'));
-      }
+      _firebaseAuth.idTokenChanges().listen((user) async {
+        if (user != null) {
+          final userToken = await user.getIdToken();
+          storage.setString(kToken, userToken!);
+        } else {
+          storage.remove(kToken);
+        }
+      });
     } catch (e) {
-      emit(AuthErrorState(e.toString()));
+      log('[AuthBloc][_tokenListener] $e');
     }
   }
 
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
-      await auth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
           email: event.email, password: event.password);
       emit(AuthLoadedState());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        emit(AuthErrorState('No user found for that email.'));
+        emit(AuthErrorState(LocaleKeys.noUserFoundEmail.tr()));
       } else if (e.code == 'wrong-password') {
-        emit(AuthErrorState('Wrong password provided for that user.'));
+        emit(AuthErrorState(LocaleKeys.wrongPasswordProvided.tr()));
       } else {
-        emit(AuthErrorState('An unexpected error occurred.'));
+        emit(AuthErrorState(LocaleKeys.unexpectedOccurred.tr()));
       }
     }
   }
 
   Future<void> _handleGoogleSignIn(
       GoogleEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoadingState());
+    emit(GoogleLoadingState());
     try {
       GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
-      await auth.signInWithProvider(googleAuthProvider);
-      if (auth.currentUser != null) {
+      await _firebaseAuth.signInWithProvider(googleAuthProvider);
+
+      if (_firebaseAuth.currentUser != null) {
         emit(AuthLoadedState());
       } else {
-        (e) => emit(AuthErrorState(e.toString()));
+        emit(AuthErrorState("User is null after Google Sign-In"));
       }
-      emit(AuthLoadedState());
     } catch (error) {
       emit(AuthErrorState(error.toString()));
       print(error);
@@ -99,57 +97,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _logInWithFacebook(
       FacebookEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoadingState());
+    emit(FacebookLoadingState());
     try {
       final facebookLoginResult = await FacebookAuth.instance.login();
 
-      if (facebookLoginResult.status == LoginStatus.cancelled) {
-        emit(AuthInitial());
-        return;
-      }
-      if (facebookLoginResult.status == LoginStatus.operationInProgress) {
-        emit(AuthLoadingState());
-      }
       if (facebookLoginResult.status == LoginStatus.success) {
-        emit(AuthLoadedState());
-      }
-      if (facebookLoginResult.status == LoginStatus.failed) {
-        emit(AuthErrorState('Facebook login failed'));
-        return;
-      }
+        final facebookAuthCredential = FacebookAuthProvider.credential(
+            facebookLoginResult.accessToken!.tokenString);
+        final userCredential = await FirebaseAuth.instance
+            .signInWithCredential(facebookAuthCredential);
 
-      final facebookAuthCredential = FacebookAuthProvider.credential(
-          facebookLoginResult.accessToken!.tokenString);
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-      emit(AuthLoadedState());
-
+        if (userCredential.user != null) {
+          emit(AuthLoadedState());
+        } else {
+          emit(AuthErrorState('No user currently signed in.'));
+        }
+      } else if (facebookLoginResult.status == LoginStatus.cancelled) {
+        emit(AuthInitial());
+      } else if (facebookLoginResult.status == LoginStatus.failed) {
+        emit(AuthErrorState(
+            'Facebook login failed: ${facebookLoginResult.message}'));
+      }
     } on FirebaseAuthException catch (e) {
       emit(AuthErrorState(e.toString()));
-      switch (e.code) {
-        case 'account-exist-with-different-credential':
-          emit(AuthErrorState(e.toString()));
-          break;
-        case 'invalid-credential':
-          emit(AuthErrorState(e.toString()));
-          break;
-        case 'operation-not-allowed':
-          emit(AuthErrorState(e.toString()));
-          break;
-        case 'user-disabled':
-          emit(AuthErrorState(e.toString()));
-          break;
-        case 'user-not-found':
-          emit(AuthErrorState(e.toString()));
-          break;
-      }
+    } catch (e) {
+      emit(AuthErrorState('An unknown error occurred: ${e.toString()}'));
     }
   }
 
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
-      await auth.signOut();
-      emit(AuthInitial());
+      await _firebaseAuth.signOut();
+      _sharedPreferences.clear();
+      emit(AuthLogoutState());
     } catch (e) {
       emit(AuthErrorState(e.toString()));
     }
