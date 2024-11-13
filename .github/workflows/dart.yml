@@ -2,8 +2,6 @@ name: Flutter App CI
 
 on:
   pull_request:
-    branches:
-      - developer
 
 jobs:
   formatting:
@@ -53,8 +51,3 @@ jobs:
 
       - name: Analyze project source
         run: dart analyze --fatal-infos
-
-  call-build:
-    needs: [ formatting, analyzer ]
-    if: github.event.action == 'approved'
-    uses: ./.github/workflows/build.yml
