@@ -18,11 +18,13 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(onPressed: (){
-              ///test navigation. will be a change, where will be a currently Home Screen
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FinishScreen()));
-
-            }, child: const Text('test to LastScreen'))
+            ElevatedButton(
+                onPressed: () {
+                  ///test navigation. will be a change, where will be a currently Home Screen
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const FinishScreen()));
+                },
+                child: const Text('test to LastScreen'))
           ],
         ),
       ),

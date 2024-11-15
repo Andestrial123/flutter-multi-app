@@ -18,7 +18,6 @@ class AuthTextField extends StatelessWidget {
     this.isLoading = false,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -40,7 +39,8 @@ class AuthTextField extends StatelessWidget {
             padding: const EdgeInsets.all(12),
           ),
           if (isLoading)
-            const CustomCircularProgressIndicator(color: AlwaysStoppedAnimation<Color>(Colors.brown))
+            const CustomCircularProgressIndicator(
+                color: AlwaysStoppedAnimation<Color>(Colors.brown))
         ],
       ),
     );
