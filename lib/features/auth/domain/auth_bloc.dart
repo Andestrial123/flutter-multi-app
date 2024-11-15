@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_multi_app/firebase_service.dart';
 import 'package:flutter_multi_app/shared/app_keys.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,8 +15,8 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(FirebaseAuth firebaseAuth, SharedPreferences sharedPreferences)
-      : _firebaseAuth = firebaseAuth,
+  AuthBloc(FirebaseService firebaseService, SharedPreferences sharedPreferences)
+      : _firebaseService = firebaseService,
         _sharedPreferences = sharedPreferences,
         super(AuthInitial()) {
     on<LoginEvent>(_onLogin);
@@ -31,11 +32,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthInitialEvent>(_init);
   }
 
-  final FirebaseAuth _firebaseAuth;
+  final FirebaseService _firebaseService;
   final SharedPreferences _sharedPreferences;
 
   Future<void> _init(AuthInitialEvent event, Emitter<AuthState> emit) async {
-    if (_firebaseAuth.currentUser != null) {
+    if (_firebaseService.currentUser != null) {
       emit(AuthLoadedState());
     } else {
       emit(AuthInitial());
@@ -47,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _tokenListener() async {
     final storage = await SharedPreferences.getInstance();
     try {
-      _firebaseAuth.idTokenChanges().listen((user) async {
+      _firebaseService.auth.idTokenChanges().listen((user) async {
         if (user != null) {
           final userToken = await user.getIdToken();
           storage.setString(kToken, userToken!);
@@ -63,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      await _firebaseService.auth.signInWithEmailAndPassword(
           email: event.email, password: event.password);
       emit(AuthLoadedState());
     } on FirebaseAuthException catch (e) {
@@ -82,9 +83,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(GoogleLoadingState());
     try {
       GoogleAuthProvider googleAuthProvider = GoogleAuthProvider();
-      await _firebaseAuth.signInWithProvider(googleAuthProvider);
+      await _firebaseService.auth.signInWithProvider(googleAuthProvider);
 
-      if (_firebaseAuth.currentUser != null) {
+      if (_firebaseService.currentUser != null) {
         emit(AuthLoadedState());
       } else {
         emit(AuthErrorState("User is null after Google Sign-In"));
@@ -127,7 +128,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     try {
-      await _firebaseAuth.signOut();
+      await _firebaseService.auth.signOut();
       _sharedPreferences.clear();
       emit(AuthLogoutState());
     } catch (e) {
@@ -136,10 +137,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   String getUserEmail() {
-    return _firebaseAuth.currentUser?.email ?? 'No email found';
+    return _firebaseService.currentUser?.email ?? 'No email found';
   }
 
   String getUserName() {
-    return _firebaseAuth.currentUser?.displayName ?? 'User name';
+    return _firebaseService.currentUser?.displayName ?? 'User name';
   }
 }

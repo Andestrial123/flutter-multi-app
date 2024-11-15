@@ -18,56 +18,59 @@ class _BottomNavViewState extends State<BottomNavView> {
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil();
-    return AutoTabsScaffold(
-      backgroundColor: const Color(0xFFf2e9e0),
+    return AutoTabsRouter(
       routes: const [
         HomeRoute(),
         LocationRoute(),
         OrderRoute(),
-        ProfileRoute()
+        ProfileRoute(),
       ],
-      bottomNavigationBuilder: (_, tabsRouter) {
-        return ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
-            child: Container(
-                decoration: const BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 15,
-                    ),
-                  ],
-                ),
-                child: CustomBottomNavigationBar(
-                  itemSpacing: screenUtil.setWidth(20),
-                  paddingHorizontal: screenUtil.setWidth(24),
-                  currentIndex: tabsRouter.activeIndex,
-                  onTap: tabsRouter.setActiveIndex,
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: const Icon(Icons.home),
-                      label: LocaleKeys.home.tr(),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: const Icon(Icons.location_pin),
-                      label: LocaleKeys.location.tr(),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: const Icon(Icons.fact_check_outlined),
-                      label: LocaleKeys.order.tr(),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: const Icon(Icons.account_circle_outlined),
-                      label: LocaleKeys.profile.tr(),
-                    ),
-                  ],
-                  iconSize: 32,
-                  selectedItemColor: Colors.black,
-                  unselectedItemColor: Colors.grey,
-                )));
+      builder: (context, child) {
+        final tabsRouter = AutoTabsRouter.of(context);
+        return Scaffold(
+          bottomNavigationBar: CustomBottomNavigationBar(
+            itemSpacing: screenUtil.setWidth(20),
+            paddingHorizontal: screenUtil.setWidth(24),
+            currentIndex: tabsRouter.activeIndex,
+            onTap: tabsRouter.setActiveIndex,
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.home),
+                label: LocaleKeys.home.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.location_pin),
+                label: LocaleKeys.location.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.fact_check_outlined),
+                label: LocaleKeys.order.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.account_circle_outlined),
+                label: LocaleKeys.profile.tr(),
+              ),
+            ],
+            iconSize: 32,
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.grey,
+          ),
+          body: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+              child: Container(
+                  decoration: const BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 15,
+                      ),
+                    ],
+                  ),
+                  child: child)),
+        );
       },
     );
   }
