@@ -185,7 +185,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: NextButton(
                         onPressed: () {
                           context.read<AuthBloc>().add(LogoutEvent());
-                              AutoRouter.of(context).replaceAll([const AuthRoute()]);
+                          AutoRouter.of(context)
+                              .replaceAll([const AuthRoute()]);
                         },
                         text: LocaleKeys.logout.tr()),
                   ),
