@@ -75,7 +75,7 @@ abstract class $AppRouter extends _i10.RootStackRouter {
     ProfileRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.ProfileView(),
+        child: const _i8.ProfileScreen(),
       );
     },
     RouteStartRoute.name: (routeData) {
@@ -186,7 +186,7 @@ class OrderRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.ProfileView]
+/// [_i8.ProfileScreen]
 class ProfileRoute extends _i10.PageRouteInfo<void> {
   const ProfileRoute({List<_i10.PageRouteInfo>? children})
       : super(

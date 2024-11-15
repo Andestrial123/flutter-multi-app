@@ -14,7 +14,7 @@ class CodegenLoader extends AssetLoader{
     return Future.value(mapLocales[locale.toString()]);
   }
 
-  static const Map<String,dynamic> uk_UA = {
+  static const Map<String, dynamic> uk_UA = <String,dynamic>{
   "lorem_1": "Щось на латині.",
   "lorem_2": "Щось на латині",
   "get_started": "Почати",

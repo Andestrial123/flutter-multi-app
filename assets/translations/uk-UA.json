@@ -46,5 +46,10 @@
   "change_password": "Змінити пароль",
   "delete_account": "Видалити акаунт",
   "edit_profile": "Редагувати профіль",
-  "logout": "Вийти"
+  "logout": "Вийти",
+  "thank_you": "Дякуємо",
+  "for_your_purchase": "за вашу покупку",
+  "contact_us": "Зв'яжіться з нами",
+  "number_email": "+123-123-123 | cupcake@bakery.com",
+  "home_page": "Головна сторінка"
 }

@@ -29,14 +29,14 @@ class NextButtonOutlined extends StatelessWidget {
       child: OutlinedButton(
         onPressed: isLoading ? null : onPressed,
         style: ButtonStyle(
-          side: MaterialStateProperty.all(
+          side: WidgetStateProperty.all(
             const BorderSide(
               color: CustomColors.brownDark,
               width: 3,
             ),
           ),
-          elevation: MaterialStateProperty.all(4),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          elevation: WidgetStateProperty.all(4),
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
