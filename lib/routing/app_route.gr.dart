@@ -20,7 +20,8 @@ import 'package:flutter_multi_app/features/get_started/get_started_view.dart'
 import 'package:flutter_multi_app/features/home/home_view.dart' as _i5;
 import 'package:flutter_multi_app/features/location/location_view.dart' as _i6;
 import 'package:flutter_multi_app/features/order/order_view.dart' as _i7;
-import 'package:flutter_multi_app/features/profile/profile_view.dart' as _i8;
+import 'package:flutter_multi_app/features/profile/presentation/profile_screen.dart'
+    as _i8;
 import 'package:flutter_multi_app/features/route_start/presentation/route_start_view.dart'
     as _i9;
 
@@ -74,7 +75,7 @@ abstract class $AppRouter extends _i10.RootStackRouter {
     ProfileRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.ProfileView(),
+        child: const _i8.ProfileScreen(),
       );
     },
     RouteStartRoute.name: (routeData) {
@@ -185,7 +186,7 @@ class OrderRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.ProfileView]
+/// [_i8.ProfileScreen]
 class ProfileRoute extends _i10.PageRouteInfo<void> {
   const ProfileRoute({List<_i10.PageRouteInfo>? children})
       : super(

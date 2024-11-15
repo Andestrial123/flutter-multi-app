@@ -42,7 +42,7 @@ class _BottomNavViewState extends State<BottomNavView> {
                   ],
                 ),
                 child: CustomBottomNavigationBar(
-                  itemSpacing: screenUtil.setWidth(30),
+                  itemSpacing: screenUtil.setWidth(20),
                   paddingHorizontal: screenUtil.setWidth(24),
                   currentIndex: tabsRouter.activeIndex,
                   onTap: tabsRouter.setActiveIndex,

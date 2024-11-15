@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/app.dart';
 import 'package:flutter_multi_app/di.dart';
 import 'package:flutter_multi_app/firebase_options.dart';
+import 'package:flutter_multi_app/generated/codegen_loader.g.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ///In this file will be all configuration setup that we need before starting app
@@ -18,8 +19,9 @@ void main() async {
   await setup();
 
   runApp(EasyLocalization(
-      supportedLocales: const [Locale('en', 'US')],
+      supportedLocales: const [Locale('en', 'US'), Locale('uk', 'UA')],
       fallbackLocale: const Locale('en', 'US'),
+      assetLoader: const CodegenLoader(),
       path: 'assets/translations',
       child: const MyApp()));
 }

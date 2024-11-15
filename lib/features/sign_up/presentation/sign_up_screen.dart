@@ -138,6 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   child: Center(
                                     child: CustomTitle(
                                       text: LocaleKeys.signUp.tr(),
+                                      fontSize: 28,
                                     ),
                                   ),
                                 ),

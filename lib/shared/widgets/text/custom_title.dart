@@ -11,7 +11,7 @@ class CustomTitle extends StatelessWidget {
     super.key,
     required this.text,
     this.color = CustomColors.brownDark,
-    this.fontSize = 28,
+    this.fontSize,
   });
 
   @override
