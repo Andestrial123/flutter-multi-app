@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i10;
+import 'package:flutter/material.dart' as _i11;
 import 'package:flutter_multi_app/application/app_page.dart' as _i1;
 import 'package:flutter_multi_app/features/auth/presentation/auth_screen.dart'
     as _i2;
@@ -18,8 +19,9 @@ import 'package:flutter_multi_app/features/finish_screen/finish_screen.dart'
     as _i4;
 import 'package:flutter_multi_app/features/get_started/get_started_view.dart'
     as _i5;
-import 'package:flutter_multi_app/features/home/home_view.dart' as _i6;
-import 'package:flutter_multi_app/features/location/location_view.dart' as _i7;
+import 'package:flutter_multi_app/features/google_maps/presentation/google_maps_screen.dart'
+    as _i6;
+import 'package:flutter_multi_app/features/home/home_view.dart' as _i7;
 import 'package:flutter_multi_app/features/order/order_view.dart' as _i8;
 import 'package:flutter_multi_app/features/profile/presentation/profile_screen.dart'
     as _i9;
@@ -59,22 +61,27 @@ abstract class $AppRouter extends _i10.RootStackRouter {
         child: const _i5.GetStartedView(),
       );
     },
+    GoogleMapsRoute.name: (routeData) {
+      final args = routeData.argsAs<GoogleMapsRouteArgs>(
+          orElse: () => const GoogleMapsRouteArgs());
+      return _i10.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i6.GoogleMapsScreen(
+          key: args.key,
+          onToggleBottomNav: args.onToggleBottomNav,
+        ),
+      );
+    },
     HomeAutoRouterRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.HomeAutoRouterPage(),
+        child: const _i7.HomeAutoRouterPage(),
       );
     },
     HomeRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.HomeView(),
-      );
-    },
-    LocationRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i7.LocationView(),
+        child: const _i7.HomeView(),
       );
     },
     OrderRoute.name: (routeData) {
@@ -163,7 +170,45 @@ class GetStartedRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.HomeAutoRouterPage]
+/// [_i6.GoogleMapsScreen]
+class GoogleMapsRoute extends _i10.PageRouteInfo<GoogleMapsRouteArgs> {
+  GoogleMapsRoute({
+    _i11.Key? key,
+    void Function(bool)? onToggleBottomNav,
+    List<_i10.PageRouteInfo>? children,
+  }) : super(
+          GoogleMapsRoute.name,
+          args: GoogleMapsRouteArgs(
+            key: key,
+            onToggleBottomNav: onToggleBottomNav,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'GoogleMapsRoute';
+
+  static const _i10.PageInfo<GoogleMapsRouteArgs> page =
+      _i10.PageInfo<GoogleMapsRouteArgs>(name);
+}
+
+class GoogleMapsRouteArgs {
+  const GoogleMapsRouteArgs({
+    this.key,
+    this.onToggleBottomNav,
+  });
+
+  final _i11.Key? key;
+
+  final void Function(bool)? onToggleBottomNav;
+
+  @override
+  String toString() {
+    return 'GoogleMapsRouteArgs{key: $key, onToggleBottomNav: $onToggleBottomNav}';
+  }
+}
+
+/// generated route for
+/// [_i7.HomeAutoRouterPage]
 class HomeAutoRouterRoute extends _i10.PageRouteInfo<void> {
   const HomeAutoRouterRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -177,7 +222,7 @@ class HomeAutoRouterRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.HomeView]
+/// [_i7.HomeView]
 class HomeRoute extends _i10.PageRouteInfo<void> {
   const HomeRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -186,20 +231,6 @@ class HomeRoute extends _i10.PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
-
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i7.LocationView]
-class LocationRoute extends _i10.PageRouteInfo<void> {
-  const LocationRoute({List<_i10.PageRouteInfo>? children})
-      : super(
-          LocationRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'LocationRoute';
 
   static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }
