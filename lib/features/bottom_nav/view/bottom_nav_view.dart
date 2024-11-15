@@ -14,7 +14,8 @@ class BottomNavView extends StatefulWidget {
   State<BottomNavView> createState() => _BottomNavViewState();
 }
 
-class _BottomNavViewState extends State<BottomNavView> with SingleTickerProviderStateMixin {
+class _BottomNavViewState extends State<BottomNavView>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
 
@@ -62,7 +63,9 @@ class _BottomNavViewState extends State<BottomNavView> with SingleTickerProvider
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
         return SlideTransition(
-          position: Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, 1)).animate(
+          position:
+              Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, 1))
+                  .animate(
             CurvedAnimation(
               parent: _animationController,
               curve: Curves.easeInOut,

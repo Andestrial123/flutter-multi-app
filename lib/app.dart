@@ -8,7 +8,6 @@ import 'package:flutter_multi_app/features/google_maps/domain/google_maps_bloc.d
 import 'package:flutter_multi_app/features/sign_up/domain/sign_up_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 

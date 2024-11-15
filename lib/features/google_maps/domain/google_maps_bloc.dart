@@ -4,8 +4,8 @@ import 'package:flutter_multi_app/features/google_maps/data/marks_model.dart';
 import 'package:flutter_multi_app/shared/service/api/api.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-
 part 'google_maps_event.dart';
+
 part 'google_maps_state.dart';
 
 class GoogleMapsBloc extends Bloc<GoogleMapsEvent, GoogleMapsState> {
@@ -15,7 +15,8 @@ class GoogleMapsBloc extends Bloc<GoogleMapsEvent, GoogleMapsState> {
     on<FetchMarks>(_onFetchMarks);
   }
 
-  Future<void> _onFetchMarks(FetchMarks event, Emitter<GoogleMapsState> emit) async {
+  Future<void> _onFetchMarks(
+      FetchMarks event, Emitter<GoogleMapsState> emit) async {
     emit(GoogleMapsLoading());
     try {
       const String timeZoneLocation = 'Europe/Kyiv';

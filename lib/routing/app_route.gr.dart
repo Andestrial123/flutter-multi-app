@@ -72,12 +72,6 @@ abstract class $AppRouter extends _i10.RootStackRouter {
         ),
       );
     },
-    HomeAutoRouterRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i7.HomeAutoRouterPage(),
-      );
-    },
     HomeRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -205,20 +199,6 @@ class GoogleMapsRouteArgs {
   String toString() {
     return 'GoogleMapsRouteArgs{key: $key, onToggleBottomNav: $onToggleBottomNav}';
   }
-}
-
-/// generated route for
-/// [_i7.HomeAutoRouterPage]
-class HomeAutoRouterRoute extends _i10.PageRouteInfo<void> {
-  const HomeAutoRouterRoute({List<_i10.PageRouteInfo>? children})
-      : super(
-          HomeAutoRouterRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HomeAutoRouterRoute';
-
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }
 
 /// generated route for

@@ -21,7 +21,8 @@ class MarksModel {
   final BakeryHours? bakeryHours;
   final DeliveryHours? deliveryHours;
 
-  factory MarksModel.fromJson(Map<String, dynamic> json) => _$MarksModelFromJson(json);
+  factory MarksModel.fromJson(Map<String, dynamic> json) =>
+      _$MarksModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MarksModelToJson(this);
 }
@@ -42,7 +43,8 @@ class DeliveryHours {
 
   final bool? isOpen;
 
-  factory DeliveryHours.fromJson(Map<String, dynamic> json) => _$DeliveryHoursFromJson(json);
+  factory DeliveryHours.fromJson(Map<String, dynamic> json) =>
+      _$DeliveryHoursFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeliveryHoursToJson(this);
 }
@@ -63,11 +65,11 @@ class BakeryHours {
 
   final bool? isOpen;
 
-  factory BakeryHours.fromJson(Map<String, dynamic> json) => _$BakeryHoursFromJson(json);
+  factory BakeryHours.fromJson(Map<String, dynamic> json) =>
+      _$BakeryHoursFromJson(json);
 
   Map<String, dynamic> toJson() => _$BakeryHoursToJson(this);
 }
-
 
 tz.TZDateTime? _fromJson(String? date) {
   if (date == null) return null;
