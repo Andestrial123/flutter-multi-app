@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -40,7 +42,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
             ),
           ],
         ),
-        padding: EdgeInsets.symmetric(horizontal: paddingHorizontal,vertical: 8),
+        padding: EdgeInsets.only(
+            left: paddingHorizontal,
+            right: paddingHorizontal,
+            bottom: 8 + (Platform.isIOS ? 16 : 0),
+            top: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: items.map((item) {

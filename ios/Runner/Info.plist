@@ -80,6 +80,7 @@
 	<key>CFBundleLocalizations</key>
     <array>
     	<string>en</string>
+    	<string>uk</string>
     </array>
     <key>GMSApiKey</key>
     <string>AIzaSyB8v1Cl-hmBb9U3XXcXvMkSVJ_tlIH-Lpg</string>

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_app/routing/app_route.gr.dart';
 
 @RoutePage()
 class HomeView extends StatefulWidget {
@@ -12,6 +13,24 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  context.pushRoute(const FinishRoute());
+                },
+                child: const Text('test to LastScreen'))
+          ],
+        ),
+      ),
+    );
   }
+}
+
+@RoutePage()
+class HomeAutoRouterPage extends AutoRouter {
+  const HomeAutoRouterPage({super.key});
 }

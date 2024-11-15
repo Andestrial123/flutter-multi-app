@@ -8,13 +8,13 @@ class FirebaseService {
   FirebaseService._internal();
 
   final auth = FirebaseAuth.instance;
-  final currentUser = FirebaseAuth.instance.currentUser;
+  User? get currentUser => FirebaseAuth.instance.currentUser;
 
   onListenUser(void Function(User?)? doListen) {
     auth.authStateChanges().listen(doListen);
   }
 
-   bool isUserLoggedIn() {
+  bool isUserLoggedIn() {
     return auth.currentUser != null;
   }
 }

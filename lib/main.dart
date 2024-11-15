@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/app.dart';
 import 'package:flutter_multi_app/di.dart';
 import 'package:flutter_multi_app/firebase_options.dart';
+import 'package:flutter_multi_app/generated/codegen_loader.g.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -20,9 +21,9 @@ void main() async {
   await setup();
 
   runApp(EasyLocalization(
-    supportedLocales: const [Locale('en', 'US')],
-    fallbackLocale: const Locale('en', 'US'),
-    path: 'assets/translations',
-    child: const MyApp(),
-  ));
+      supportedLocales: const [Locale('en', 'US'), Locale('uk', 'UA')],
+      fallbackLocale: const Locale('en', 'US'),
+      assetLoader: const CodegenLoader(),
+      path: 'assets/translations',
+      child: const MyApp()));
 }

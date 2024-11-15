@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/sign_up/presentation/sign_up_screen.dart';
+import 'package:flutter_multi_app/routing/app_route.gr.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
@@ -16,8 +17,6 @@ import 'package:flutter_multi_app/utils/debouncer.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../shared/assets/routes.dart';
 
 @RoutePage()
 class AuthScreen extends StatefulWidget {
@@ -48,7 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoadedState) {
-            context.router.pushNamed(Routes.main);
+            AutoRouter.of(context).replaceAll([const BottomNavRoute()]);
           } else if (state is AuthErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),
@@ -79,7 +78,8 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Container(
                         decoration: const BoxDecoration(
                           color: CustomColors.whiteColor,
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(44)),
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(44)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
@@ -91,7 +91,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: SingleChildScrollView(
                           child: Center(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 64),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 64),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -119,7 +120,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     color: CustomColors.brownLight,
                                   ),
                                   const SizedBox(height: 8),
-                                  SmallTextField(controller: _passwordController),
+                                  SmallTextField(
+                                      controller: _passwordController),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -130,9 +132,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                       const SizedBox(width: 2),
                                       TextButton(
                                         onPressed: () {
-                                          context.read<AuthBloc>().add(ShowSignUpScreenEvent());
+                                          context
+                                              .read<AuthBloc>()
+                                              .add(ShowSignUpScreenEvent());
                                         },
-                                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                        style: TextButton.styleFrom(
+                                            padding: EdgeInsets.zero),
                                         child: MultiAppTypography(
                                           TypographyType.middleTextBold,
                                           LocaleKeys.createAccount.tr(),
@@ -143,28 +148,40 @@ class _AuthScreenState extends State<AuthScreen> {
                                   const SizedBox(height: 34),
                                   Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 64),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 64),
                                       child: NextButton(
                                         onPressed: isLoading
                                             ? null
                                             : () {
-                                          _debouncer.call(() {
-                                            if (_emailController.text.isEmpty ||
-                                                _passwordController.text.isEmpty) {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(LocaleKeys.fillOutAllFields.tr()),
-                                                ),
-                                              );
-                                              return;
-                                            }
-                                            context.read<AuthBloc>().add(LoginEvent(
-                                              _emailController.text,
-                                              _passwordController.text,
-                                            ));
-                                          });
-                                        },
-                                        text: isLoading ? '' : LocaleKeys.next.tr(),
+                                                _debouncer.call(() {
+                                                  if (_emailController
+                                                          .text.isEmpty ||
+                                                      _passwordController
+                                                          .text.isEmpty) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(LocaleKeys
+                                                            .fillOutAllFields
+                                                            .tr()),
+                                                      ),
+                                                    );
+                                                    return;
+                                                  }
+                                                  context
+                                                      .read<AuthBloc>()
+                                                      .add(LoginEvent(
+                                                        _emailController.text,
+                                                        _passwordController
+                                                            .text,
+                                                      ));
+                                                });
+                                              },
+                                        text: isLoading
+                                            ? ''
+                                            : LocaleKeys.next.tr(),
                                         isLoading: isLoading,
                                       ),
                                     ),
@@ -174,7 +191,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     children: [
                                       const Expanded(child: divider),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
                                         child: MultiAppTypography(
                                           TypographyType.middleText,
                                           LocaleKeys.or.tr(),
@@ -189,7 +207,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                       Center(
                                         child: AuthTextField(
                                           onPressed: () {
-                                            context.read<AuthBloc>().add(GoogleEvent());
+                                            context
+                                                .read<AuthBloc>()
+                                                .add(GoogleEvent());
                                           },
                                           text: LocaleKeys.logInGoogle.tr(),
                                           image: SvgPicture.asset(
@@ -204,7 +224,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                       Center(
                                         child: AuthTextField(
                                           onPressed: () {
-                                            context.read<AuthBloc>().add(FacebookEvent());
+                                            context
+                                                .read<AuthBloc>()
+                                                .add(FacebookEvent());
                                           },
                                           text: LocaleKeys.logInFacebook.tr(),
                                           image: SvgPicture.asset(

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_app/utils/app_route.dart';
+import 'package:flutter_multi_app/routing/app_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/di.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';

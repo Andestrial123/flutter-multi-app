@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 
 part 'sign_up_event.dart';
+
 part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
@@ -15,7 +16,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<void> _onRegister(RegisterEvent event, Emitter<SignUpState> emit) async {
+  Future<void> _onRegister(
+      RegisterEvent event, Emitter<SignUpState> emit) async {
     emit(SignUpLoadingState());
     try {
       if (event.email.isEmpty || event.password.isEmpty || event.name.isEmpty) {
@@ -23,7 +25,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         return;
       }
 
-      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: event.email,
         password: event.password,
       );
