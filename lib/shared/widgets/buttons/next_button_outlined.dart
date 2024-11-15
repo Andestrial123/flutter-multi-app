@@ -18,7 +18,9 @@ class NextButtonOutlined extends StatelessWidget {
     required this.text,
     this.color = CustomColors.brownDark,
     this.textColor = Colors.white,
-    this.isLoading = false, this.height = 60, this.fontWeight = FontWeight.w300,
+    this.isLoading = false,
+    this.height = 60,
+    this.fontWeight = FontWeight.w300,
   });
 
   @override
@@ -44,16 +46,16 @@ class NextButtonOutlined extends StatelessWidget {
         ),
         child: isLoading
             ? const CustomCircularProgressIndicator(
-          color: AlwaysStoppedAnimation<Color>(Colors.white),
-        )
+                color: AlwaysStoppedAnimation<Color>(Colors.white),
+              )
             : Text(
-          text,
-          style: TextStyle(
-            fontWeight: fontWeight,
-            color: textColor,
-            fontSize: 18,
-          ),
-        ),
+                text,
+                style: TextStyle(
+                  fontWeight: fontWeight,
+                  color: textColor,
+                  fontSize: 18,
+                ),
+              ),
       ),
     );
   }

@@ -15,7 +15,8 @@ class ChooseLanguageState extends State<ChooseLanguage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    selectedLanguage = context.locale.languageCode == 'en' ? 'English' : 'Ukrainian';
+    selectedLanguage =
+        context.locale.languageCode == 'en' ? 'English' : 'Ukrainian';
   }
 
   @override
@@ -71,9 +72,8 @@ class ChooseLanguageState extends State<ChooseLanguage> {
             Text(
               language,
               style: TextStyle(
-                color: selectedLanguage == language
-                    ? Colors.brown
-                    : Colors.black,
+                color:
+                    selectedLanguage == language ? Colors.brown : Colors.black,
                 fontWeight: selectedLanguage == language
                     ? FontWeight.bold
                     : FontWeight.normal,

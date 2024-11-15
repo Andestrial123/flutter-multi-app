@@ -138,6 +138,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String getUserEmail() {
     return _firebaseAuth.currentUser?.email ?? 'No email found';
   }
+
   String getUserName() {
     return _firebaseAuth.currentUser?.displayName ?? 'User name';
   }

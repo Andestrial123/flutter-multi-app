@@ -17,7 +17,8 @@ class NextButton extends StatelessWidget {
     required this.text,
     this.color = CustomColors.brownDark,
     this.textColor = Colors.white,
-    this.isLoading = false, this.height = 60,
+    this.isLoading = false,
+    this.height = 60,
   });
 
   @override
