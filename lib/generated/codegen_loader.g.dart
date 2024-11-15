@@ -14,8 +14,8 @@ class CodegenLoader extends AssetLoader {
     return Future.value(mapLocales[locale.toString()]);
   }
 
-  static const Map<String, dynamic> uk = <String, dynamic>{
-    "lorem_1": "Щось на латині.",
+  static const Map<String, dynamic> ukUA = {
+    "lorem_1": "Щось на латині",
     "lorem_2": "Щось на латині",
     "get_started": "Почати",
     "order_tracking": "Відстеження замовлення",
@@ -63,9 +63,14 @@ class CodegenLoader extends AssetLoader {
     "change_password": "Змінити пароль",
     "delete_account": "Видалити акаунт",
     "edit_profile": "Редагувати профіль",
-    "logout": "Вийти"
+    "logout": "Вийти",
+    "thank_you": "Дякуємо",
+    "for_your_purchase": "за вашу покупку",
+    "contact_us": "Зв'яжіться з нами",
+    "number_email": "+123-123-123 | cupcake@bakery.com",
+    "home_page": "Головна сторінка"
   };
-  static const Map<String, dynamic> en = {
+  static const Map<String, dynamic> enUS = {
     "lorem_1": "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit sed.",
     "lorem_2":
         "Tempor incididunt ut labore et \ndolore magna aliqua consectetur \nadipiscing elit sed.",
@@ -103,7 +108,6 @@ class CodegenLoader extends AssetLoader {
     "home": "Home",
     "location": "Location",
     "order": "Order",
-    "profile": "Profile",
     "cupcake_bakery_shop": "Cupcake Bakery Shop",
     "user_name": "User Name",
     "language": "Language",
@@ -115,10 +119,16 @@ class CodegenLoader extends AssetLoader {
     "change_password": "Change password",
     "delete_account": "Delete account",
     "edit_profile": "Edit Profile",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "profile": "Profile",
+    "thank_you": "Thank You",
+    "for_your_purchase": "for your purchase",
+    "contact_us": "Contact us",
+    "number_email": "+123-123-123 | cupcake@bakery.com",
+    "home_page": "Home page"
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {
-    "uk_UA": uk,
-    "en_US": en
+    "uk_UA": ukUA,
+    "en_US": enUS
   };
 }

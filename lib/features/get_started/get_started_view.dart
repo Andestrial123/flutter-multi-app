@@ -6,7 +6,7 @@ import 'package:flutter_multi_app/utils/custom_background.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../shared/assets/routes.dart';
+import '../../routing/routes.dart';
 
 @RoutePage()
 class GetStartedView extends StatelessWidget {

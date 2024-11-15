@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/sign_up/presentation/sign_up_screen.dart';
+import 'package:flutter_multi_app/routing/app_route.gr.dart';
 import 'package:flutter_multi_app/shared/assets/assets.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
@@ -15,8 +16,6 @@ import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/debouncer.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../shared/assets/routes.dart';
 
 @RoutePage()
 class AuthScreen extends StatefulWidget {
@@ -47,7 +46,7 @@ class _AuthScreenState extends State<AuthScreen> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoadedState) {
-            context.router.pushNamed(Routes.main);
+            AutoRouter.of(context).replaceAll([const BottomNavRoute()]);
           } else if (state is AuthErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),

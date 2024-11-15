@@ -9,20 +9,19 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i10;
+import 'package:flutter_multi_app/application/app_page.dart' as _i1;
 import 'package:flutter_multi_app/features/auth/presentation/auth_screen.dart'
-    as _i1;
-import 'package:flutter_multi_app/features/bottom_nav/view/bottom_nav_view.dart'
     as _i2;
-import 'package:flutter_multi_app/features/finish_screen/finish_screen.dart'
+import 'package:flutter_multi_app/features/bottom_nav/view/bottom_nav_view.dart'
     as _i3;
-import 'package:flutter_multi_app/features/get_started/get_started_view.dart'
+import 'package:flutter_multi_app/features/finish_screen/finish_screen.dart'
     as _i4;
-import 'package:flutter_multi_app/features/home/home_view.dart' as _i5;
-import 'package:flutter_multi_app/features/location/location_view.dart' as _i6;
-import 'package:flutter_multi_app/features/order/order_view.dart' as _i7;
+import 'package:flutter_multi_app/features/get_started/get_started_view.dart'
+    as _i5;
+import 'package:flutter_multi_app/features/home/home_view.dart' as _i6;
+import 'package:flutter_multi_app/features/location/location_view.dart' as _i7;
+import 'package:flutter_multi_app/features/order/order_view.dart' as _i8;
 import 'package:flutter_multi_app/features/profile/presentation/profile_screen.dart'
-    as _i8;
-import 'package:flutter_multi_app/features/route_start/presentation/route_start_view.dart'
     as _i9;
 
 abstract class $AppRouter extends _i10.RootStackRouter {
@@ -30,65 +29,85 @@ abstract class $AppRouter extends _i10.RootStackRouter {
 
   @override
   final Map<String, _i10.PageFactory> pagesMap = {
+    AppRoute.name: (routeData) {
+      return _i10.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i1.AppPage(),
+      );
+    },
     AuthRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.AuthScreen(),
+        child: const _i2.AuthScreen(),
       );
     },
     BottomNavRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.BottomNavView(),
+        child: const _i3.BottomNavView(),
       );
     },
     FinishRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.FinishScreen(),
+        child: const _i4.FinishScreen(),
       );
     },
     GetStartedRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.GetStartedView(),
+        child: const _i5.GetStartedView(),
+      );
+    },
+    HomeAutoRouterRoute.name: (routeData) {
+      return _i10.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i6.HomeAutoRouterPage(),
       );
     },
     HomeRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.HomeView(),
+        child: const _i6.HomeView(),
       );
     },
     LocationRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.LocationView(),
+        child: const _i7.LocationView(),
       );
     },
     OrderRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.OrderView(),
+        child: const _i8.OrderView(),
       );
     },
     ProfileRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.ProfileScreen(),
-      );
-    },
-    RouteStartRoute.name: (routeData) {
-      return _i10.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i9.RouteStartView(),
+        child: const _i9.ProfileScreen(),
       );
     },
   };
 }
 
 /// generated route for
-/// [_i1.AuthScreen]
+/// [_i1.AppPage]
+class AppRoute extends _i10.PageRouteInfo<void> {
+  const AppRoute({List<_i10.PageRouteInfo>? children})
+      : super(
+          AppRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AppRoute';
+
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i2.AuthScreen]
 class AuthRoute extends _i10.PageRouteInfo<void> {
   const AuthRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -102,7 +121,7 @@ class AuthRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.BottomNavView]
+/// [_i3.BottomNavView]
 class BottomNavRoute extends _i10.PageRouteInfo<void> {
   const BottomNavRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -116,7 +135,7 @@ class BottomNavRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.FinishScreen]
+/// [_i4.FinishScreen]
 class FinishRoute extends _i10.PageRouteInfo<void> {
   const FinishRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -130,7 +149,7 @@ class FinishRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.GetStartedView]
+/// [_i5.GetStartedView]
 class GetStartedRoute extends _i10.PageRouteInfo<void> {
   const GetStartedRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -144,7 +163,21 @@ class GetStartedRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.HomeView]
+/// [_i6.HomeAutoRouterPage]
+class HomeAutoRouterRoute extends _i10.PageRouteInfo<void> {
+  const HomeAutoRouterRoute({List<_i10.PageRouteInfo>? children})
+      : super(
+          HomeAutoRouterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeAutoRouterRoute';
+
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i6.HomeView]
 class HomeRoute extends _i10.PageRouteInfo<void> {
   const HomeRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -158,7 +191,7 @@ class HomeRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i6.LocationView]
+/// [_i7.LocationView]
 class LocationRoute extends _i10.PageRouteInfo<void> {
   const LocationRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -172,7 +205,7 @@ class LocationRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.OrderView]
+/// [_i8.OrderView]
 class OrderRoute extends _i10.PageRouteInfo<void> {
   const OrderRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -186,7 +219,7 @@ class OrderRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.ProfileScreen]
+/// [_i9.ProfileScreen]
 class ProfileRoute extends _i10.PageRouteInfo<void> {
   const ProfileRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -195,20 +228,6 @@ class ProfileRoute extends _i10.PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileRoute';
-
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i9.RouteStartView]
-class RouteStartRoute extends _i10.PageRouteInfo<void> {
-  const RouteStartRoute({List<_i10.PageRouteInfo>? children})
-      : super(
-          RouteStartRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'RouteStartRoute';
 
   static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }

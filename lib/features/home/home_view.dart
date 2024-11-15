@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_app/features/finish_screen/finish_screen.dart';
+import 'package:flutter_multi_app/routing/app_route.gr.dart';
 
 @RoutePage()
 class HomeView extends StatefulWidget {
@@ -20,9 +20,7 @@ class _HomeViewState extends State<HomeView> {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  ///test navigation. will be a change, where will be a currently Home Screen
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const FinishScreen()));
+                  context.pushRoute(const FinishRoute());
                 },
                 child: const Text('test to LastScreen'))
           ],
@@ -30,4 +28,9 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
+}
+
+@RoutePage()
+class HomeAutoRouterPage extends AutoRouter {
+  const HomeAutoRouterPage({super.key});
 }
