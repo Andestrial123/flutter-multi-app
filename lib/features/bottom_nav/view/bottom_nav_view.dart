@@ -14,62 +14,109 @@ class BottomNavView extends StatefulWidget {
   State<BottomNavView> createState() => _BottomNavViewState();
 }
 
-class _BottomNavViewState extends State<BottomNavView> {
+class _BottomNavViewState extends State<BottomNavView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    _opacityAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  void toggleBottomNavVisibility(bool isVisible) {
+    if (isVisible) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenUtil = ScreenUtil();
-    return AutoTabsRouter(
-      routes: const [
-        HomeRoute(),
-        LocationRoute(),
-        OrderRoute(),
-        ProfileRoute(),
+    return AutoTabsScaffold(
+      extendBody: true,
+      backgroundColor: const Color(0xFFf2e9e0),
+      routes: [
+        const HomeRoute(),
+        GoogleMapsRoute(onToggleBottomNav: toggleBottomNavVisibility),
+        const OrderRoute(),
+        const ProfileRoute(),
       ],
-      builder: (context, child) {
-        final tabsRouter = AutoTabsRouter.of(context);
-        return Scaffold(
-          bottomNavigationBar: CustomBottomNavigationBar(
-            itemSpacing: screenUtil.setWidth(20),
-            paddingHorizontal: screenUtil.setWidth(24),
-            currentIndex: tabsRouter.activeIndex,
-            onTap: tabsRouter.setActiveIndex,
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.home),
-                label: LocaleKeys.home.tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.location_pin),
-                label: LocaleKeys.location.tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.fact_check_outlined),
-                label: LocaleKeys.order.tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.account_circle_outlined),
-                label: LocaleKeys.profile.tr(),
-              ),
-            ],
-            iconSize: 32,
-            selectedItemColor: Colors.black,
-            unselectedItemColor: Colors.grey,
+      bottomNavigationBuilder: (_, tabsRouter) {
+        return SlideTransition(
+          position:
+              Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, 1))
+                  .animate(
+            CurvedAnimation(
+              parent: _animationController,
+              curve: Curves.easeInOut,
+            ),
           ),
-          body: ClipRRect(
+          child: FadeTransition(
+            opacity: _opacityAnimation,
+            child: ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
               ),
               child: Container(
-                  decoration: const BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 15,
-                      ),
-                    ],
-                  ),
-                  child: child)),
+                decoration: const BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 15,
+                    ),
+                  ],
+                ),
+                child: CustomBottomNavigationBar(
+                  itemSpacing: screenUtil.setWidth(30),
+                  paddingHorizontal: screenUtil.setWidth(24),
+                  currentIndex: tabsRouter.activeIndex,
+                  onTap: tabsRouter.setActiveIndex,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.home),
+                      label: LocaleKeys.home.tr(),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.location_pin),
+                      label: LocaleKeys.location.tr(),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.fact_check_outlined),
+                      label: LocaleKeys.order.tr(),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.account_circle_outlined),
+                      label: LocaleKeys.profile.tr(),
+                    ),
+                  ],
+                  iconSize: 32,
+                  selectedItemColor: Colors.black,
+                  unselectedItemColor: Colors.grey,
+                ),
+              ),
+            ),
+          ),
         );
       },
     );

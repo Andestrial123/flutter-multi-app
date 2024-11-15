@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/shared/widgets/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/colors.dart';
 
@@ -45,7 +46,7 @@ class NextButton extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w300,
                   color: textColor,
-                  fontSize: 18,
+                  fontSize: ScreenUtil().setSp(18),
                 ),
               ),
       ),

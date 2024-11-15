@@ -29,8 +29,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-
-@RoutePage()
-class HomeAutoRouterPage extends AutoRouter {
-  const HomeAutoRouterPage({super.key});
-}

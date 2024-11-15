@@ -6,6 +6,7 @@ import 'package:flutter_multi_app/di.dart';
 import 'package:flutter_multi_app/firebase_options.dart';
 import 'package:flutter_multi_app/generated/codegen_loader.g.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 ///In this file will be all configuration setup that we need before starting app
 void main() async {
@@ -15,6 +16,7 @@ void main() async {
   );
   await ScreenUtil.ensureScreenSize();
   await EasyLocalization.ensureInitialized();
+  tz.initializeTimeZones();
 
   await setup();
 

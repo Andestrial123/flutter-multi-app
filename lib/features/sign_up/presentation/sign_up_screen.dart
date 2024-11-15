@@ -10,6 +10,7 @@ import 'package:flutter_multi_app/shared/widgets/text/custom_title.dart';
 import 'package:flutter_multi_app/shared/widgets/text_fields/small_text_field.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_multi_app/utils/typography.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -138,7 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   child: Center(
                                     child: CustomTitle(
                                       text: LocaleKeys.signUp.tr(),
-                                      fontSize: 28,
+                                      fontSize: ScreenUtil().setSp(28),
                                     ),
                                   ),
                                 ),

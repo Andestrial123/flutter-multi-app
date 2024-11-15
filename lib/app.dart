@@ -4,6 +4,7 @@ import 'package:flutter_multi_app/routing/app_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/di.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
+import 'package:flutter_multi_app/features/google_maps/domain/google_maps_bloc.dart';
 import 'package:flutter_multi_app/features/sign_up/domain/sign_up_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -30,6 +31,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(
             create: (context) => SignUpBloc(),
           ),
+          BlocProvider.value(value: g.get<GoogleMapsBloc>()..add(FetchMarks()))
         ],
         child: MaterialApp.router(
             title: 'Flutter Demo',
