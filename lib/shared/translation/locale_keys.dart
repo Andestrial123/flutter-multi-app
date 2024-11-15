@@ -1,4 +1,4 @@
-class LocaleKeys{
+class LocaleKeys {
   static const lorem1 = 'lorem_1';
   static const lorem2 = 'lorem_2';
   static const getStarted = 'get_started';
@@ -48,4 +48,9 @@ class LocaleKeys{
   static const deleteAccount = 'delete_account';
   static const editProfile = 'edit_profile';
   static const logout = 'logout';
+  static const thankYou = 'thank_you';
+  static const forYourPurchase = 'for_your_purchase';
+  static const contactUs = 'contact_us';
+  static const numberEmail = 'number_email';
+  static const homePage = 'home_page';
 }

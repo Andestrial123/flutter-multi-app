@@ -78,7 +78,8 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Container(
                         decoration: const BoxDecoration(
                           color: CustomColors.whiteColor,
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(44)),
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(44)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black26,
@@ -90,7 +91,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: SingleChildScrollView(
                           child: Center(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 64),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 64),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -118,7 +120,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     color: CustomColors.brownLight,
                                   ),
                                   const SizedBox(height: 8),
-                                  SmallTextField(controller: _passwordController),
+                                  SmallTextField(
+                                      controller: _passwordController),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -129,9 +132,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                       const SizedBox(width: 2),
                                       TextButton(
                                         onPressed: () {
-                                          context.read<AuthBloc>().add(ShowSignUpScreenEvent());
+                                          context
+                                              .read<AuthBloc>()
+                                              .add(ShowSignUpScreenEvent());
                                         },
-                                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                        style: TextButton.styleFrom(
+                                            padding: EdgeInsets.zero),
                                         child: MultiAppTypography(
                                           TypographyType.middleTextBold,
                                           LocaleKeys.createAccount.tr(),
@@ -142,28 +148,40 @@ class _AuthScreenState extends State<AuthScreen> {
                                   const SizedBox(height: 34),
                                   Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 64),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 64),
                                       child: NextButton(
                                         onPressed: isLoading
                                             ? null
                                             : () {
-                                          _debouncer.call(() {
-                                            if (_emailController.text.isEmpty ||
-                                                _passwordController.text.isEmpty) {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(LocaleKeys.fillOutAllFields.tr()),
-                                                ),
-                                              );
-                                              return;
-                                            }
-                                            context.read<AuthBloc>().add(LoginEvent(
-                                              _emailController.text,
-                                              _passwordController.text,
-                                            ));
-                                          });
-                                        },
-                                        text: isLoading ? '' : LocaleKeys.next.tr(),
+                                                _debouncer.call(() {
+                                                  if (_emailController
+                                                          .text.isEmpty ||
+                                                      _passwordController
+                                                          .text.isEmpty) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(LocaleKeys
+                                                            .fillOutAllFields
+                                                            .tr()),
+                                                      ),
+                                                    );
+                                                    return;
+                                                  }
+                                                  context
+                                                      .read<AuthBloc>()
+                                                      .add(LoginEvent(
+                                                        _emailController.text,
+                                                        _passwordController
+                                                            .text,
+                                                      ));
+                                                });
+                                              },
+                                        text: isLoading
+                                            ? ''
+                                            : LocaleKeys.next.tr(),
                                         isLoading: isLoading,
                                       ),
                                     ),
@@ -173,7 +191,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     children: [
                                       const Expanded(child: divider),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
                                         child: MultiAppTypography(
                                           TypographyType.middleText,
                                           LocaleKeys.or.tr(),
@@ -188,7 +207,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                       Center(
                                         child: AuthTextField(
                                           onPressed: () {
-                                            context.read<AuthBloc>().add(GoogleEvent());
+                                            context
+                                                .read<AuthBloc>()
+                                                .add(GoogleEvent());
                                           },
                                           text: LocaleKeys.logInGoogle.tr(),
                                           image: SvgPicture.asset(
@@ -203,7 +224,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                       Center(
                                         child: AuthTextField(
                                           onPressed: () {
-                                            context.read<AuthBloc>().add(FacebookEvent());
+                                            context
+                                                .read<AuthBloc>()
+                                                .add(FacebookEvent());
                                           },
                                           text: LocaleKeys.logInFacebook.tr(),
                                           image: SvgPicture.asset(

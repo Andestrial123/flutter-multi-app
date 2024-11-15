@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/features/bottom_nav/widgets/custom_bottom_nav_widget.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
-import 'package:flutter_multi_app/utils/app_route.gr.dart';
+import 'package:flutter_multi_app/routing/app_route.gr.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 @RoutePage()

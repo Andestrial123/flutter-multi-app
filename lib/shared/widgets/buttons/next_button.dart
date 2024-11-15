@@ -28,16 +28,17 @@ class NextButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(color),
-          elevation: MaterialStateProperty.all(4),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          backgroundColor: WidgetStateProperty.all<Color>(color),
+          elevation: WidgetStateProperty.all(4),
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
           ),
         ),
         child: isLoading
-            ? const CustomCircularProgressIndicator(color: AlwaysStoppedAnimation<Color>(Colors.white))
+            ? const CustomCircularProgressIndicator(
+                color: AlwaysStoppedAnimation<Color>(Colors.white))
             : Text(
                 text,
                 style: TextStyle(

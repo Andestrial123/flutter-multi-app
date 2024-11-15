@@ -20,9 +20,11 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailSignUpController = TextEditingController();
-  final TextEditingController _passwordSignUpController = TextEditingController();
+  final TextEditingController _passwordSignUpController =
+      TextEditingController();
   final TextEditingController _nameSignUpController = TextEditingController();
-  final TextEditingController _confirmPasswordSignUpController = TextEditingController();
+  final TextEditingController _confirmPasswordSignUpController =
+      TextEditingController();
   bool _isButtonDisabled = false;
 
   @override
@@ -44,7 +46,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final confirmPassword = _confirmPasswordSignUpController.text;
     final name = _nameSignUpController.text;
 
-    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty || name.isEmpty) {
+    if (email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty ||
+        name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(LocaleKeys.fillInAllFields.tr())),
       );
@@ -61,8 +66,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     context.read<SignUpBloc>().add(
-      RegisterEvent(email, password, name),
-    );
+          RegisterEvent(email, password, name),
+        );
   }
 
   void _reactivateButton() {
@@ -111,7 +116,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Container(
                       decoration: const BoxDecoration(
                         color: CustomColors.whiteColor,
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(44)),
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(44)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black26,
@@ -143,7 +149,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 4),
-                                SmallTextField(controller: _emailSignUpController),
+                                SmallTextField(
+                                    controller: _emailSignUpController),
                                 const SizedBox(height: 16),
                                 MultiAppTypography(
                                   TypographyType.bigText,
@@ -151,7 +158,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 4),
-                                SmallTextField(controller: _nameSignUpController),
+                                SmallTextField(
+                                    controller: _nameSignUpController),
                                 const SizedBox(height: 16),
                                 MultiAppTypography(
                                   TypographyType.bigText,
@@ -159,7 +167,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 4),
-                                SmallTextField(controller: _passwordSignUpController),
+                                SmallTextField(
+                                    controller: _passwordSignUpController),
                                 const SizedBox(height: 16),
                                 MultiAppTypography(
                                   TypographyType.bigText,
@@ -167,7 +176,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: CustomColors.brownLight,
                                 ),
                                 const SizedBox(height: 4),
-                                SmallTextField(controller: _confirmPasswordSignUpController),
+                                SmallTextField(
+                                    controller:
+                                        _confirmPasswordSignUpController),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -177,9 +188,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        context.read<AuthBloc>().add(ShowAuthScreenEvent());
+                                        context
+                                            .read<AuthBloc>()
+                                            .add(ShowAuthScreenEvent());
                                       },
-                                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                                      style: TextButton.styleFrom(
+                                          padding: EdgeInsets.zero),
                                       child: MultiAppTypography(
                                         TypographyType.middleTextBold,
                                         LocaleKeys.signIn.tr(),
@@ -190,9 +204,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 const SizedBox(height: 34),
                                 Center(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 32),
                                     child: NextButton(
-                                      onPressed: isButtonDisabled ? null : _validateAndSignUp,
+                                      onPressed: isButtonDisabled
+                                          ? null
+                                          : _validateAndSignUp,
                                       text: isLoading
                                           ? ''
                                           : LocaleKeys.createAccount.tr(),

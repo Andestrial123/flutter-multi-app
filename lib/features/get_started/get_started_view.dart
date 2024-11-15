@@ -8,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../shared/assets/routes.dart';
 
-
 @RoutePage()
 class GetStartedView extends StatelessWidget {
   const GetStartedView({super.key});

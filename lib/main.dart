@@ -23,5 +23,5 @@ void main() async {
       fallbackLocale: const Locale('en', 'US'),
       assetLoader: const CodegenLoader(),
       path: 'assets/translations',
-      child: MyApp()));
+      child: const MyApp()));
 }

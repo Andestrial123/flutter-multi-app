@@ -46,5 +46,11 @@
   "change_password": "Change password",
   "delete_account": "Delete account",
   "edit_profile": "Edit Profile",
-  "logout": "Log Out"
+  "logout": "Log Out",
+  "profile": "Profile",
+  "thank_you": "Thank You",
+  "for_your_purchase": "for your purchase",
+  "contact_us": "Contact us",
+  "number_email": "+123-123-123 | cupcake@bakery.com",
+  "home_page": "Home page"
 }
