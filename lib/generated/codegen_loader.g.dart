@@ -68,7 +68,9 @@ class CodegenLoader extends AssetLoader {
     "for_your_purchase": "за вашу покупку",
     "contact_us": "Зв'яжіться з нами",
     "number_email": "+123-123-123 | cupcake@bakery.com",
-    "home_page": "Головна сторінка"
+    "home_page": "Головна сторінка",
+    "daily_discounts": "Щоденні знижки",
+    "categories": "Категорії",
   };
   static const Map<String, dynamic> enUS = {
     "lorem_1": "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit sed.",
@@ -132,7 +134,9 @@ class CodegenLoader extends AssetLoader {
     "for_your_purchase": "for your purchase",
     "contact_us": "Contact us",
     "number_email": "+123-123-123 | cupcake@bakery.com",
-    "home_page": "Home page"
+    "home_page": "Home page",
+    "daily_discounts": "Daily discounts",
+    "categories": "Categories",
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {
     "uk_UA": ukUA,
