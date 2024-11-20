@@ -18,6 +18,7 @@ abstract class ApiClient {
   Future<CategoryModel> getCategoriesById(
     @Path('category_id') categoryId,
   );
+  
 
   @GET('/multi/v1/marks')
   Future<List<MarksModel>> getMarks(@Query('timezone') String timezone);
