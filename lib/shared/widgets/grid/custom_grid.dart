@@ -54,10 +54,9 @@ class CustomGrid extends StatelessWidget {
                   Text(
                     "Fruity Summer",
                     style: TextStyle(
-                      fontSize: ScreenUtil().setHeight(14),
-                      fontWeight: FontWeight.w800,
-                      color: CustomColors.brownDark
-                    ),
+                        fontSize: ScreenUtil().setHeight(14),
+                        fontWeight: FontWeight.w800,
+                        color: CustomColors.brownDark),
                   ),
                   Text(
                     "With buttery layers",
