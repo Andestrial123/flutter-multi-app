@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_app/features/home/domain/home_bloc.dart';
+import 'package:flutter_multi_app/features/home/domain/discount_bloc/discount_bloc.dart';
+import 'package:flutter_multi_app/features/home/domain/category_bloc/category_bloc.dart';
 import 'package:flutter_multi_app/routing/app_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_multi_app/di.dart';
@@ -33,7 +34,10 @@ class _MyAppState extends State<MyApp> {
             create: (context) => SignUpBloc(),
           ),
           BlocProvider.value(value: g.get<GoogleMapsBloc>()..add(FetchMarks())),
-          BlocProvider.value(value: g.get<HomeBloc>()..add(GetCategoriesEvent()))
+          BlocProvider.value(
+              value: g.get<CategoryBloc>()..add(GetCategoriesEvent())),
+          BlocProvider.value(
+              value: g.get<DiscountBloc>()..add(GetDiscountsEvent())),
         ],
         child: MaterialApp.router(
             title: 'Flutter Demo',

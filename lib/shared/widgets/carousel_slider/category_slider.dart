@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_multi_app/features/home/domain/home_bloc.dart';
+import 'package:flutter_multi_app/features/home/domain/category_bloc/category_bloc.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +16,7 @@ class _CategorySliderState extends State<CategorySlider> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+    return BlocBuilder<CategoryBloc, CategoryState>(builder: (context, state) {
       switch (state) {
         case CategoriesLoadingState():
           return const Center(child: CircularProgressIndicator());

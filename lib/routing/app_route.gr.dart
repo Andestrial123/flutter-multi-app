@@ -21,7 +21,8 @@ import 'package:flutter_multi_app/features/get_started/get_started_view.dart'
     as _i5;
 import 'package:flutter_multi_app/features/google_maps/presentation/google_maps_screen.dart'
     as _i6;
-import 'package:flutter_multi_app/features/home/presentation/home_screen.dart' as _i7;
+import 'package:flutter_multi_app/features/home/presentation/home_screen.dart'
+    as _i7;
 import 'package:flutter_multi_app/features/order/order_view.dart' as _i8;
 import 'package:flutter_multi_app/features/profile/presentation/profile_screen.dart'
     as _i9;
