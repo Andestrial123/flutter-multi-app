@@ -17,10 +17,6 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-final List<String> images = [
-  'https://via.placeholder.com/400x200.png?text=SALE+1',
-];
-
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
