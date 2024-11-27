@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
-import 'package:flutter_multi_app/features/home/domain/discount_bloc/discount_bloc.dart';
-import 'package:flutter_multi_app/features/home/domain/category_bloc/category_bloc.dart';
+import 'package:flutter_multi_app/features/home/domain/home_bloc/home_bloc.dart';
 import 'package:flutter_multi_app/firebase_service.dart';
 import 'package:flutter_multi_app/routing/app_route.dart';
 import 'package:flutter_multi_app/features/google_maps/domain/google_maps_bloc.dart';
@@ -17,15 +16,14 @@ Future<void> setup() async {
     ..registerSingleton<SharedPreferences>(await _getStorage())
     ..registerSingleton<ApiClient>(ApiClient(_getDio()))
     ..registerSingleton(AppRouter())
-    ..registerSingleton(FirebaseService());
+    ..registerSingleton(FirebaseService()..tokenListener());
   _setupBloC();
 }
 
 _setupBloC() {
   g.registerSingleton<AuthBloc>(AuthBloc(g.get(), g.get()));
   g.registerSingleton<GoogleMapsBloc>(GoogleMapsBloc(g.get<ApiClient>()));
-  g.registerSingleton<CategoryBloc>(CategoryBloc(g.get()));
-  g.registerSingleton<DiscountBloc>(DiscountBloc(g.get()));
+  g.registerSingleton<HomeBloc>(HomeBloc(g.get()));
 }
 
 Dio _getDio() {

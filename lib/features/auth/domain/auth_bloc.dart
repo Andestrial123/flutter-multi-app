@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_multi_app/firebase_service.dart';
-import 'package:flutter_multi_app/shared/app_keys.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,24 +38,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadedState());
     } else {
       emit(AuthInitial());
-    }
-
-    await _tokenListener();
-  }
-
-  Future<void> _tokenListener() async {
-    final storage = await SharedPreferences.getInstance();
-    try {
-      _firebaseService.auth.idTokenChanges().listen((user) async {
-        if (user != null) {
-          final userToken = await user.getIdToken();
-          storage.setString(kToken, userToken!);
-        } else {
-          storage.remove(kToken);
-        }
-      });
-    } catch (e) {
-      log('[AuthBloc][_tokenListener] $e');
     }
   }
 
