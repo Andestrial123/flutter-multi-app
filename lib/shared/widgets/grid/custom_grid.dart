@@ -7,6 +7,7 @@ class CustomGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenUtil = ScreenUtil();
     return Container(
       padding: const EdgeInsets.all(12),
       child: GridView.builder(
@@ -50,7 +51,7 @@ class CustomGrid extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8.0),
+                  SizedBox(height: screenUtil.setHeight(8)),
                   Text(
                     "Fruity Summer",
                     style: TextStyle(

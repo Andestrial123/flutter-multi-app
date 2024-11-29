@@ -62,4 +62,5 @@ class LocaleKeys {
   static const homePage = 'home_page';
   static const dailyDiscounts = 'daily_discounts';
   static const categories = 'categories';
+  static const noData = 'No data';
 }

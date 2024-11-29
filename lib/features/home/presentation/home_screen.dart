@@ -24,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final screenUtil = ScreenUtil();
     return BlocProvider.value(
       value: g.get<HomeBloc>()..add(HomeInitialEvent()),
       child: Scaffold(
@@ -51,37 +52,37 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           LocaleKeys.dailyDiscounts.tr(),
                           style: TextStyle(
-                              fontSize: ScreenUtil().setHeight(14),
+                              fontSize: screenUtil.setHeight(14),
                               color: CustomColors.brownDark,
                               fontWeight: FontWeight.w900),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: screenUtil.setHeight(16)),
                       CustomCarouselSlider(
                         data: discounts ?? [],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: screenUtil.setHeight(16)),
                       Padding(
                         padding: const EdgeInsets.only(left: 16),
                         child: Text(
                           LocaleKeys.categories.tr(),
                           style: TextStyle(
-                              fontSize: ScreenUtil().setHeight(14),
+                              fontSize: screenUtil.setHeight(14),
                               color: CustomColors.brownDark,
                               fontWeight: FontWeight.w900),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: screenUtil.setHeight(16)),
                       CategorySlider(
                         data: categories ?? [],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: screenUtil.setHeight(16)),
                       const CustomGrid(),
                     ],
                   ),
                 );
               default:
-                return const Center(child: Text("No data"));
+                return Center(child: Text(LocaleKeys.noData.tr()));
             }
           },
         ),

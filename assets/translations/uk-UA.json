@@ -53,5 +53,6 @@
   "number_email": "+123-123-123 | cupcake@bakery.com",
   "home_page": "Головна сторінка",
   "daily_discounts": "Щоденні знижки",
-  "categories": "Категорії"
+  "categories": "Категорії",
+  "no_data": "Дані відсутні"
 }

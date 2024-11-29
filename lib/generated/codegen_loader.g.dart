@@ -71,6 +71,7 @@ class CodegenLoader extends AssetLoader {
     "home_page": "Головна сторінка",
     "daily_discounts": "Щоденні знижки",
     "categories": "Категорії",
+    "no_data": "Дані відсутні"
   };
   static const Map<String, dynamic> enUS = {
     "lorem_1": "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit sed.",
@@ -137,6 +138,7 @@ class CodegenLoader extends AssetLoader {
     "home_page": "Home page",
     "daily_discounts": "Daily discounts",
     "categories": "Categories",
+    "no_data": "No data"
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {
     "uk_UA": ukUA,

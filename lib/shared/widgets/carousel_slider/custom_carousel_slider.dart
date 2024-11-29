@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_app/shared/service/api/model/discount_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomCarouselSlider extends StatefulWidget {
   final List<DiscountModel> data;
@@ -17,6 +18,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final screenUtil = ScreenUtil();
     return Column(
       children: [
         Stack(
@@ -88,7 +90,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: screenUtil.setHeight(8)),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: widget.data.asMap().entries.map((entry) {
