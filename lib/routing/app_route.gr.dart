@@ -21,7 +21,8 @@ import 'package:flutter_multi_app/features/get_started/get_started_view.dart'
     as _i5;
 import 'package:flutter_multi_app/features/google_maps/presentation/google_maps_screen.dart'
     as _i6;
-import 'package:flutter_multi_app/features/home/home_view.dart' as _i7;
+import 'package:flutter_multi_app/features/home/presentation/home_screen.dart'
+    as _i7;
 import 'package:flutter_multi_app/features/order/order_view.dart' as _i8;
 import 'package:flutter_multi_app/features/profile/presentation/profile_screen.dart'
     as _i9;
@@ -75,7 +76,7 @@ abstract class $AppRouter extends _i10.RootStackRouter {
     HomeRoute.name: (routeData) {
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.HomeView(),
+        child: const _i7.HomeScreen(),
       );
     },
     OrderRoute.name: (routeData) {
@@ -202,7 +203,7 @@ class GoogleMapsRouteArgs {
 }
 
 /// generated route for
-/// [_i7.HomeView]
+/// [_i7.HomeScreen]
 class HomeRoute extends _i10.PageRouteInfo<void> {
   const HomeRoute({List<_i10.PageRouteInfo>? children})
       : super(

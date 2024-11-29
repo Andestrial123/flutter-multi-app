@@ -11,6 +11,8 @@ import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../di.dart';
+
 @RoutePage()
 class GoogleMapsScreen extends StatefulWidget {
   final void Function(bool isVisible)? onToggleBottomNav;
@@ -106,145 +108,149 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: AnimatedBuilder(
-          animation: _animationController,
-          builder: (context, child) {
-            return Transform(
-              transform: Matrix4.identity()
-                ..scale(_scaleAnimation.value)
-                ..translate(_translationAnimation.value, 0),
-              alignment: Alignment.center,
-              child: CustomTitle(
-                text: LocaleKeys.selectBakeryLocation.tr(),
-                fontSize: ScreenUtil().setSp(22),
-              ),
-            );
-          },
-        ),
-        actions: [
-          FadeTransition(
-            opacity: _iconOpacityAnimation,
-            child: IconButton(
-              icon: const Icon(Icons.shopping_basket_outlined,
-                  size: 30.0, color: Colors.grey),
-              onPressed: () {},
-            ),
+    return BlocProvider.value(
+      value: g.get<GoogleMapsBloc>()..add(FetchMarks()),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, child) {
+              return Transform(
+                transform: Matrix4.identity()
+                  ..scale(_scaleAnimation.value)
+                  ..translate(_translationAnimation.value, 0),
+                alignment: Alignment.center,
+                child: CustomTitle(
+                  text: LocaleKeys.selectBakeryLocation.tr(),
+                  fontSize: ScreenUtil().setSp(22),
+                ),
+              );
+            },
           ),
-          const SizedBox(width: 16.0),
-        ],
-        toolbarHeight: 120,
-        backgroundColor: CustomColors.whiteColor,
-      ),
-      body: BlocBuilder<GoogleMapsBloc, GoogleMapsState>(
-        builder: (context, state) {
-          switch (state) {
-            case GoogleMapsLoading():
-              return const Center(child: CircularProgressIndicator());
-            case GoogleMapsLoaded():
-              final markers = state.marks.map((mark) {
-                return Marker(
-                  markerId: MarkerId(mark.id ?? ''),
-                  position: LatLng(mark.latitude ?? 0.0, mark.longitude ?? 0.0),
-                  icon: _activeMarkerId == mark.id
-                      ? BitmapDescriptor.defaultMarkerWithHue(
-                          BitmapDescriptor.hueRed)
-                      : BitmapDescriptor.defaultMarker,
-                  onTap: () => _onMarkerTapped(mark.id ?? ''),
-                );
-              }).toSet();
+          actions: [
+            FadeTransition(
+              opacity: _iconOpacityAnimation,
+              child: IconButton(
+                icon: const Icon(Icons.shopping_basket_outlined,
+                    size: 30.0, color: Colors.grey),
+                onPressed: () {},
+              ),
+            ),
+            const SizedBox(width: 16.0),
+          ],
+          toolbarHeight: 120,
+          backgroundColor: CustomColors.whiteColor,
+        ),
+        body: BlocBuilder<GoogleMapsBloc, GoogleMapsState>(
+          builder: (context, state) {
+            switch (state) {
+              case GoogleMapsLoading():
+                return const Center(child: CircularProgressIndicator());
+              case GoogleMapsLoaded():
+                final markers = state.marks.map((mark) {
+                  return Marker(
+                    markerId: MarkerId(mark.id ?? ''),
+                    position:
+                        LatLng(mark.latitude ?? 0.0, mark.longitude ?? 0.0),
+                    icon: _activeMarkerId == mark.id
+                        ? BitmapDescriptor.defaultMarkerWithHue(
+                            BitmapDescriptor.hueRed)
+                        : BitmapDescriptor.defaultMarker,
+                    onTap: () => _onMarkerTapped(mark.id ?? ''),
+                  );
+                }).toSet();
 
-              final selectedMark = state.marks.firstWhere(
-                  (mark) => mark.id == _activeMarkerId,
-                  orElse: () => state.marks.first);
+                final selectedMark = state.marks.firstWhere(
+                    (mark) => mark.id == _activeMarkerId,
+                    orElse: () => state.marks.first);
 
-              return Stack(
-                children: [
-                  Column(
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(12)),
-                              child: GoogleMap(
-                                initialCameraPosition: CameraPosition(
-                                  target: LatLng(
-                                      state.marks.isNotEmpty
-                                          ? state.marks.first.latitude
-                                                  ?.toDouble() ??
-                                              0.0
-                                          : 0.0,
-                                      state.marks.isNotEmpty
-                                          ? state.marks.first.longitude
-                                                  ?.toDouble() ??
-                                              0.0
-                                          : 0.0),
-                                  zoom: 14,
-                                ),
-                                markers: markers,
-                                onTap: _onMapTapped,
-                                mapType: MapType.normal,
-                                zoomControlsEnabled: false,
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(12)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.15),
-                                      spreadRadius: 5,
-                                      blurRadius: 5,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
+                return Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Expanded(
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(12)),
+                                child: GoogleMap(
+                                  initialCameraPosition: CameraPosition(
+                                    target: LatLng(
+                                        state.marks.isNotEmpty
+                                            ? state.marks.first.latitude
+                                                    ?.toDouble() ??
+                                                0.0
+                                            : 0.0,
+                                        state.marks.isNotEmpty
+                                            ? state.marks.first.longitude
+                                                    ?.toDouble() ??
+                                                0.0
+                                            : 0.0),
+                                    zoom: 14,
+                                  ),
+                                  markers: markers,
+                                  onTap: _onMapTapped,
+                                  mapType: MapType.normal,
+                                  zoomControlsEnabled: false,
                                 ),
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(12)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.15),
+                                        spreadRadius: 5,
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  NotificationListener<DraggableScrollableNotification>(
-                    onNotification: (notification) {
-                      if (notification.extent == notification.minExtent) {
-                        _hideModal();
-                      }
-                      return true;
-                    },
-                    child: ModalGoogleMaps(
-                      controller: _controller,
-                      address: selectedMark.address ?? '',
-                      onPressed: () {
-                        {
-                          AutoRouter.of(context)
-                              .replaceAll([const HomeRoute()]);
-                          _onViewMenuButtonPressed();
+                      ],
+                    ),
+                    NotificationListener<DraggableScrollableNotification>(
+                      onNotification: (notification) {
+                        if (notification.extent == notification.minExtent) {
                           _hideModal();
                         }
+                        return true;
                       },
+                      child: ModalGoogleMaps(
+                        controller: _controller,
+                        address: selectedMark.address ?? '',
+                        onPressed: () {
+                          {
+                            AutoRouter.of(context)
+                                .replaceAll([const HomeRoute()]);
+                            _onViewMenuButtonPressed();
+                            _hideModal();
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              );
-            case GoogleMapsError():
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(state.message)));
-              });
-          }
-          return const SizedBox.shrink();
-        },
+                  ],
+                );
+              case GoogleMapsError():
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(state.message)));
+                });
+            }
+            return const SizedBox.shrink();
+          },
+        ),
       ),
     );
   }

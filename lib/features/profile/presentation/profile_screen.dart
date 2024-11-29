@@ -6,6 +6,7 @@ import 'package:flutter_multi_app/features/auth/domain/auth_bloc.dart';
 import 'package:flutter_multi_app/features/profile/presentation/widgets/choose_language.dart';
 import 'package:flutter_multi_app/routing/app_route.gr.dart';
 import 'package:flutter_multi_app/shared/translation/locale_keys.dart';
+import 'package:flutter_multi_app/shared/widgets/app_bar/custom_app_bar.dart';
 import 'package:flutter_multi_app/shared/widgets/buttons/next_button.dart';
 import 'package:flutter_multi_app/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,47 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.whiteColor,
-      appBar: AppBar(
-        toolbarHeight: 100,
-        centerTitle: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                LocaleKeys.cupcakeBakeryShop.tr(),
-                style: TextStyle(
-                  color: CustomColors.brownDark,
-                  fontSize: ScreenUtil().setHeight(16),
-                  fontFamily: 'CustomFont',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                LocaleKeys.profile.tr(),
-                style: TextStyle(
-                  color: CustomColors.lightRedColor,
-                  fontSize: ScreenUtil().setHeight(14),
-                  fontFamily: 'CustomFont',
-                ),
-              ),
-            ],
-          ),
-        ),
-        backgroundColor: CustomColors.whiteColor,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 32),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.shopping_basket_outlined),
-              iconSize: 34,
-              color: Colors.grey,
-            ),
-          )
-        ],
+      appBar: CustomAppBar(
+        subTitle: LocaleKeys.profile.tr(),
+        onPressed: () {},
       ),
       body: SingleChildScrollView(
         child: Column(

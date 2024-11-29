@@ -60,4 +60,7 @@ class LocaleKeys {
   static const contactUs = 'contact_us';
   static const numberEmail = 'number_email';
   static const homePage = 'home_page';
+  static const dailyDiscounts = 'daily_discounts';
+  static const categories = 'categories';
+  static const noData = 'No data';
 }
